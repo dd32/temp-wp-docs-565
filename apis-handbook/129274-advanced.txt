@@ -1,0 +1,107 @@
+https://developer.wordpress.org/apis/handbook/making-http-requests/advanced/
+
+<!-- wp:paragraph -->
+<p>Here are some advanced usage of the HTTP API.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2>Other methods</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>GET and POST are the most commonly used methods when making a HTTP request, but there are many others, such as DELETE, PUT, PATCH, OPTIONS, etc.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>The WordPress HTTP API does not have one specific helper function for each method, but rest assured that the great people developing WordPress already thought of that and lovingly provided <code><a href="https://developer.wordpress.org/reference/functions/wp_remote_request/">wp_remote_request()</a></code>. This function takes the same two parameters as <code><a href="https://developer.wordpress.org/reference/functions/wp_remote_get/">wp_remote_get()</a></code>, and allows you to specify the HTTP method as well. What data you need to pass along is up to your method.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>To send a DELETE method, for example, you may have something similar to the following:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code -->
+<pre class="wp-block-syntaxhighlighter-code">$args     = array(
+	'method' =&gt; 'DELETE',
+);
+$response = wp_remote_request( 'http://some-api.com/object/to/delete', $args );</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:heading -->
+<h2>Options</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>As you probably noticed by now, all the helper functions take a second <code>$args</code> parameter that allows you to set additional options to your request.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>For example, <code>timeout</code> allows for setting the time in seconds, before the connection is dropped and an error is returned. The <code>httpversion</code>&nbsp;argument sets the HTTP version and defaults to ‘1.0’, however depending on the service you are interacting with you may need to set this to ‘1.1’.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Check <code><a href="https://developer.wordpress.org/reference/classes/WP_Http/request/">WP_Http::request()</a></code> method documentation for all available options and what they do.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2>Headers</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>It can be pretty important, and sometimes required by the API, to check a resource status using HEAD before retrieving it. On high traffic APIs, GET is often limited to number of requests per minute or hour. There is no need to even attempt a GET request unless the HEAD request shows that the data on the API has been updated.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Going back to the GitHub example, here are are few headers to watch out for. Most of these headers are standard, but you should always check the API docs to ensure you understand which headers are named what, and their purpose.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:list -->
+<ul><li><code>x-ratelimit-limit</code> - Number of requests allowed in a time period</li><li><code>x-ratelimit-remaining</code> - Number of remaining available requests in time period</li><li><code>content-length</code> - How large the content is in bytes. Can be useful to warn the user if the content is fairly large</li><li><code>last-modified</code> - When the resource was last modified. Highly useful to caching tools</li><li><code>cache-control</code> - How should the client handle caching</li></ul>
+<!-- /wp:list -->
+
+<!-- wp:paragraph -->
+<p>The following will check the HEAD value of my GitHub user account:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">$response = wp_remote_head( 'https://api.github.com/users/wordpress' );</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p><code>$response</code> should look similar to:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">Array(
+	[headers] =&gt; Array
+		(
+		[server] =&gt; nginx
+		[date] =&gt; Fri, 05 Oct 2012 05:21:26 GMT
+		[content-type] =&gt; application/json; charset=utf-8
+		[connection] =&gt; close
+		[status] =&gt; 200 OK
+		[vary] =&gt; Accept
+		[x-ratelimit-remaining] =&gt; 4982
+		[content-length] =&gt; 594
+		[last-modified] =&gt; Fri, 05 Oct 2012 04:39:58 GMT
+		[etag] =&gt; "5d5e6f7a09462d6a2b473fb616a26d2a"
+		[x-github-media-type] =&gt; github.beta
+		[cache-control] =&gt; public, s-maxage=60, max-age=60
+		[x-content-type-options] =&gt; nosniff
+		[x-ratelimit-limit] =&gt; 5000
+	)
+    [body] =&gt;
+    [response] =&gt; Array
+		(
+		[preserved_text 39a8515bd2dce2aa06ee8a2a6656b1de /] =&gt; 200
+		[message] =&gt; OK
+	)
+    [cookies] =&gt; Array(
+	)
+	[filename] =&gt;
+)</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p><br>All of the same helper functions can be used on this function as with the previous two. The exception here being that HEAD never returns a body, so that element will always be empty.</p>
+<!-- /wp:paragraph -->

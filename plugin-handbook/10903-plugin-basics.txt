@@ -1,0 +1,137 @@
+https://developer.wordpress.org/plugins/plugin-basics/
+
+<!-- wp:heading -->
+<h2>Getting Started</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>At its simplest, a WordPress plugin is a PHP file with a WordPress plugin header comment. It's highly recommended that you create a directory to hold your plugin so that all of your plugin's files are neatly organized in one place.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>To get started creating a new plugin, follow the steps below.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:list {"ordered":true} -->
+<ol><li>Navigate to the WordPress installation's&nbsp;<strong>wp-content</strong> directory.</li><li>Open&nbsp;the <strong>plugins</strong> directory.</li><li>Create a new directory and name it after the plugin (e.g. <code>plugin-name</code>).</li><li>Open&nbsp;the new plugin's directory.</li><li>Create a new PHP file (it's also good to name this file after your plugin, e.g. <code>plugin-name.php</code>).</li></ol>
+<!-- /wp:list -->
+
+<!-- wp:paragraph -->
+<p>Here's what the process looks like on the Unix command line:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"bash"} -->
+<pre class="wp-block-syntaxhighlighter-code">wordpress $ cd wp-content
+wp-content $ cd plugins
+plugins $ mkdir plugin-name
+plugins $ cd plugin-name
+plugin-name $ vi plugin-name.php</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p>In the example above, <code>vi</code> is the name of the text editor. Use whichever editor that is comfortable for you.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Now that you're editing your new plugin's PHP file, you'll need to add a plugin header comment. This is a specially formatted PHP block comment that contains metadata about the plugin, such as its name, author, version, license, etc. The plugin header comment must comply with the <a href="https://developer.wordpress.org/plugins/the-basics/header-requirements/">header requirements</a>, and at the very least, contain the name of the plugin.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Only one<strong> </strong>file in the plugin’s folder should have the header comment — if the plugin has multiple PHP files, only one of those files should have the header comment.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>After you save the file, you should be able to see your plugin listed in your WordPress site. Log in to your WordPress site, and click <strong>Plugins</strong> on the left navigation pane of your WordPress Admin. This page displays a listing of all the plugins your WordPress site has. Your new plugin should now be in that list!</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2>Hooks: Actions and Filters</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>WordPress hooks allow you to tap into WordPress at specific points to change how WordPress behaves without editing any core files.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>There are two types of hooks within WordPress: <em>actions</em> and <em>filters</em>. Actions allow you to add or change WordPress functionality, while filters allow you to alter content as it is loaded and displayed to the website user.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Hooks are not just for plugin developers; hooks are used extensively to provide default functionality by WordPress core itself. Other hooks are unused place holders that are simply available for you to tap into when you need to alter how WordPress works. This is what makes WordPress so flexible.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3>Basic Hooks</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>The 3 basic hooks you'll need when creating a plugin are the register_activation_hook(), the register_deactivation_hook(), and the register_uninstall_hook().</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>The <a href="https://developer.wordpress.org/plugins/the-basics/activation-deactivation-hooks/">activation hook</a> is run when you <em>activate</em> your plugin. You would use this to provide a function to set up your plugin — for example, creating some default settings in the <code>options</code> table.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>The <a href="https://developer.wordpress.org/plugins/the-basics/activation-deactivation-hooks/">deactivation hook</a> is run when you <em>deactivate</em> your plugin. You would use this to provide a function that clears any temporary data stored by your plugin.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>These <a href="https://developer.wordpress.org/plugins/the-basics/uninstall-methods/">uninstall methods</a> are used to clean up after your plugin is <em>deleted</em> using the WordPress Admin. You would use this to delete all data created by your plugin, such as any options that were added to the <code>options</code> table.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3>Adding Hooks</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>You can add your own, custom hooks with do_action(), which will enable developers to extend your plugin by passing functions through your hooks.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3>Removing Hooks</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>You can also use invoke remove_action() to remove a function that was defined earlier. For example, if your plugin is an add-on to another plugin, you can use remove_action() with the same function callback that was added by the previous plugin with add_action(). The priority of actions is important in these situations, as remove_action() would need to run after the initial add_action().</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>You should be careful when removing an action from a hook, as well as when altering priorities, because it can be difficult to see how these changes will affect other interactions with the same hook. We highly recommend testing frequently.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>You can learn more about creating hooks and interacting with them in the <a href="https://developer.wordpress.org/plugin/hooks/">Hooks</a> section of this handbook.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2>WordPress APIs</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Did you know that WordPress provides a number of <a href="https://make.wordpress.org/core/handbook/core-apis/">Application Programming Interfaces (APIs)</a>? These APIs can greatly simplify the code you need to write in your plugins. You don't want to reinvent the wheel, especially when so many people have done a lot of the work and testing for you.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>The most common one is the <a href="https://codex.wordpress.org/Options_API">Options API</a>, which makes it easy to store data in the database for your plugin. If you're thinking of using <a href="https://en.wikipedia.org/wiki/CURL" target="_blank" rel="noopener noreferrer">cURL</a> in your plugin, the <a href="https://codex.wordpress.org/HTTP_API">HTTP API</a> might be of interest to you.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Since we're talking about plugins, you'll want to study the <a href="https://codex.wordpress.org/Plugin_API">Plugin API</a>. It has a variety of functions that will assist you in developing plugins.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2>How WordPress Loads Plugins</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>When WordPress loads the list of installed plugins on the Plugins page of the WordPress Admin, it searches through the <code>plugins</code> folder (and its sub-folders) to find PHP files with WordPress plugin header comments. If your entire plugin consists of just a single PHP file, like <a title="Hello Dolly" href="https://wordpress.org/plugins/hello-dolly/">Hello Dolly</a>, the file could be located directly inside the root of the <code>plugins</code> folder. But more commonly, plugin files will reside in their own folder, named after the plugin.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2>Sharing your Plugin</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Sometimes a plugin you create is just for your site. But many people like to share their plugins with the rest of the WordPress community. Before sharing your plugin, one thing you need to do is <a href="https://opensource.org/licenses/category">choose a license</a>. This lets the user of your plugin know how they are allowed to use your code. To maintain compatibility with WordPress core, it is recommended that you pick a license that works with GNU General Public License (GPLv2+).</p>
+<!-- /wp:paragraph -->

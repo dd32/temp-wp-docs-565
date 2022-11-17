@@ -1,0 +1,157 @@
+https://developer.wordpress.org/plugins/hooks/actions/
+
+<!-- wp:paragraph -->
+<p><strong>Actions</strong> are one of the two types of <a href="https://developer.wordpress.org/plugins/hooks/">Hooks</a>. They provide a way for running a function at a specific point in the execution of WordPress Core, plugins, and themes. Callback functions for an Action do not return anything back to the calling Action hook. They are the counterpart to <a href="http://developer.wordpress.org/plugin/hooks/filters/">Filters</a>. Here is a refresher of <a href="https://developer.wordpress.org/plugins/hooks/#actions-vs-filters">the difference between actions and filters</a>.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2>Adding an Action</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>The process of adding an action includes two steps:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3>Create a <em>callback function</em></h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>First, create a <em>callback function</em>. This function will be run when the action it is hooked to is run. </p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>The callback function is just like a normal function: it should be prefixed, and it should be in <code>functions.php</code> or somewhere callable. The parameters it should accept will be defined by the action you are hooking to; most hooks are well defined, so review the hooks docs to see what parameters the action you have selected will pass to your function.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3>Assign (<em>hook</em>) your callback function</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Second, add your callback function to the action. This is called <em>hooking</em> and tells the action to run your callback function when the action is run.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>When your callback function is ready, use add_action() to hook it to the action you have selected. At a minimum, <code>add_action()</code> requires two parameters:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:list {"ordered":true} -->
+<ol><li><code>string $<ins>hook_name</ins></code> which is the name of the action you're hooking to, and  </li><li><code>callable $callback</code> the name of your callback function.</li></ol>
+<!-- /wp:list -->
+
+<!-- wp:paragraph -->
+<p>The example below will run <code>wporg_callback()</code> when the <code>init</code> hook is executed:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">function wporg_callback() {
+    // do something
+}
+add_action( 'init', 'wporg_callback' );</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p>You can refer to the <a href="https://developer.wordpress.org/plugins/hooks/">Hooks</a> chapter for a list of available hooks.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>As you gain more experience, looking through WordPress Core source code will allow you to find the most appropriate hook.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3>Additional Parameters</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p><code>add_action()</code> can accept two additional parameters, <code>int $priority</code> for the priority given to the callback function, and <code>int $accepted_args</code> for the number of arguments that will be passed to the callback function.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":4} -->
+<h4>Priority</h4>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Many callback functions can be hooked to a single action. The <code>init</code> hook for example gets a lot of use. There may be cases where you need to ensure that your callback function runs before or after other callback functions, even when those other functions may not yet have been hooked. </p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>WordPress determines the order that callback functions are run based on two things: The first way is by manually setting the <em>priority</em>. This is done using the third argument to <code>add_action()</code>. </p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Here are some important facts about priorities:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:list -->
+<ul><li>priorities are positive integers, typically between 1 and 20</li><li>the default priority (meaning, the priority assigned when no <code>priority</code> value is manually supplied) is 10</li><li>there is no theoretical upper limit on the priority value, but the realistic upper limit is 100 </li></ul>
+<!-- /wp:list -->
+
+<!-- wp:paragraph -->
+<p>A function with a priority of 11 will run <em>after</em> a function with a priority of 10; and a function with a priority of 9 will run <em>before</em> a function with a priority of 10. </p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>The second way that callback function order is determined is simply by the order in which it was registered <em>within the same priority value</em>. So if two callback functions are registered for the same hook with the same priority, they will be run in the order that they were registered to the hook.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>For example, the following callback functions are all registered to the<br><code>init</code> hook, but with different priorities:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">add_action('init', 'wporg_callback_run_me_late', 11);
+add_action('init', 'wporg_callback_run_me_normal');
+add_action('init', 'wporg_callback_run_me_early', 9);
+add_action('init', 'wporg_callback_run_me_later', 11);</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p>In the example above:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:list -->
+<ul><li>The first function run will be <code>wporg_call_backrun_me_early()</code>, because it has a manual priority of 9</li><li>Next, <code>wporg_callback_run_me_normal(),</code> because it has no priority set and so its priority is 10</li><li>Next, <code>wporg_callback_run_me_late()</code> is run because it has a manual priority of 11</li><li>Finally, <code>wporg_callback_run_me_later()</code> is run: it also has a priority of 11, but it was hooked after <code>wporg_callback_run_me_late()</code>.</li></ul>
+<!-- /wp:list -->
+
+<!-- wp:heading {"level":4} -->
+<h4>Number of Arguments</h4>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Sometimes it's desirable for a callback function to receive some extra data related to the action being hooked to.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>For example, when WordPress saves a post and runs the <code><a href="http://developer.wordpress.org/reference/hooks/save_post/">save_post</a></code> hook, it passes two parameters to the callback function: the ID of the post being saved, and the post object itself:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">do_action( 'save_post', $post-&gt;ID, $post );</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p>When a callback function is registered for the <code><a href="http://developer.wordpress.org/reference/hooks/save_post/">save_post</a></code> hook, it can specify that it wants to receive those two parameters. It does so by telling <code>add_action</code> to expect them by (in this case) putting <code>2</code> as the fourth argument:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">add_action('save_post', 'wporg_custom', 10, 2);</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p>In order to actually receive those parameters in your callback function, modify the parameters your callback function will accept, like this:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">function wporg_custom( $post_id, $post ) {
+    // do something
+}</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:shortcode -->
+[tip]It's good practice to give your callback function parameters the same name as the passed parameters, or as close as you can.[/tip]
+<!-- /wp:shortcode -->
+
+<!-- wp:paragraph -->
+<p></p>
+<!-- /wp:paragraph -->

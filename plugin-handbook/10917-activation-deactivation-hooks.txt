@@ -1,0 +1,106 @@
+https://developer.wordpress.org/plugins/plugin-basics/activation-deactivation-hooks/
+
+<!-- wp:paragraph -->
+<p>Activation and deactivation hooks provide ways to perform actions when plugins are&nbsp;activated or deactivated.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:list -->
+<ul><li>On <em>activation</em>, plugins can run a routine to add&nbsp;rewrite rules, add custom database tables, or set default option values.</li><li>On <em>deactivation</em>, plugins can run a routine to remove temporary data such as cache and temp files and directories.</li></ul>
+<!-- /wp:list -->
+
+<!-- wp:shortcode -->
+[alert]
+The deactivation hook is sometimes confused with the <a href="https://developer.wordpress.org/plugins/plugin-basics/uninstall-methods/">uninstall hook</a>. The uninstall hook is best suited to <strong>delete all data permanently</strong> such as deleting plugin options and custom tables, etc.
+[/alert]
+<!-- /wp:shortcode -->
+
+<!-- wp:heading -->
+<h2>Activation</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>To set up an activation hook, use the register_activation_hook() function:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php","makeURLsClickable":false} -->
+<pre class="wp-block-syntaxhighlighter-code">register_activation_hook( __FILE__, 'pluginprefix_function_to_run' );</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:heading -->
+<h2>Deactivation</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>To set up a deactivation hook, use the register_deactivation_hook() function:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">register_deactivation_hook( __FILE__, 'pluginprefix_function_to_run' );</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p>The first parameter in each of these functions refers to your main plugin file, which is the file in which you have placed the <a href="https://developer.wordpress.org/plugins/the-basics/header-requirements/">plugin header comment</a>. Usually these two functions will be triggered from within the main plugin file; however, if the functions are placed in any other file, you must update the first parameter to correctly point to the main plugin file.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2>Example</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>One of the most common uses for an activation hook is to refresh&nbsp;WordPress permalinks when a plugin registers a custom post type. This gets rid of the nasty 404 errors.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Let's look at an example of how to do this:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">/**
+ * Register the "book" custom post type
+ */
+function pluginprefix_setup_post_type() {
+	register_post_type( 'book', ['public' =&gt; true ] ); 
+} 
+add_action( 'init', 'pluginprefix_setup_post_type' );
+
+
+/**
+ * Activate the plugin.
+ */
+function pluginprefix_activate() { 
+	// Trigger our function that registers the custom post type plugin.
+	pluginprefix_setup_post_type(); 
+	// Clear the permalinks after the post type has been registered.
+	flush_rewrite_rules(); 
+}
+register_activation_hook( __FILE__, 'pluginprefix_activate' );</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p>If you are unfamiliar with registering custom post types, don't worry - this will be covered later. This example is used simply because it's very common.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Using the example from above, the following is how to reverse this process and deactivate a plugin:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code -->
+<pre class="wp-block-syntaxhighlighter-code">/**
+ * Deactivation hook.
+ */
+function pluginprefix_deactivate() {
+	// Unregister the post type, so the rules are no longer in memory.
+	unregister_post_type( 'book' );
+	// Clear the permalinks to remove our post type's rules from the database.
+	flush_rewrite_rules();
+}
+register_deactivation_hook( __FILE__, 'pluginprefix_deactivate' );</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p>For further information regarding activation and deactivation hooks, here are some excellent resources:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:list -->
+<ul><li><a href="https://developer.wordpress.org/reference/functions/register_activation_hook/">register_activation_hook()</a> in the WordPress function reference.</li><li><a href="https://developer.wordpress.org/reference/functions/register_deactivation_hook/">register_deactivation_hook()</a> in the WordPress function reference.</li></ul>
+<!-- /wp:list -->

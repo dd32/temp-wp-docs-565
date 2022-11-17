@@ -1,0 +1,113 @@
+https://developer.wordpress.org/plugins/plugin-basics/determining-plugin-and-content-directories/
+
+<!-- wp:paragraph -->
+<p>When coding WordPress plugins you often need to reference various files and folders throughout the WordPress installation and within your plugin or theme.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>WordPress provides several functions for easily determining where a given file or directory lives. Always use these functions in your plugins instead of hard-coding references to the&nbsp;wp-content&nbsp;directory or using the WordPress&nbsp;internal constants.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:shortcode -->
+[tip]WordPress allows users to place their wp-content directory anywhere they want and rename it whatever they want. Never assume that plugins will be in wp-content/plugins, uploads will be in wp-content/uploads, or that themes will be in wp-content/themes.[/tip]
+<!-- /wp:shortcode -->
+
+<!-- wp:paragraph -->
+<p>PHP's <code>__FILE__</code> magic-constant resolves symlinks automatically, so if the&nbsp;<code>wp-content</code>&nbsp;or&nbsp;<code>wp-content/plugins</code>&nbsp;or even the individual plugin directory is symlinked, hardcoded paths will not work correctly.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 id="common-usage">Common Usage</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>If your plugin includes JavaScript files, CSS files or other external files, then it's likely you'll need the URL to these files so you can load them into the page. To do this you should use the&nbsp;<a href="https://developer.wordpress.org/reference/functions/plugins_url/">plugins_url()</a>&nbsp;function like so:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">plugins_url( 'myscript.js', __FILE__ );</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p>This will return the full URL to myscript.js, such as&nbsp;<code>example.com/wp-content/plugins/myplugin/myscript.js</code>.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>To load your plugins' JavaScript or CSS into the page you should use&nbsp;<a href="https://developer.wordpress.org/reference/functions/wp_enqueue_script/"><code>wp_enqueue_script()</code></a>&nbsp;or&nbsp;<a href="https://developer.wordpress.org/reference/functions/wp_enqueue_style/"><code>wp_enqueue_style()</code></a>&nbsp;respectively, passing the result of&nbsp;<code>plugins_url()</code>&nbsp;as the file URL.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 id="available-functions">Available Functions</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>WordPress includes many other functions for determining paths and URLs to files or directories within plugins, themes, and WordPress itself. See the individual DevHub pages for each function for complete information on their use.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 id="plugins">Plugins</h3>
+<!-- /wp:heading -->
+
+<!-- wp:preformatted -->
+<pre class="wp-block-preformatted">plugins_url()<br>plugin_dir_url()<br>plugin_dir_path()<br>plugin_basename()</pre>
+<!-- /wp:preformatted -->
+
+<!-- wp:heading {"level":3} -->
+<h3 id="themes">Themes</h3>
+<!-- /wp:heading -->
+
+<!-- wp:preformatted -->
+<pre class="wp-block-preformatted">get_template_directory_uri()<br>get_stylesheet_directory_uri()<br>get_stylesheet_uri()<br>get_theme_root_uri()<br>get_theme_root()<br>get_theme_roots()<br>get_stylesheet_directory()<br>get_template_directory()</pre>
+<!-- /wp:preformatted -->
+
+<!-- wp:heading {"level":3} -->
+<h3 id="site-home">Site Home</h3>
+<!-- /wp:heading -->
+
+<!-- wp:preformatted -->
+<pre class="wp-block-preformatted">home_url()<br>get_home_path()</pre>
+<!-- /wp:preformatted -->
+
+<!-- wp:heading {"level":3} -->
+<h3 id="wordpress">WordPress</h3>
+<!-- /wp:heading -->
+
+<!-- wp:preformatted -->
+<pre class="wp-block-preformatted">admin_url()<br>site_url()<br>content_url()<br>includes_url()<br>wp_upload_dir()</pre>
+<!-- /wp:preformatted -->
+
+<!-- wp:heading {"level":3} -->
+<h3 id="multisite">Multisite</h3>
+<!-- /wp:heading -->
+
+<!-- wp:preformatted -->
+<pre class="wp-block-preformatted">get_admin_url()<br>get_home_url()<br>get_site_url()<br>network_admin_url()<br>network_site_url()<br>network_home_url()</pre>
+<!-- /wp:preformatted -->
+
+<!-- wp:heading -->
+<h2 id="constants">Constants</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>WordPress makes use of the following constants when determining the path to the content and plugin directories. These should not be used directly by plugins or themes, but are listed here for completeness.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:preformatted -->
+<pre class="wp-block-preformatted">WP_CONTENT_DIR  // no trailing slash, full paths only<br>WP_CONTENT_URL  // full url <br>WP_PLUGIN_DIR  // full path, no trailing slash<br>WP_PLUGIN_URL  // full url, no trailing slash</pre>
+<!-- /wp:preformatted -->
+
+<!-- wp:preformatted -->
+<pre class="wp-block-preformatted">// Available per default in MS, not set in single site install<br>// Can be used in single site installs (as usual: at your own risk)<br>UPLOADS // (If set, uploads folder, relative to ABSPATH) (for e.g.: /wp-content/uploads)</pre>
+<!-- /wp:preformatted -->
+
+<!-- wp:heading -->
+<h2 id="related">Related</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p><strong><strong>WordPress Directories</strong></strong>:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:table -->
+<figure class="wp-block-table"><table><tbody><tr><td><a href="https://developer.wordpress.org/reference/functions/home_url/">home_url()</a></td><td>Home URL</td><td><a href="http://www.example.com">http://www.example.com</a></td></tr><tr><td><a href="https://developer.wordpress.org/reference/functions/site_url/">site_url()</a></td><td>Site directory URL</td><td><a href="http://www.example.com">http://www.example.com</a> or <a href="http://www.example.com/wordpress">http://www.example.com/wordpress</a></td></tr><tr><td><a href="https://developer.wordpress.org/reference/functions/admin_url/">admin_url()</a></td><td>Admin directory URL</td><td><a href="http://www.example.com/wp-admin">http://www.example.com/wp-admin</a></td></tr><tr><td><a href="https://developer.wordpress.org/reference/functions/includes_url/">includes_url()</a></td><td>Includes directory URL</td><td><a href="http://www.example.com/wp-includes">http://www.example.com/wp-includes</a></td></tr><tr><td><a href="https://developer.wordpress.org/reference/functions/content_url/">content_url()</a></td><td>Content directory URL</td><td><a href="http://www.example.com/wp-content">http://www.example.com/wp-content</a></td></tr><tr><td><a href="https://developer.wordpress.org/reference/functions/plugins_url/">plugins_url()</a></td><td>Plugins directory URL</td><td><a href="http://www.example.com/wp-content/plugins">http://www.example.com/wp-content/plugins</a></td></tr><tr><td><a href="https://developer.wordpress.org/reference/functions/wp_upload_dir/">wp_upload_dir()</a></td><td>Upload directory URL (returns an array)</td><td><a href="http://www.example.com/wp-content/uploads">http://www.example.com/wp-content/uploads</a></td></tr></tbody></table></figure>
+<!-- /wp:table -->

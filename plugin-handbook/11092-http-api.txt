@@ -1,0 +1,571 @@
+https://developer.wordpress.org/plugins/http-api/
+
+<!-- wp:heading -->
+<h2>Introduction</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>HTTP stands for Hypertext Transfer Protocol and is the foundational communication protocol for the entire Internet. Even if this is your first experience with HTTP it's likely that you probably understand more than you realize. At its most basic level, HTTP works like this:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:list -->
+<ul><!-- wp:list-item -->
+<li>"Hello server XYZ, may I please have file abc.html"</li>
+<!-- /wp:list-item -->
+
+<!-- wp:list-item -->
+<li>"Well hello there little client, yes you may, here it is"</li>
+<!-- /wp:list-item --></ul>
+<!-- /wp:list -->
+
+<!-- wp:paragraph -->
+<p>There are many different methods to send HTTP requests in PHP. The purpose of the WordPress HTTP API is to support as many of those methods as possible and use the one that is the most suitable for the particular request.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>The WordPress HTTP API can also be used to communicate and interact with other APIs like the Twitter API or the Google Maps API.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3>HTTP methods</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>HTTP has several methods, or verbs, that describe particular types of actions. Though a couple more exist, WordPress has pre-built functions for three of the most common. Whenever an HTTP request is made a method is also passed with it to help the server determine what kind of action the client is requesting.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":4} -->
+<h4>GET</h4>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>GET is used to retrieve data. This is by far the most commonly used verb. Every time you view a website or pull data from an API you are seeing the result of a GET request. In fact your browser sent a GET request to the server you are reading this on and requested the data used to build this very article.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":4} -->
+<h4>POST</h4>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>POST is used to send data to the server for the server to act upon in some way. For example, a contact form. When you enter data into the form fields and click the submit button the browser takes the data and sends a POST request to the server with the text you entered into the form. From there the server will process the contact request.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":4} -->
+<h4>HEAD</h4>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>HEAD is much less well known than the other two. HEAD is essentially the same as a GET request except that it does not retrieve the data, only information about the data. This data describes such things as when the data was last updated, whether the client should cache the data, what type the data is, etc. Modern browsers often send HEAD requests to pages you have previously visited to determine if there are any updates. If not, you may actually be seeing a previously downloaded copy of the page instead of using bandwidth needlessly pulling in the same copy.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>All good API clients utilize HEAD before performing a GET request to potentially save on bandwidth. Though it will require two separate HTTP requests if HEAD says there is new data, the data size with a GET request can be very large. Only using GET when HEAD says the data is new or should not be cached will help save on expensive bandwidth and load times.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":4} -->
+<h4>Custom Methods</h4>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>There are other HTTP methods, such as PUT, DELETE, TRACE, and CONNECT. These methods will not be covered in this article as there aren't pre-built methods to utilize them in WordPress, nor is it yet common for APIs to implement them.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Depending upon how your server is configured you can also implement additional HTTP methods of your own. It is always a gamble to go outside of the standard methods, and places huge potential limitations on other developers creating clients to consume your site or API, however it is possible to utilize any method you wish with WordPress. We will briefly touch on how to do that in this article.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3>Response codes</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>HTTP utilizes both numeric and string response codes. Rather than go into a lengthy explanation of each, here are the standard response codes. You can define your own response codes when creating APIs, however unless you need to support specific types of responses it may be best to stick to the standard codes. Custom codes are usually in the 1xx ranges.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":4} -->
+<h4>Code Classes</h4>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>The type of response can quickly be seen by the leftmost digit of the three digit codes.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:table -->
+<figure class="wp-block-table"><table><tbody><tr><th>Status Code</th><th>Description</th></tr><tr><td>2xx</td><td>Request was successful</td></tr><tr><td>3xx</td><td>Request was redirected to another URL</td></tr><tr><td>4xx</td><td>Request failed due to client error. Usually invalid authentication or missing data</td></tr><tr><td>5xx</td><td>Request failed due to a server error. Commonly missing or misconfigured configuration files</td></tr></tbody></table></figure>
+<!-- /wp:table -->
+
+<!-- wp:paragraph -->
+<p><strong>&nbsp;Common Codes</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>These are the most common codes you will encounter.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:table -->
+<figure class="wp-block-table"><table><tbody><tr><th>Status Code</th><th>Description</th></tr><tr><td>200</td><td>OK - Request was successful</td></tr><tr><td>301</td><td>Resource was moved permanently</td></tr><tr><td>302</td><td>Resource was moved temporarily</td></tr><tr><td>403</td><td>Forbidden - Usually due to an invalid authentication</td></tr><tr><td>404</td><td>Resource not found</td></tr><tr><td>500</td><td>Internal server error</td></tr><tr><td>503</td><td>Service unavailable</td></tr></tbody></table></figure>
+<!-- /wp:table -->
+
+<!-- wp:heading -->
+<h2>GETting data from an API</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p><a title="GitHub" href="https://github.com/">GitHub</a> provides an excellent API that does not require app registration for many public aspects, so to demonstrate some of these methods, examples will target the GitHub API.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>GETting data is made incredibly simple in WordPress through the <code><a title="wp_remote_get" href="http://developer.wordpress.org/reference/functions/wp_remote_get/">wp_remote_get()</a></code> function. This function takes the following two arguments:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:list {"ordered":true} -->
+<ol><!-- wp:list-item -->
+<li>$url - Resource to retrieve data from. This must be in a standard HTTP format</li>
+<!-- /wp:list-item -->
+
+<!-- wp:list-item -->
+<li>$args - OPTIONAL - You may pass an array of arguments in here to alter behavior and headers, such as cookies, follow redirects, etc.</li>
+<!-- /wp:list-item --></ol>
+<!-- /wp:list -->
+
+<!-- wp:paragraph -->
+<p>The following defaults are assumed, though they can be changed via the $args parameter:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:list -->
+<ul><!-- wp:list-item -->
+<li>method - GET</li>
+<!-- /wp:list-item -->
+
+<!-- wp:list-item -->
+<li>timeout - 5 - How long to wait before giving up</li>
+<!-- /wp:list-item -->
+
+<!-- wp:list-item -->
+<li>redirection - 5 - How many times to follow redirects.</li>
+<!-- /wp:list-item -->
+
+<!-- wp:list-item -->
+<li>httpversion - 1.0</li>
+<!-- /wp:list-item -->
+
+<!-- wp:list-item -->
+<li>blocking - true - Should the rest of the page wait to finish loading until this operation is complete?</li>
+<!-- /wp:list-item -->
+
+<!-- wp:list-item -->
+<li>headers - array()</li>
+<!-- /wp:list-item -->
+
+<!-- wp:list-item -->
+<li>body - null</li>
+<!-- /wp:list-item -->
+
+<!-- wp:list-item -->
+<li>cookies - array()</li>
+<!-- /wp:list-item --></ul>
+<!-- /wp:list -->
+
+<!-- wp:paragraph -->
+<p>Let's use the URL to a GitHub user account and see what sort of information we can get</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php","quickCode":false} -->
+<pre class="wp-block-syntaxhighlighter-code">$response = wp_remote_get( 'https://api.github.com/users/blobaugh' );</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p><br>$response will contain all the headers, content, and other meta data about our request</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code -->
+<pre class="wp-block-syntaxhighlighter-code">Array(
+	[headers] =&gt; Array(
+		[server] =&gt; nginx
+		[date] =&gt; Fri, 05 Oct 2012 04:43:50 GMT
+		[content-type] =&gt; application/json; charset=utf-8
+		[connection] =&gt; close
+		[status] =&gt; 200 OK
+		[vary] =&gt; Accept
+		[x-ratelimit-remaining] =&gt; 4988
+		[content-length] =&gt; 594
+		[last-modified] =&gt; Fri, 05 Oct 2012 04:39:58 GMT
+		[etag] =&gt; "5d5e6f7a09462d6a2b473fb616a26d2a"
+		[x-github-media-type] =&gt; github.beta
+		[cache-control] =&gt; public, s-maxage=60, max-age=60
+		[x-content-type-options] =&gt; nosniff
+		[x-ratelimit-limit] =&gt; 5000
+	)
+	[body] =&gt; {"type":"User","login":"blobaugh","gravatar_id":"f25f324a47a1efdf7a745e0b2e3c878f","public_gists":1,"followers":22,"created_at":"2011-05-23T21:38:50Z","public_repos":31,"email":"ben@lobaugh.net","hireable":true,"blog":"http://ben.lobaugh.net","bio":null,"following":30,"name":"Ben Lobaugh","company":null,"avatar_url":"https://secure.gravatar.com/avatar/f25f324a47a1efdf7a745e0b2e3c878f?d=https://a248.e.akamai.net/assets.github.com%2Fimages%2Fgravatars%2Fgravatar-user-420.png","id":806179,"html_url":"https://github.com/blobaugh","location":null,"url":"https://api.github.com/users/blobaugh"}
+	[response] =&gt; Array(
+		[preserved_text 5237511b45884ac6db1ff9d7e407f225 /] =&gt; 200
+		[message] =&gt; OK
+	)
+	[cookies] =&gt; Array()
+	[filename] =&gt;
+)</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p><br>All of the same helper functions can be used on this function as with the previous two. The exception here being that HEAD never returns a body, so that element will always be empty.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3>GET the body you always wanted</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Just the body can be retrieved using <code><a title="wp_remote_retrieve_body" href="http://developer.wordpress.org/reference/functions/wp_remote_retrieve_body/">wp_remote_retrieve_body()</a></code>. This function takes just one parameter, the response from any of the other <a href="https://developer.wordpress.org/?s=wp_remote_&amp;post_type%5B%5D=wp-parser-function">wp_remote_X</a> functions where retrieve is not the next value.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">$response = wp_remote_get( 'https://api.github.com/users/blobaugh' );
+$body     = wp_remote_retrieve_body( $response );</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p><br>Still using the GitHub resource from the previous example, $body will be</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code -->
+<pre class="wp-block-syntaxhighlighter-code">{"type":"User","login":"blobaugh","public_repos":31,"gravatar_id":"f25f324a47a1efdf7a745e0b2e3c878f","followers":22,"avatar_url":"https://secure.gravatar.com/avatar/f25f324a47a1efdf7a745e0b2e3c878f?d=https://a248.e.akamai.net/assets.github.com%2Fimages%2Fgravatars%2Fgravatar-user-420.png","public_gists":1,"created_at":"2011-05-23T21:38:50Z","email":"ben@lobaugh.net","following":30,"name":"Ben Lobaugh","company":null,"hireable":true,"id":806179,"html_url":"https://github.com/blobaugh","blog":"http://ben.lobaugh.net","location":null,"bio":null,"url":"https://api.github.com/users/blobaugh"}</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p><br>If you do not have any other operations to perform on the response other than getting the body you can reduce the code to one line with</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code -->
+<pre class="wp-block-syntaxhighlighter-code">$body = wp_remote_retrieve_body( wp_remote_get( 'https://api.github.com/users/blobaugh' ) );</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p><br>Many of these helper functions can be used on one line similarly.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3>GET the response code</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>You may want to check the response code to ensure your retrieval was successful. This can be done via the <code><a href="https://developer.wordpress.org/reference/functions/wp_remote_retrieve_response_code/">wp_remote_retrieve_response_code()</a></code> function:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">$response = wp_remote_get( 'https://api.github.com/users/blobaugh' );
+$http_code = wp_remote_retrieve_response_code( $response );</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p><br>If successful <code>$http_code</code> will contain <code>200</code>.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3>GET a specific header</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>If your desire is to retrieve a specific header, say last-modified, you can do so with <code>{@see wp_remote_retrieve_header()}</code>. This function takes two parameters</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:list {"ordered":true} -->
+<ol><!-- wp:list-item -->
+<li><code>$response</code> - The response from the get call</li>
+<!-- /wp:list-item -->
+
+<!-- wp:list-item -->
+<li><code>$header</code> - Name of the header to retrieve</li>
+<!-- /wp:list-item --></ol>
+<!-- /wp:list -->
+
+<!-- wp:paragraph -->
+<p>To retrieve the last-modified header</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">$response      = wp_remote_get( 'https://api.github.com/users/blobaugh' );
+$last_modified = wp_remote_retrieve_header( $response, 'last-modified' );</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p><br><code>$last_modified</code> will contain <code>[last-modified] =&gt; Fri, 05 Oct 2012 04:39:58 GMT</code><br>You can also retrieve all of the headers in an array with <code>wp_remote_retrieve_headers( $response )</code>.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3>GET using basic authentication</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>APIs that are secured more provide one or more of many different types of authentication. A common, though not highly secure, authentication method is HTTP Basic Authentication. It can be used in WordPress by passing 'Authorization' to the second parameter of the <code>{@see wp_remote_get()}</code> function, as well as the other HTTP method functions.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">$args = array(
+    'headers' =&gt; array(
+        'Authorization' =&gt; 'Basic ' . base64_encode( YOUR_USERNAME . ':' . YOUR_PASSWORD )
+    )
+);
+wp_remote_get( $url, $args );</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:heading -->
+<h2>POSTing data to an API</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>The same helper methods (<code>{@see wp_remote_retrieve_body()}</code>, etc ) are available for all of the HTTP method calls, and utilized in the same fashion.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>POSTing data is done using the <code>{@see wp_remote_post()}</code> function, and takes exactly the same parameters as <code>{@see wp_remote_get()}</code>. It should be noted here that you are required to pass in ALL of the elements in the array for the second parameter. The Codex provides the default acceptable values. You only need to care right now about the data you are sending so the other values will be defaulted.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>To send data to the server you will need to build an associative array of data. This data will be assigned to the <code>'body'</code> value. From the server side of things the value will appear in the <code>$_POST</code> variable as you would expect. i.e. if <code>body =&gt; array( 'myvar' =&gt; 5 )</code> on the server <code>$_POST['myvar'] = 5</code>.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Because GitHub does not allow POSTing to the API used in the previous example, this example will pretend that it does. Typically if you want to POST data to an API you will need to contact the maintainers of the API and get an API key or some other form of authentication token. This simply proves that your application is allowed to manipulate data on the API the same way logging into a website as a user does to the website.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Lets assume we are submitting a contact form with the following fields: name, email, subject, comment. To setup the body we do the following:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">$body = array(
+	'name'    =&gt; 'Jane Smith',
+	'email'   =&gt; 'some@email.com',
+	'subject' =&gt; 'Checkout this API stuff',
+	'comment' =&gt; 'I just read a great tutorial. You gotta check it out!',
+);</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p><br>Now we need to set up the rest of the values that will be passed to the second parameter of <code>{@see wp_remote_post()}</code></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code -->
+<pre class="wp-block-syntaxhighlighter-code">$args = array(
+	'body'        =&gt; $body,
+	'timeout'     =&gt; '5',
+	'redirection' =&gt; '5',
+	'httpversion' =&gt; '1.0',
+	'blocking'    =&gt; true,
+	'headers'     =&gt; array(),
+	'cookies'     =&gt; array(),
+);</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p><br>Then of course to make the call</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">$response = wp_remote_post( 'http://your-contact-form.com', $args );</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:heading -->
+<h2>HEADing off bandwidth usage</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>It can be pretty important, and sometimes required by the API, to check a resource status using HEAD before retrieving it. On high traffic APIs, GET is often limited to a number of requests per minute or hour. There is no need to even attempt a GET request unless the HEAD request shows that the data on the API has been updated.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>As mentioned previously, HEAD contains data on whether or not the data has been updated, if the data should be cached, when to expire the cached copy, and sometimes a rate limit on requests to the API.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Going back to the GitHub example, here are few headers to watch out for. Most of these headers are standard, but you should always check the API docs to ensure you understand which headers are named what, and their purpose.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:list -->
+<ul><!-- wp:list-item -->
+<li><code>x-ratelimit-limit</code> - Number of requests allowed in a time period</li>
+<!-- /wp:list-item -->
+
+<!-- wp:list-item -->
+<li><code>x-ratelimit-remaining</code> - Number of remaining available requests in time period</li>
+<!-- /wp:list-item -->
+
+<!-- wp:list-item -->
+<li><code>content-length</code> - How large the content is in bytes. Can be useful to warn the user if the content is fairly large</li>
+<!-- /wp:list-item -->
+
+<!-- wp:list-item -->
+<li><code>last-modified</code> - When the resource was last modified. Highly useful to caching tools</li>
+<!-- /wp:list-item -->
+
+<!-- wp:list-item -->
+<li><code>cache-control</code> - How should the client handle caching</li>
+<!-- /wp:list-item --></ul>
+<!-- /wp:list -->
+
+<!-- wp:paragraph -->
+<p>The following will check the HEAD value of my GitHub user account:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">$response = wp_remote_head( 'https://api.github.com/users/blobaugh' );</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p><br>$response should look similar to</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code -->
+<pre class="wp-block-syntaxhighlighter-code">Array(
+	[headers] =&gt; Array
+		(
+		[server] =&gt; nginx
+		[date] =&gt; Fri, 05 Oct 2012 05:21:26 GMT
+		[content-type] =&gt; application/json; charset=utf-8
+		[connection] =&gt; close
+		[status] =&gt; 200 OK
+		[vary] =&gt; Accept
+		[x-ratelimit-remaining] =&gt; 4982
+		[content-length] =&gt; 594
+		[last-modified] =&gt; Fri, 05 Oct 2012 04:39:58 GMT
+		[etag] =&gt; "5d5e6f7a09462d6a2b473fb616a26d2a"
+		[x-github-media-type] =&gt; github.beta
+		[cache-control] =&gt; public, s-maxage=60, max-age=60
+		[x-content-type-options] =&gt; nosniff
+		[x-ratelimit-limit] =&gt; 5000
+	)
+    [body] =&gt;
+    [response] =&gt; Array
+		(
+		[preserved_text 39a8515bd2dce2aa06ee8a2a6656b1de /] =&gt; 200
+		[message] =&gt; OK
+	)
+    [cookies] =&gt; Array(
+	)
+	[filename] =&gt;
+)</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p><br>All of the same helper functions can be used on this function as with the previous two. The exception here being that HEAD never returns a body, so that element will always be empty.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2>Make any sort of request</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>If you need to make a request using an HTTP method that is not supported by any of the above functions do not panic. The great people developing WordPress already thought of that and lovingly provided <code>{@see wp_remote_request()}</code>. This function takes the same two parameters as <code>{@see wp_remote_get()}</code>, and allows you to specify the HTTP method as well. What data you need to pass along is up to your method.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>To send a DELETE method example you may have something similar to the following:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code -->
+<pre class="wp-block-syntaxhighlighter-code">$args     = array(
+	'method' =&gt; 'DELETE',
+);
+$response = wp_remote_request( 'http://some-api.com/object/to/delete', $args );</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:heading -->
+<h2>Introduction to caching</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Caching is a practice whereby commonly used objects or objects requiring significant time to build are saved into a fast object store for quick retrieval on later requests. This prevents the need to spend the time fetching and building the object again. Caching is a vast subject that is part of website optimization and could go into an entire series of articles by itself. What follows is just an introduction to caching and a simple yet effective way to quickly setup a cache for API responses.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Why should you cache API responses? Well, the big elephant in the room is because external APIs slow down your site. Many consultants will tell you tapping into external APIs will improve the performance of your website by reducing the amount of connections and processing it performs, as well as costly bandwidth, but sometimes this is simply not true.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>It is a fine balancing act between the speed your server can send data and the amount of time it takes for the remote server to process a request, build the data, and send it back. The second glaring aspect is that many APIs have a limited number of requests in a time period, and possibly a limit to the number of connections by an application at once. Caching helps solve these dilemmas by placing a copy of the data on your server until it needs to be refreshed.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2>When should you cache?</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>The snap answer to this is *always*, but again there are times when you should not. If you are dealing with real time data or the API specifically says not to cache in the headers you may not want to cache, but for all other situations it is generally a good idea to cache any resources retrieved from an API.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2>WordPress Transients</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>WordPress Transients provide a convenient way to store and use cached objects. Transients live for a specified amount of time, or until you need them to expire when a resource from the API has been updated. Using the transient functionality in WordPress may be the easiest to use caching system you ever encounter. There are only three functions to do all the heavy lifting for you.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3>Cache an object ( Set a transient )</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Caching an object is done with the <code>{@see set_transient()}</code> function. This function takes the following three parameters:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:list {"ordered":true} -->
+<ol><!-- wp:list-item -->
+<li><code>$transient</code> - Name of the transient for future reference</li>
+<!-- /wp:list-item -->
+
+<!-- wp:list-item -->
+<li><code>$value</code> - Value of the transient</li>
+<!-- /wp:list-item -->
+
+<!-- wp:list-item -->
+<li><code>$expiration</code> - How many seconds from saving the transient until it expires</li>
+<!-- /wp:list-item --></ol>
+<!-- /wp:list -->
+
+<!-- wp:paragraph -->
+<p>An example of caching the GitHub user information response from above for one hour would be</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">$response = wp_remote_get( 'https://api.github.com/users/blobaugh' );
+set_transient( 'prefix_github_userinfo', $response, 60 * 60 );</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:heading {"level":3} -->
+<h3>Get a cached object ( Get a transient )</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Getting a cached object is quite a bit more complex than setting a transient. You need to request the transient, but then you also need to check to see if that transient has expired and if so fetch updated data. Usually the <code>set_transient()</code> call is made inside of the <code>get_transient()</code> call. Here is an example of getting the transient data for the GitHub user profile:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">$github_userinfo = get_transient( 'prefix_github_userinfo' );
+if ( false === $github_userinfo ) {
+	// Transient expired, refresh the data
+	$response = wp_remote_get( 'https://api.github.com/users/blobaugh' );
+	set_transient( 'prefix_github_userinfo', $response, HOUR_IN_SECONDS );
+}
+// Use $github_userinfo as you will</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:heading -->
+<h2>Delete a cached object (Delete a transient)</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Deleting a cached object is the easiest of all the transient functions, simply pass it a parameter of the name of the transient and you are done.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>To remove the Github user info:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">delete_transient( 'blobaugh_github_userinfo' );</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p>More information on transients can be found <a href="https://developer.wordpress.org/apis/handbook/transients/">here</a>.</p>
+<!-- /wp:paragraph -->

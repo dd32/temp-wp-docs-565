@@ -1,0 +1,22 @@
+https://developer.wordpress.org/apis/handbook/making-http-requests/authentication/
+
+<!-- wp:paragraph -->
+<p>Many APIs will require you to make authenticated requests to access some endpoints. A common authentication method is called HTTP Basic Authentication. It can be used in WordPress using the 'Authorization' header <code>{@see wp_remote_get()}</code>. </p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">$args = array(
+    'headers' =&gt; array(
+        'Authorization' =&gt; 'Basic ' . base64_encode( YOUR_USERNAME . ':' . YOUR_PASSWORD )
+    )
+);
+wp_remote_get( $url, $args );</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p>HTTP Basic Auth is very insecure because it exposes the username and password and is only used for testing and development. Check the documentation of the API you want to access for more information on how to authenticate.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>If you want to make authenticated requests to the WordPress REST API, check <a href="https://developer.wordpress.org/rest-api/using-the-rest-api/authentication/">this article</a>.</p>
+<!-- /wp:paragraph -->

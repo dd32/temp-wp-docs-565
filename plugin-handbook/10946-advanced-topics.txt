@@ -1,0 +1,127 @@
+https://developer.wordpress.org/plugins/hooks/advanced-topics/
+
+<!-- wp:heading -->
+<h2>Removing Actions and Filters</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Sometimes you want to remove a callback function from a hook that another plugin, theme or even WordPress Core has registered.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>To remove a callback function from a hook, you need to call <code>remove_action()</code> or&nbsp;<code>remove_filter()</code>, depending whether the callback function was added as an Action or a Filter.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>The parameters passed to&nbsp;<code>remove_action()</code> / <code>remove_filter()</code> must be identical to the parameters passed to <code>add_action()</code> / <code>add_filter()</code> that registered it, or the removal won't work.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:shortcode -->
+[alert]
+To successfully remove a callback function you must&nbsp;perform the removal after the callback function was registered. The order of execution is important.
+[/alert]
+<!-- /wp:shortcode -->
+
+<!-- wp:heading {"level":3} -->
+<h3>Example</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Lets say we want to improve the performance of a large theme by removing unnecessary functionality.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Let's analyze the theme's code by looking into <code>functions.php</code>.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code -->
+<pre class="wp-block-syntaxhighlighter-code">function wporg_setup_slider() {
+	// ...
+}
+add_action( 'template_redirect', 'wporg_setup_slider', 9 );</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p>The <code>wporg_setup_slider</code> function is adding a slider that we don't need, which probably loads a huge CSS file followed by a JavaScript initialization file which uses a custom written library the size of 1MB. We can can get rid of that.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Since we want to hook into WordPress after the <code>wporg_setup_slider</code> callback function was registered (<code>functions.php</code> executed) our best chance would be the <code><a href="https://developer.wordpress.org/reference/hooks/after_setup_theme/">after_setup_theme</a></code> hook.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code -->
+<pre class="wp-block-syntaxhighlighter-code">function wporg_disable_slider() {
+	// Make sure all parameters match the add_action() call exactly.
+	remove_action( 'template_redirect', 'wporg_setup_slider', 9 );
+}
+// Make sure we call remove_action() after add_action() has been called.
+add_action( 'after_setup_theme', 'wporg_disable_slider' );</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:heading -->
+<h2>Removing All Callbacks</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>You can also remove all of the callback functions associated with a hook by using <code>remove_all_actions()</code> / <code>remove_all_filters()</code>.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2>Determining the Current Hook</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Sometimes you want to run an Action or a Filter on multiple hooks, but behave differently based on which one is currently calling it.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>You can use the&nbsp;<code>current_action()</code> / <code>current_filter()</code> to determine the current Action / Filter.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code -->
+<pre class="wp-block-syntaxhighlighter-code">function wporg_modify_content( $content ) {
+	switch ( current_filter() ) {
+		case 'the_content':
+			// Do something.
+			break;
+		case 'the_excerpt':
+			// Do something.
+			break;
+	}
+	return $content;
+}
+
+add_filter( 'the_content', 'wporg_modify_content' );
+add_filter( 'the_excerpt', 'wporg_modify_content' );</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:heading -->
+<h2>Checking How Many Times a Hook Has Run</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Some hooks are called multiple times in the course of execution, but you may only want your callback function to run once.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>In this situation, you can check how many times the hook has run with the did_action().</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:preformatted -->
+<pre class="wp-block-preformatted">function wporg_custom() {<br>   <em>// If save_post has been run more than once, skip the rest of the code.<br></em><em>   </em>if ( did_action( 'save_post' ) !== 1 ) {<br>      return;<br>   }<br>   <em>// ...<br></em>}<br>add_action( 'save_post', 'wporg_custom' );</pre>
+<!-- /wp:preformatted -->
+
+<!-- wp:heading -->
+<h2>Debugging with the "all" Hook</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>If you want a callback function to fire on every single hook, you can register it to the <code>all</code> hook. Sometimes this is useful in debugging situations to help determine when a particular event is happening or when a page is crashing.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">function wporg_debug() {
+	echo '&lt;p&gt;' . current_action() . '&lt;/p&gt;';
+}
+add_action( 'all', 'wporg_debug' );</pre>
+<!-- /wp:syntaxhighlighter/code -->

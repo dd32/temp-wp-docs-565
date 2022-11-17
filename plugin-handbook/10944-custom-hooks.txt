@@ -1,0 +1,132 @@
+https://developer.wordpress.org/plugins/hooks/custom-hooks/
+
+<!-- wp:paragraph -->
+<p><strong>An important, but often overlooked practice is using custom hooks in your plugin so that other developers can extend and modify it.</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Custom hooks are created and called in the same way that WordPress Core hooks are.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2>Create a Hook</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>To create a custom hook, use do_action() for <a href="https://developer.wordpress.org/plugins/hooks/actions/">Actions</a> and apply_filters() for <a href="https://developer.wordpress.org/plugins/hooks/filters/">Filters</a>.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:shortcode -->
+[info]
+We recommend using apply_filters() on any text that is output to the browser. Particularly on the frontend.
+
+This makes it easier for plugins to be modified according to the user's needs.
+[/info]
+<!-- /wp:shortcode -->
+
+<!-- wp:heading -->
+<h2>Add a Callback to the Hook</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>To add a callback function to a custom hook, use add_action() for <a href="https://developer.wordpress.org/plugins/hooks/actions/">Actions</a> and add_filter() for <a href="https://developer.wordpress.org/plugins/hooks/filters/">Filters</a>.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2>Naming Conflicts</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Since any plugin can create a custom hook, it's important to prefix your hook names to avoid collisions with other plugins.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>For example, a filter named <code>email_body</code> would be less useful because it's likely that another developer will choose that same name. If the user installs both plugins, it could lead to bugs that are difficult to track down.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Naming the function <code>wporg_email_body</code> (where <code>wporg_</code> is a unique prefix for your plugin) would avoid any collisions.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2>Examples</h2>
+<!-- /wp:heading -->
+
+<!-- wp:heading {"level":3} -->
+<h3>Extensible Action: Settings Form</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>If your plugin adds a settings form to the Administrative Panels, you can use Actions to allow other plugins to add their own settings to it.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:shortcode -->
+[php]
+
+    Foo: 
+    Bar: 
+   &lt;?php
+    do_action( &#039;wporg_after_settings_page_html&#039; );
+}
+[/php]
+<!-- /wp:shortcode -->
+
+<!-- wp:paragraph -->
+<p>Now another plugin can register a callback function for the <code>wporg_after_settings_page_html</code> hook and inject new settings:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:shortcode -->
+[php]
+
+    New 1: 
+    &lt;?php
+}
+add_action( &#039;wporg_after_settings_page_html&#039;, &#039;myprefix_add_settings&#039; );
+[/php]
+<!-- /wp:shortcode -->
+
+<!-- wp:heading {"level":3} -->
+<h3>Extensible Filter: Custom Post Type</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>In this example, when the new post type is registered, the parameters that define it are passed through a filter, so another plugin can change them before the post type is created.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:shortcode -->
+[php]
+&lt;?php
+function wporg_create_post_type()
+{
+    $post_type_params = [/* ... */];
+
+    register_post_type(
+        &#039;post_type_slug&#039;,
+        apply_filters( &#039;wporg_post_type_params&#039;, $post_type_params )
+    );
+}
+[/php]
+<!-- /wp:shortcode -->
+
+<!-- wp:paragraph -->
+<p>Now another plugin can register a callback function for the <code>wporg_post_type_params</code> hook and change post type parameters:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:shortcode -->
+[php]
+&lt;?php 
+function myprefix_change_post_type_params( $post_type_params ) {     		 
+	$post_type_params[&#039;hierarchical&#039;] = true;
+	return $post_type_params;
+} 
+add_filter( &#039;wporg_post_type_params&#039;, &#039;myprefix_change_post_type_params&#039; );
+[/php]
+<!-- /wp:shortcode -->
+
+<!-- wp:heading -->
+<h2>External Resources</h2>
+<!-- /wp:heading -->
+
+<!-- wp:list -->
+<ul><li><a href="http://wordpress.tv/2012/08/27/michael-fields-extendable-extensions/">Extendable Extensions</a> by Michael Fields</li><li><a href="http://wordpress.tv/2010/12/03/brandon-dove-the-pluggable-plugin/">The Pluggable Plugin</a> by Brandon Dove</li><li><a href="http://willnorris.com/2009/06/wordpress-plugin-pet-peeve-3-not-being-extensible">WordPress Plugin Pet Peeves #3: Not Being Extensible</a> by Will Norris</li></ul>
+<!-- /wp:list -->

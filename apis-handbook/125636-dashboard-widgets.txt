@@ -1,0 +1,403 @@
+https://developer.wordpress.org/apis/handbook/dashboard-widgets/
+
+<!-- wp:paragraph -->
+<p>Added in WordPress Version&nbsp;<a href="https://wordpress.org/support/wordpress-version/version-2-7/">2.7</a>, the&nbsp;<strong>Dashboard Widgets API</strong> makes it simple to add new widgets to the&nbsp;<a href="https://wordpress.org/support/article/dashboard-screen/">administration dashboard</a>.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Doing so requires working knowledge of PHP and the WordPress&nbsp;<a href="https://developer.wordpress.org/plugins/">Plugin API</a>, but to plugin or theme authors familiar with hooking actions and filters, it only takes a few minutes and can be a great way to make your plugin even more useful.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:image {"id":125684,"linkDestination":"media"} -->
+<figure class="wp-block-image"><a href="https://developer.wordpress.org/files/2019/08/admin-dashboard-widget-api.png" target="_blank" rel="noreferrer noopener"><img src="https://developer.wordpress.org/files/2019/08/admin-dashboard-widget-api-1024x464.png" alt="" class="wp-image-125684" /></a><figcaption>Default Dashboard Widgets</figcaption></figure>
+<!-- /wp:image -->
+
+<!-- wp:heading -->
+<h2>Overview</h2>
+<!-- /wp:heading -->
+
+<!-- wp:heading {"level":3} -->
+<h3>The main function</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>The main tool needed to add Dashboard Widgets is the&nbsp;<a href="https://developer.wordpress.org/reference/functions/wp_add_dashboard_widget/">wp_add_dashboard_widget()</a>&nbsp;function. You will find a complete description of this function on that link, but a brief overview is given below.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3>Usage</h3>
+<!-- /wp:heading -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">wp_add_dashboard_widget( $widget_id, $widget_name, $callback, $control_callback, $callback_args );</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:list -->
+<ul><li><code>$widget_id</code>: an identifying slug for your widget. This will be used as its CSS class and its key in the array of widgets.</li><li><code>$widget_name</code>: this is the name your widget will display in its heading.</li><li><code>$callback</code>: The name of a function you will create that will display the actual contents of your widget.</li><li><code>$control_callback</code> (Optional): The name of a function you create that will handle submission of widget options forms, and will also display the form elements.</li><li><code>$callback_args</code> (Optional): Set of arguments for the callback function.</li></ul>
+<!-- /wp:list -->
+
+<!-- wp:heading {"level":3} -->
+<h3>Action hooks</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>To run the function you will need to hook into the action&nbsp;<a href="https://developer.wordpress.org/reference/hooks/wp_dashboard_setup/">wp_dashboard_setup</a>&nbsp;via&nbsp;<a href="https://developer.wordpress.org/reference/functions/add_action/">add_action()</a>. For the Network Admin dashboard, use the hook&nbsp;<a href="https://developer.wordpress.org/reference/hooks/wp_network_dashboard_setup/">wp_network_dashboard_setup</a>.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code -->
+<pre class="wp-block-syntaxhighlighter-code">/**
+ * Add a widget to the dashboard.
+ *
+ * This function is hooked into the 'wp_dashboard_setup' action below.
+ */
+function wporg_add_dashboard_widgets() {
+	// Add function here
+}
+add_action( 'wp_dashboard_setup', 'wporg_add_dashboard_widgets' );</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p>Network dashboard:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code -->
+<pre class="wp-block-syntaxhighlighter-code">/**
+ * Add a widget to the network dashboard.
+ *
+ * This function is hooked into the 'wp_network_dashboard_setup' action below.
+ */
+function wporg_add_network_dashboard_widgets() {
+	// Add function here
+}
+add_action( 'wp_network_dashboard_setup', 'wporg_add_network_dashboard_widgets' );</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:heading -->
+<h2>Examples</h2>
+<!-- /wp:heading -->
+
+<!-- wp:heading {"level":3} -->
+<h3>Basic usage</h3>
+<!-- /wp:heading -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">/**
+ * Add a widget to the dashboard.
+ *
+ * This function is hooked into the 'wp_dashboard_setup' action below.
+ */
+function wporg_add_dashboard_widgets() {
+	wp_add_dashboard_widget(
+		'wporg_dashboard_widget',                          // Widget slug.
+		esc_html__( 'Example Dashboard Widget', 'wporg' ), // Title.
+		'wporg_dashboard_widget_render'                    // Display function.
+	); 
+}
+add_action( 'wp_dashboard_setup', 'wporg_add_dashboard_widgets' );
+
+/**
+ * Create the function to output the content of our Dashboard Widget.
+ */
+function wporg_dashboard_widget_render() {
+	// Display whatever you want to show.
+	esc_html_e( "Howdy! I'm a great Dashboard Widget.", "wporg" );
+}</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:heading {"level":3} -->
+<h3>Forcing your widget to the top</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Normally you should just let the users of your plugin put your Dashboard Widget wherever they want by dragging it around. There currently isn't an easy API way to pre-sort the default widgets, meaning your new widget will always be at the bottom of the list. Until sorting is added to the API its a bit complicated to get around this problem.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Below is an example hooking function that will try to put your widget before the default ones. It does so by manually altering the internal array of metaboxes (of which dashboard widgets are one type) and putting your widget at the top of the list so it shows first.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">function wporg_add_dashboard_widgets() {
+	wp_add_dashboard_widget( 
+		'wporg_dashboard_widget', 
+		esc_html__( 'Example Dashboard Widget', 'wporg' ), 
+		'wporg_dashboard_widget_function' 
+	);
+	
+	// Globalize the metaboxes array, this holds all the widgets for wp-admin.
+	global $wp_meta_boxes;
+	
+	// Get the regular dashboard widgets array 
+	// (which already has our new widget but appended at the end).
+	$default_dashboard = $wp_meta_boxes['dashboard']['normal']['core'];
+	
+	// Backup and delete our new dashboard widget from the end of the array.
+	$example_widget_backup = array( 'example_dashboard_widget' =&gt; $default_dashboard['example_dashboard_widget'] );
+	unset( $default_dashboard['example_dashboard_widget'] );
+ 
+	// Merge the two arrays together so our widget is at the beginning.
+	$sorted_dashboard = array_merge( $example_widget_backup, $default_dashboard );
+ 
+	// Save the sorted array back into the original metaboxes. 
+	$wp_meta_boxes['dashboard']['normal']['core'] = $sorted_dashboard;
+}
+add_action( 'wp_dashboard_setup', 'wporg_add_dashboard_widgets' );</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p>Unfortunately this only works for people who have never re-ordered their widgets. Once a user has done so their existing preferences will override this and they will have to move your widget to the top for it to stay there.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3>Removing default Dashboard Widgets</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>In some situations, especially on multi-user blogs, it may be useful to completely remove widgets from the interface. Each individual user can, by default, turn off any given widget using the <em><a href="https://wordpress.org/support/article/administration-screens/#screen-options">Screen Options</a></em> tab at the top, but if you have a lot of non-technical users it might be nicer for them to not see it at all.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>To remove dashboard widget, use the&nbsp;<a href="https://developer.wordpress.org/reference/functions/remove_meta_box/">remove_meta_box()</a>&nbsp;function. See the example codes below for the required parameters.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>These are the names of the default widgets on the dashboard:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">// Main column (left): 
+// Browser Update Required
+$wp_meta_boxes['dashboard']['normal']['high']['dashboard_browser_nag']; 
+// PHP Update Required
+$wp_meta_boxes['dashboard']['normal']['high']['dashboard_php_nag']; 
+
+// At a Glance
+$wp_meta_boxes['dashboard']['normal']['core']['dashboard_right_now'];
+// Right Now
+$wp_meta_boxes['dashboard']['normal']['core']['network_dashboard_right_now'];
+// Activity
+$wp_meta_boxes['dashboard']['normal']['core']['dashboard_activity'];
+// Site Health Status
+$wp_meta_boxes['dashboard']['normal']['core']['health_check_status'];
+
+// Side Column (right): 
+// WordPress Events and News
+$wp_meta_boxes['dashboard']['side']['core']['dashboard_primary'];
+// Quick Draft, Your Recent Drafts
+$wp_meta_boxes['dashboard']['side']['core']['dashboard_quick_press']; </pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p>Here is an example function that removes the QuickPress widget:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">// Create the function to use in the action hook
+function wporg_remove_dashboard_widget() {
+	remove_meta_box( 'dashboard_quick_press', 'dashboard', 'side' );
+} 
+// Hook into the 'wp_dashboard_setup' action to register our function
+add_action( 'wp_dashboard_setup', 'wporg_remove_dashboard_widget' );</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p>The example below removes all Dashboard Widgets:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code -->
+<pre class="wp-block-syntaxhighlighter-code">function wporg_remove_all_dashboard_metaboxes() {
+	// Remove Welcome panel
+	remove_action( 'welcome_panel', 'wp_welcome_panel' );
+	// Remove the rest of the dashboard widgets
+	remove_meta_box( 'dashboard_primary', 'dashboard', 'side' );
+	remove_meta_box( 'dashboard_quick_press', 'dashboard', 'side' );
+	remove_meta_box( 'health_check_status', 'dashboard', 'normal' );
+	remove_meta_box( 'dashboard_right_now', 'dashboard', 'normal' );
+	remove_meta_box( 'dashboard_activity', 'dashboard', 'normal');
+}
+add_action( 'wp_dashboard_setup', 'wporg_remove_all_dashboard_metaboxes' );</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:heading {"level":3} -->
+<h3>Adding Widgets in the right side</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>The function doesn't allow you to choose where you want your widget to go and will automatically add it to the "core" which is the left side. However you are able to get it on the right side very easily.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>You can use the&nbsp;<a href="https://developer.wordpress.org/reference/functions/add_meta_box/">add_meta_box()</a>&nbsp;function instead of&nbsp;<code>wp_add_dashboard_widget</code>. Simply specify&nbsp;'dashboard'&nbsp;in place of the&nbsp;$post_type. For example:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">add_meta_box( 
+	'dashboard_widget_id', 
+	esc_html__( 'Dashboard Widget Title', 'wporg' ), 
+	'dashboard_widget', 
+	'dashboard', 
+	'side', 'high' 
+);</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p>Or, after creating the widget:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">function wporg_add_dashboard_widget() {
+	wp_add_dashboard_widget( 
+		'wporg_dashboard_widget', 
+		esc_html__( 'Example Dashboard Widget', 'wporg' ), 
+		'wporg_dashboard_widget_function' 
+	);
+	
+	// Global the $wp_meta_boxes variable (this will allow us to alter the array).
+	global $wp_meta_boxes;
+
+	// Then we make a backup of your widget.
+	$wporg_widget = $wp_meta_boxes['dashboard']['normal']['core']['wporg_dashboard_widget'];
+
+	// We then unset that part of the array.
+	unset( $wp_meta_boxes['dashboard']['normal']['core']['wporg_dashboard_widget'] );
+
+	// Now we just add your widget back in.
+	$wp_meta_boxes['dashboard']['side']['core']['wporg_dashboard_widget'] = $wporg_widget;
+}
+add_action( 'wp_dashboard_setup', 'wporg_add_dashboard_widget' );</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:heading {"level":3} -->
+<h3>Aggregating RSS feeds in the dashboard</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>If you need to aggregate RSS in your widget you should take a look at the way the existing plugins are set up with caching in&nbsp;<code><a href="https://core.trac.wordpress.org/browser/tags/5.2.1/src//wp-admin/includes/dashboard.php#L0">/wp-admin/includes/dashboard.php</a></code>.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2>Widget Options</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>WordPress does not provide a built-in way to fetch options for a specific widget. By default, you would need to use&nbsp;<code><a href="https://developer.wordpress.org/reference/functions/get_option/">get_option( 'dashboard_widget_options' )</a></code>&nbsp;to fetch all widget options and then filter the returned array manually. This section presents some functions that can easily be added to a theme or plugin to help getting and setting of widget options.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3>Getting Widget Options</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>This function will fetch all widget options, or only options for a specified widget:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">
+/**
+ * Gets all widget options, or only options for a specified widget if a widget id is provided.
+ *
+ * @param string $widget_id Optional. If provided, will only get options for that widget.
+ * @return array An associative array
+ */
+function wporg_get_dashboard_widget_options( $widget_id = '' ) {
+    // Fetch ALL dashboard widget options from the db
+    $options = get_option( 'dashboard_widget_options' );
+ 
+    // If no widget is specified, return everything
+    if ( empty( $widget_id ) ) {
+        return $options;
+    }
+ 
+    // If we request a widget and it exists, return it
+    if ( isset( $options[$widget_id] ) ) {
+        return $options[$widget_id];
+    }
+ 
+    // Something went wrong...
+    return false;
+}</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:heading {"level":3} -->
+<h3>Get a Single Widget Option</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>If you want to easily fetch only a single option (for outputting to a theme), the following function will make that easier.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>This example should be used with the previous <a href="https://developer.wordpress.org/apis/handbook/dashboard-widgets/#getting-widget-options">Getting Widget Options</a> example function.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">/**
+ * Gets one specific option for the specified widget.
+ * 
+ * @param  string $widget_id Widget ID.
+ * @param  string $option    Widget option.
+ * @param  string $default   Default option.
+ * 
+ * @return string            Returns single widget option.
+ */
+function wporg_get_dashboard_widget_option( $widget_id, $option, $default = NULL ) {
+	$options = wporg_get_dashboard_widget_options( $widget_id );
+
+	// If widget options don't exist, return false.
+	if ( ! $options ) {
+		return false;
+	}
+
+	// Otherwise fetch the option or use default
+	if ( isset( $options[$option] ) &amp;&amp; ! empty( $options[$option] ) ) {
+		return $options[$option];
+	} else {
+		return ( isset( $default ) ) ? $default : false;
+	}
+}</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:heading {"level":3} -->
+<h3>Update Widget Options</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>This function can be used to easily update all of a widget's options. It can also be used to add a widget option non-destructively. Simply set the $add_option argument to true, and this will <strong>NOT overwrite</strong> any existing options (although it will add any missing ones).</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">/**
+ * Saves an array of options for a single dashboard widget to the database.
+ * Can also be used to define default values for a widget.
+ *
+ * @param string $widget_id  The name of the widget being updated
+ * @param array $args        An associative array of options being saved.
+ * @param bool $add_only     Set to true if you don't want to override any existing options.
+ */
+function update_dashboard_widget_options( $widget_id , $args = array(), $add_only = false ) {
+	// Fetch ALL dashboard widget options from the db...
+	$options = get_option( 'dashboard_widget_options' );
+
+	// Get just our widget's options, or set empty array.
+	$widget_options = ( isset( $options[$widget_id] ) ) ? $options[$widget_id] : array();
+
+	if ( $add_only ) {
+		// Flesh out any missing options (existing ones overwrite new ones).
+		$options[$widget_id] = array_merge( $args, $widget_options );
+	} else {
+		// Merge new options with existing ones, and add it back to the widgets array.
+		$options[$widget_id] = array_merge( $widget_options, $args );
+	}
+
+	// Save the entire widgets array back to the db.
+	return update_option( 'dashboard_widget_options', $options );
+}</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:heading -->
+<h2>See Also</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>See <a href="https://developer.wordpress.org/apis/handbook/dashboard-widgets/example-dashboard-widget/">Example Dashboard widget</a> for more examples.</p>
+<!-- /wp:paragraph -->

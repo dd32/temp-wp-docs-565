@@ -1,0 +1,215 @@
+https://developer.wordpress.org/apis/handbook/making-http-requests/getting-data-from-an-external-service/
+
+<!-- wp:paragraph -->
+<p>GETting data is made incredibly simple in WordPress through the <code><a title="wp_remote_get" href="http://developer.wordpress.org/reference/functions/wp_remote_get/">wp_remote_get()</a></code> function. This function takes the following two arguments:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:list {"ordered":true} -->
+<ol><li><code>$url</code> - Resource to retrieve data from. This must be in a standard HTTP format</li><li><code>$args</code> - OPTIONAL - You may pass an array of arguments in here to alter behavior and headers, such as cookies, follow redirects, etc.</li></ol>
+<!-- /wp:list -->
+
+<!-- wp:paragraph -->
+<p>The following defaults are assumed, though they can be changed via the <code>$args</code> parameter:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:list -->
+<ul><li>method - GET</li><li>timeout - 5 - How long to wait before giving up</li><li>redirection - 5 - How many times to follow redirections.</li><li>httpversion - 1.0</li><li>blocking - true - Should the rest of the page wait to finish loading until this operation is complete?</li><li>headers - array()</li><li>body - null</li><li>cookies - array()</li></ul>
+<!-- /wp:list -->
+
+<!-- wp:paragraph -->
+<p>Because <a href="https://github.com/">GitHub</a> provides an excellent API that does not require app registration for many public aspects we will target GitHub API in the following examples.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Let's use the URL to a GitHub WordPress organization and see what sort of information we can get.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php","quickCode":false} -->
+<pre class="wp-block-syntaxhighlighter-code">$response = wp_remote_get( 'https://api.github.com/users/wordpress' );</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p><code>$response</code> will contain all the headers, content, and other meta data about our request.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Response from previous example will be something like</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">Array(
+	[headers] =&gt; Array(
+		[server] =&gt; nginx
+		[date] =&gt; Fri, 05 Oct 2012 04:43:50 GMT
+		[content-type] =&gt; application/json; charset=utf-8
+		[connection] =&gt; close
+		[status] =&gt; 200 OK
+		[vary] =&gt; Accept
+		[x-ratelimit-remaining] =&gt; 4988
+		[content-length] =&gt; 594
+		[last-modified] =&gt; Fri, 05 Oct 2012 04:39:58 GMT
+		[etag] =&gt; "5d5e6f7a09462d6a2b473fb616a26d2a"
+		[x-github-media-type] =&gt; github.beta
+		[cache-control] =&gt; public, s-maxage=60, max-age=60
+		[x-content-type-options] =&gt; nosniff
+		[x-ratelimit-limit] =&gt; 5000
+	)
+
+	[body] =&gt; {
+"login": "WordPress",
+"id": 276006,
+"node_id": "MDEyOk9yZ2FuaXphdGlvbjI3NjAwNg==",
+"avatar_url": "https://avatars0.githubusercontent.com/u/276006?v=4",
+"gravatar_id": "",
+"url": "https://api.github.com/users/WordPress",
+"html_url": "https://github.com/WordPress",
+"followers_url": "https://api.github.com/users/WordPress/followers",
+"following_url": "https://api.github.com/users/WordPress/following{/other_user}",
+"gists_url": "https://api.github.com/users/WordPress/gists{/gist_id}",
+"starred_url": "https://api.github.com/users/WordPress/starred{/owner}{/repo}",
+"subscriptions_url": "https://api.github.com/users/WordPress/subscriptions",
+"organizations_url": "https://api.github.com/users/WordPress/orgs",
+"repos_url": "https://api.github.com/users/WordPress/repos",
+"events_url": "https://api.github.com/users/WordPress/events{/privacy}",
+"received_events_url": "https://api.github.com/users/WordPress/received_events",
+"type": "Organization",
+"site_admin": false,
+"name": null,
+"company": null,
+"blog": "https://wordpress.org/",
+"location": null,
+"email": null,
+"hireable": null,
+"bio": null,
+"twitter_username": null,
+"public_repos": 50,
+"public_gists": 0,
+"followers": 0,
+"following": 0,
+"created_at": "2010-05-13T22:42:10Z",
+"updated_at": "2020-05-22T14:27:02Z"
+}
+	[response] =&gt; Array(
+		[preserved_text 5237511b45884ac6db1ff9d7e407f225 /] =&gt; 200
+		[message] =&gt; OK
+	)
+
+	[cookies] =&gt; Array()
+	[filename] =&gt;
+)</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:heading {"level":3} -->
+<h3>GET the body you always wanted</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>To retrieve response body use <code><a title="wp_remote_retrieve_body" href="http://developer.wordpress.org/reference/functions/wp_remote_retrieve_body/">wp_remote_retrieve_body()</a></code> function. This function takes just one parameter, the response from <code><a href="http://developer.wordpress.org/reference/functions/wp_remote_get/">wp_remote_get()</a></code> function.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">$response = wp_remote_get( 'https://api.github.com/users/wordpress' );
+$body     = wp_remote_retrieve_body( $response );</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p>Using the <code>$response</code> from the previous example, <code>$body</code> will be something like:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">{
+"login": "WordPress",
+"id": 276006,
+"node_id": "MDEyOk9yZ2FuaXphdGlvbjI3NjAwNg==",
+"avatar_url": "https://avatars0.githubusercontent.com/u/276006?v=4",
+"gravatar_id": "",
+"url": "https://api.github.com/users/WordPress",
+"html_url": "https://github.com/WordPress",
+"followers_url": "https://api.github.com/users/WordPress/followers",
+"following_url": "https://api.github.com/users/WordPress/following{/other_user}",
+"gists_url": "https://api.github.com/users/WordPress/gists{/gist_id}",
+"starred_url": "https://api.github.com/users/WordPress/starred{/owner}{/repo}",
+"subscriptions_url": "https://api.github.com/users/WordPress/subscriptions",
+"organizations_url": "https://api.github.com/users/WordPress/orgs",
+"repos_url": "https://api.github.com/users/WordPress/repos",
+"events_url": "https://api.github.com/users/WordPress/events{/privacy}",
+"received_events_url": "https://api.github.com/users/WordPress/received_events",
+"type": "Organization",
+"site_admin": false,
+"name": null,
+"company": null,
+"blog": "https://wordpress.org/",
+"location": null,
+"email": null,
+"hireable": null,
+"bio": null,
+"twitter_username": null,
+"public_repos": 50,
+"public_gists": 0,
+"followers": 0,
+"following": 0,
+"created_at": "2010-05-13T22:42:10Z",
+"updated_at": "2020-05-22T14:27:02Z"
+}</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:heading {"level":3} -->
+<h3>GET the response code</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>You may want to check the response code to ensure your retrieval was successful. This can be done via the <code><a href="https://developer.wordpress.org/reference/functions/wp_remote_retrieve_response_code/">wp_remote_retrieve_response_code()</a></code> function:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">$http_code = wp_remote_retrieve_response_code( $response );</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p>If successful <code>$http_code</code> will contain <code>200</code>. Otherwise, it will contain some HTTP status codes.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3>GET a specific header</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>If your desire is to retrieve a specific header, say last-modified, you can do so with <a href="https://developer.wordpress.org/reference/functions/wp_remote_retrieve_header/">wp_remote_retrieve_header()</a>. This function takes two parameters</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:list {"ordered":true} -->
+<ol><li><code>$response</code> - The response from the get call</li><li><code>$header</code> - Name of the header to retrieve</li></ol>
+<!-- /wp:list -->
+
+<!-- wp:paragraph -->
+<p>To retrieve the last-modified header:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">$last_modified = wp_remote_retrieve_header( $response, 'last-modified' );</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p>You can also retrieve all of the headers in an array with  <a href="https://developer.wordpress.org/reference/functions/wp_remote_retrieve_headers/">wp_remote_retrieve_headers()</a> function.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3>GET using basic authentication</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>APIs that are secured more provide one or more of many different types of authentication. A common, though not highly secure, the authentication method is HTTP Basic Authentication. It can be used in WordPress bypassing 'Authorization' to the second parameter of the <code><a href="https://developer.wordpress.org/reference/functions/wp_remote_get/">wp_remote_get()</a></code> function, as well as the other HTTP method functions.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">$args = array(
+    'headers' =&gt; array(
+        'Authorization' =&gt; 'Basic ' . base64_encode( YOUR_USERNAME . ':' . YOUR_PASSWORD )
+    )
+);
+wp_remote_get( $url, $args );</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p>MORE ABOUT AUTH</p>
+<!-- /wp:paragraph -->

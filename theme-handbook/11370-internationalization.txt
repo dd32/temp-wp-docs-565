@@ -1,0 +1,239 @@
+https://developer.wordpress.org/themes/functionality/internationalization/
+
+<!-- wp:heading -->
+<h2>What is internationalization?</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Internationalization is the process of developing your theme, so it can easily be translated into other languages. Internationalization is often abbreviated as <code>i18n</code> (because there are 18 letters between the letters i and n).</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2>Why is internationalization important?</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>WordPress is used all over the world, in countries where English is not the main language. The strings in the WordPress plugins need to be coded in a special way so that can be easily translated into other languages. As a developer, you may not be able to provide localizations for all your users; however, a translator can successfully localize the theme without needing to modify the source code itself.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2>How to internationalize your theme?</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>For the text in the theme to be able to be translated easily the text should not be hardcoded in the theme but be passed as an argument through one of the localization functions in WordPress.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>The following example could not be translated unless the translator modified the source code which is not very efficient.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:shortcode -->
+[php]&lt;h1&gt;Settings Page&lt;/h1&gt;[/php]
+<!-- /wp:shortcode -->
+
+<!-- wp:paragraph -->
+<p>By passing the string through a localization function it can it can be easily parsed to be translated.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:shortcode -->
+[php]&lt;h1&gt;&lt;?php _e( 'Settings Page' ); ?&gt;&lt;/h1&gt;[/php]
+<!-- /wp:shortcode -->
+
+<!-- wp:paragraph -->
+<p>WordPress uses&nbsp;<a href="http://www.gnu.org/software/gettext/">gettext</a> libraries to be able to add the translations in PHP. In WordPress you should use the WordPress localization functions instead of&nbsp;the native PHP gettext-compliant translation functions.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3>Text Domain</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>The text domain is the second argument that is used in the internationalization functions. The text domain is a unique identifier, allowing WordPress to distinguish between all of the loaded translations. The text domain is only needed to be defined for themes and plugins.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Themes that are hosted on WordPress.org the text domain must match the slug of your theme URL (<code>wordpress.org/themes/&lt;slug&gt;</code>).&nbsp;This is needed so that the translations from <a href="https://translate.wordpress.org/">translate.wordpress.org</a>&nbsp;work correctly.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>The text domain name must use dashes and not underscores and be lowercase.&nbsp;For example, if the theme's name <code>My Theme</code>&nbsp;is defined in the <code>style.css</code>&nbsp;or it is contained in a folder called <code>my-theme</code> the text domain should be <code>my-theme</code>.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>The text domain is used in three different places:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:list {"ordered":true} -->
+<ol><li>In the <code>style.css</code> theme header</li><li>As an argument in the localization functions</li><li>As an argument when loading the translations using <code>load_theme_textdomain()</code> or&nbsp; <code>load_child_theme_textdomain()</code></li></ol>
+<!-- /wp:list -->
+
+<!-- wp:heading {"level":4} -->
+<h4>style.css theme header</h4>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>The text domain is added to the <code>style.css</code> header so that the theme meta-data like the description can be translated even when the theme is not enabled. The text domain should be same as the one used when <a href="#loading-text-domain">loading the text domain</a>.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Example:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:shortcode -->
+[php]
+/*
+* Theme Name: My Theme
+* Author: Theme Author
+* Text Domain: my-theme
+*/
+[/php]
+<!-- /wp:shortcode -->
+
+<!-- wp:heading {"level":5} -->
+<h5>Domain Path</h5>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>The domain path is needed when the translations are saved in a directory other than <code>languages</code>&nbsp;. This is so that WordPress knows where to find the translation when the theme is not activated.&nbsp;For example, if .mo files are located in the languages folder then Domain Path will be <code>/languages</code> and must be written with the first slash. Defaults to the <code>languages</code> folder in the theme.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Example:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:shortcode -->
+[php]
+/*
+* Theme Name: My Theme
+* Author: Theme Author
+* Text Domain: my-theme
+* Domain Path: /languages
+*/
+[/php]
+<!-- /wp:shortcode -->
+
+<!-- wp:heading {"level":4} -->
+<h4>Add text domain to strings</h4>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>The text domain should be added as an argument to all of the localization functions for the translations to work correctly.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Example 1</strong>:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:shortcode -->
+[php]__( 'Post' )[/php]
+<!-- /wp:shortcode -->
+
+<!-- wp:paragraph -->
+<p>should become</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:shortcode -->
+[php]__( 'Post', 'my-theme' )[/php]
+<!-- /wp:shortcode -->
+
+<!-- wp:paragraph -->
+<p><strong>Example 2</strong>:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:shortcode -->
+[php]_e( 'Post' )[/php]
+<!-- /wp:shortcode -->
+
+<!-- wp:paragraph -->
+<p>should become</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:shortcode -->
+[php]_e( 'Post', 'my-theme' )[/php]
+<!-- /wp:shortcode -->
+
+<!-- wp:paragraph -->
+<p><strong>Example 3</strong>:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:shortcode -->
+[php]_n( '%s post', '%s posts', $count )[/php]
+<!-- /wp:shortcode -->
+
+<!-- wp:paragraph -->
+<p>should become</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:shortcode -->
+[php]_n( '%s post', '%s posts', $count, 'my-theme' )[/php]
+<!-- /wp:shortcode -->
+
+<!-- wp:shortcode -->
+[warning]The text domain should be passed as a string to the localization functions instead of a variable. It allows parsing tools to differentiate between text domains. Example of what not to do:
+[php]__( 'Translate me.' , $text_domain );[/php]
+[/warning]
+<!-- /wp:shortcode -->
+
+<!-- wp:heading {"level":4} -->
+<h4>Loading Translations</h4>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>The translations in WordPress are saved in <code>.po</code> and <code>.mo</code> files which need to be loaded. They can be loaded by using the functions <code><a href="https://developer.wordpress.org/reference/functions/load_theme_textdomain/">load_theme_textdomain()</a></code> or <code><a href="https://developer.wordpress.org/reference/functions/load_child_theme_textdomain/">load_child_theme_textdomain()</a></code>. This loads <code>{locale}.mo</code> from your theme's base directory or <code>{text-domain}-{locale}.mo</code> from the WordPress theme language folder in <code>/wp-content/languages/themes/</code>.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:shortcode -->
+[info]As of version 4.6 WordPress automatically checks the language directory in <code>wp-content</code>&nbsp;for translations from&nbsp;<a href="https://translate.wordpress.org/">translate.wordpress.org</a>. This means that plugins that are translated via translate.wordpress.org do not&nbsp;require <code>load_plugin_textdomain()</code> anymore.
+If you don't want to add a <code>load_plugin_textdomain()</code> call to your plugin you should set the <code>Requires at least:</code> field in your readme.txt to 4.6.
+[/info]
+<!-- /wp:shortcode -->
+
+<!-- wp:paragraph -->
+<p>To find out more about the different language and country codes, see <a title="https://codex.wordpress.org/WordPress_in_Your_Language" href="https://make.wordpress.org/polyglots/teams/">the list of languages</a>.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Watch Out</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:list -->
+<ul><li>Name your MO file as <code>{locale}.mo</code> (e.g. de_DE.po &amp; de_DE.mo) if adding the translation to the theme folder.</li><li>Name your MO file as <code>{text-domain}-{locale}.mo</code> (e.g my-theme-de_DE.po &amp; my-theme-de_DE.mo) if you are adding the translation to the WordPress theme language folder.</li></ul>
+<!-- /wp:list -->
+
+<!-- wp:paragraph -->
+<p><strong>Example:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:shortcode -->
+[php]
+function my_theme_load_theme_textdomain() {
+    load_theme_textdomain( 'my-theme', get_template_directory() . '/languages' );
+}
+add_action( 'after_setup_theme', 'my_theme_load_theme_textdomain' );
+[/php]
+<!-- /wp:shortcode -->
+
+<!-- wp:paragraph -->
+<p>This function should ideally be run within the theme's <code>function.php</code>.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":5} -->
+<h5>Language Packs</h5>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>If you're interested in language packs and how the import to <a href="https://translate.wordpress.org/">translate.wordpress.org</a> is working, please read the <a href="https://make.wordpress.org/meta/handbook/documentation/translations/">Meta Handbook page about Translations</a>.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2>Internationalizing your theme</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Now that your translations are loaded, you can start writing every string in your theme with Internationalization functions.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Check the <a href="https://developer.wordpress.org/apis/handbook/internationalization/">Internationalization</a> page on the <a href="https://developer.wordpress.org/apis/">Common APIs Handbook</a> for more information and best practices.</p>
+<!-- /wp:paragraph -->

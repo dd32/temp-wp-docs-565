@@ -1,0 +1,113 @@
+https://developer.wordpress.org/plugins/shortcodes/shortcodes-with-parameters/
+
+<!-- wp:paragraph -->
+<p>Now that we know how to create a <a href="https://developer.wordpress.org/plugins/shortcodes/basic-shortcodes/">basic shortcode</a> and how to use it as <a href="https://developer.wordpress.org/plugins/shortcodes/enclosing-shortcodes/">self-closing and enclosing</a>, we will look at using parameters in shortcode <code>[$tag]</code> and handler function.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Shortcode <code>[$tag]</code> can accept parameters, known as attributes:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"highlightLines":"1"} -->
+<pre class="wp-block-syntaxhighlighter-code">[wporg title="WordPress.org"]
+Having fun with WordPress.org shortcodes.
+[/wporg]</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p>Shortcode handler function can accept 3 parameters:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:list -->
+<ul><li><code>$atts</code> - array - [$tag] attributes</li><li><code>$content</code> - string - The content inside your shortcode. In the exampe above, it will be "Having fun with WordPress.org shortcodes."</li><li><code>$tag</code> - string - the name of the [$tag] (i.e. the name of the shortcode)</li></ul>
+<!-- /wp:list -->
+
+<!-- wp:syntaxhighlighter/code -->
+<pre class="wp-block-syntaxhighlighter-code">function wporg_shortcode( $atts = array(), $content = null, $tag = '' ) {}</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:heading -->
+<h2>Parsing Attributes</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>For the user, shortcodes are just strings with square brackets inside the post content. The user have no idea which attributes are available and what happens behind the scenes.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>For plugin developers, there is no way to enforce a policy on the use of attributes. The user may include one attribute, two or none at all.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>To gain control of how the shortcodes are used:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:list -->
+<ul><li>Declare default parameters for the handler function</li><li>Performing normalization of the key case for the attributes array with <a href="http://php.net/manual/en/function.array-change-key-case.php">array_change_key_case()</a></li><li>Parse attributes using shortcode_atts() providing default values array and user <code>$atts</code></li><li><a href="https://developer.wordpress.org/plugins/security/securing-output/">Secure the output</a> before returning it</li></ul>
+<!-- /wp:list -->
+
+<!-- wp:heading -->
+<h2>Complete Example</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Complete example using a basic shortcode structure, taking care of self-closing and enclosing scenarios  and securing output.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>A <code>[wporg]</code> shortcode that will accept a title and will display a box that we can style with CSS.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">/**
+ * /**
+ * The [wporg] shortcode.
+ *
+ * Accepts a title and will display a box.
+ *
+ * @param array  $atts    Shortcode attributes. Default empty.
+ * @param string $content Shortcode content. Default null.
+ * @param string $tag     Shortcode tag (name). Default empty.
+ * @return string Shortcode output.
+ */
+function wporg_shortcode( $atts = [], $content = null, $tag = '' ) {
+	// normalize attribute keys, lowercase
+	$atts = array_change_key_case( (array) $atts, CASE_LOWER );
+
+	// override default attributes with user attributes
+	$wporg_atts = shortcode_atts(
+		array(
+			'title' =&gt; 'WordPress.org',
+		), $atts, $tag
+	);
+
+	// start box
+	$o = '&lt;div class="wporg-box"&gt;';
+
+	// title
+	$o .= '&lt;h2&gt;' . esc_html__( $wporg_atts['title'], 'wporg' ) . '&lt;/h2&gt;';
+
+	// enclosing tags
+	if ( ! is_null( $content ) ) {
+		// $content here holds everything in between the opening and the closing tags of your shortcode. eg.g [my-shortcode]content[/my-shortcode].
+        // Depending on what your shortcode supports, you will parse and append the content to your output in different ways.
+		// In this example, we just secure output by executing the_content filter hook on $content.
+		$o .= apply_filters( 'the_content', $content );
+	}
+
+	// end box
+	$o .= '&lt;/div&gt;';
+
+	// return output
+	return $o;
+}
+
+/**
+ * Central location to create all shortcodes.
+ */
+function wporg_shortcodes_init() {
+	add_shortcode( 'wporg', 'wporg_shortcode' );
+}
+
+add_action( 'init', 'wporg_shortcodes_init' );</pre>
+<!-- /wp:syntaxhighlighter/code -->

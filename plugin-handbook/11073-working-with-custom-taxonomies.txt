@@ -1,0 +1,201 @@
+https://developer.wordpress.org/plugins/taxonomies/working-with-custom-taxonomies/
+
+<!-- wp:heading -->
+<h2 id="introduction-to-taxonomies">Introduction to Taxonomies</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>To understand what Taxonomies are and what they do please read the <a href="https://developer.wordpress.org/plugins/taxonomies/">Taxonomy</a> introduction.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 id="custom-taxonomies">Custom Taxonomies</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>As classification systems go, "Categories" and "Tags" aren't very structured, so it may be beneficial for a developer to create their own.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>WordPress allows developers to create <strong>Custom Taxonomies</strong>. Custom Taxonomies are useful when one wants to create distinct naming systems and make them accessible behind the scenes in a predictable way.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 id="why-use-custom-taxonomies">Why Use Custom Taxonomies?</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>You might ask, "Why bother creating a Custom Taxonomy, when I can organize by Categories and Tags?"</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Well... let's use an example. Suppose we have a client that is a chef who wants you to create a website where she'll feature original recipes.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>One way to organize the website might be to create a Custom Post Type called "Recipes" to store her recipes. Then create a Taxonomy "Courses" to separate "Appetizers" from "Desserts", and finally a Taxonomy "Ingredients" to separate "Chicken" from "Chocolate" dishes.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>These groups <em>could</em> be defined using Categories or Tags, you could have a "Courses" Category with Subcategories for "Appetizers" and "Desserts", and an "Ingredients" Category with Subcategories for each ingredient.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>The main advantage of using Custom Taxonomies is that you can reference "Courses" and "Ingredients" independently of Categories and Tags. They even get their own menus in the Administration area.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>In addition, creating Custom Taxonomies allows you to build custom interfaces which will ease the life of your client and make the process of inserting data intuitive to their business nature.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Now imagine that these Custom Taxonomies and the interface is implemented inside a plugin; you've just built your own Recipes plugin that can be reused on any WordPress website.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 id="example-courses-taxonomy">Example: Courses Taxonomy</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>The following example will show you how to create a plugin which adds a Custom Taxonomy "Courses" to the default <code>post</code> Post Type. Note that the code to add custom taxonomies does not have to be in its own plugin; it can be included in a theme or as part of an existing plugin if desired.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Please make sure to read the <a title="Plugin Basics" href="http://developer.wordpress.org/plugin/the-basics/">Plugin Basics</a> chapter before attempting to create your own plugin.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 id="step-1-before-you-begin">Step 1: Before You Begin</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Go to <strong>Posts &gt; Add New</strong> page. You will notice that you only have Categories and Tags.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:image {"align":"center","id":4951,"linkDestination":"custom"} -->
+<div class="wp-block-image"><figure class="aligncenter"><a href="http://make.wordpress.org/docs/files/2014/02/no-custom-taxonomy-meta-box.png"><img src="http://make.wordpress.org/docs/files/2014/02/no-custom-taxonomy-meta-box.png" alt="No Custom Taxonomy Meta Box (Yet)" class="wp-image-4951" /></a></figure></div>
+<!-- /wp:image -->
+
+<!-- wp:heading {"level":3} -->
+<h3 id="step-2-creating-a-new-plugin">Step 2: Creating a New Plugin</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Register the Taxonomy "course" for the post type "post" using the <code>init</code> action hook.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code -->
+<pre class="wp-block-syntaxhighlighter-code">/*
+* Plugin Name: Course Taxonomy
+* Description: A short example showing how to add a taxonomy called Course.
+* Version: 1.0
+* Author: developer.wordpress.org
+* Author URI: https://codex.wordpress.org/User:Aternus
+*/
+
+function wporg_register_taxonomy_course() {
+	 $labels = array(
+		 'name'              =&gt; _x( 'Courses', 'taxonomy general name' ),
+		 'singular_name'     =&gt; _x( 'Course', 'taxonomy singular name' ),
+		 'search_items'      =&gt; __( 'Search Courses' ),
+		 'all_items'         =&gt; __( 'All Courses' ),
+		 'parent_item'       =&gt; __( 'Parent Course' ),
+		 'parent_item_colon' =&gt; __( 'Parent Course:' ),
+		 'edit_item'         =&gt; __( 'Edit Course' ),
+		 'update_item'       =&gt; __( 'Update Course' ),
+		 'add_new_item'      =&gt; __( 'Add New Course' ),
+		 'new_item_name'     =&gt; __( 'New Course Name' ),
+		 'menu_name'         =&gt; __( 'Course' ),
+	 );
+	 $args   = array(
+		 'hierarchical'      =&gt; true, // make it hierarchical (like categories)
+		 'labels'            =&gt; $labels,
+		 'show_ui'           =&gt; true,
+		 'show_admin_column' =&gt; true,
+		 'query_var'         =&gt; true,
+		 'rewrite'           =&gt; [ 'slug' =&gt; 'course' ],
+	 );
+	 register_taxonomy( 'course', [ 'post' ], $args );
+}
+add_action( 'init', 'wporg_register_taxonomy_course' );</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:heading {"level":3} -->
+<h3 id="step-3-review-the-result">Step 3: Review the Result</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Activate your plugin, then go to <strong>Posts &gt; Add New</strong>. You should see a new meta box for your "Courses" Taxonomy.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:image {"align":"center","id":6278,"linkDestination":"custom"} -->
+<div class="wp-block-image"><figure class="aligncenter"><a href="http://make.wordpress.org/docs/files/2014/02/courses_taxonomy_post_screen.png"><img src="http://make.wordpress.org/docs/files/2014/02/courses_taxonomy_post_screen-1024x545.png" alt="courses_taxonomy_post_screen" class="wp-image-6278" /></a></figure></div>
+<!-- /wp:image -->
+
+<!-- wp:heading {"level":3} -->
+<h3 id="code-breakdown">Code Breakdown</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>The following discussion breaks down the code used above describing the functions and parameters.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>The function <code>wporg_register_taxonomy_course</code> contains all the steps necessary for registering a Custom Taxonomy.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>The <code>$labels</code> array holds the labels for the Custom Taxonomy.<br>These labels will be used for displaying various information about the Taxonomy in the Administration area.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>The <code>$args</code> array holds the configuration options that will be used when creating our Custom Taxonomy.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>The function register_taxonomy() creates a new Taxonomy with the identifier <code>course</code> for the <code>post</code> Post Type using the <code>$args</code> array for configuration.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>The function add_action() ties the <code>wporg_register_taxonomy_course</code> function execution to the <code>init</code> action hook.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":4} -->
+<h4 id="args">$args</h4>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>The $args array holds important configuration for the Custom Taxonomy, it instructs WordPress how the Taxonomy should work.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Take a look at register_taxonomy() function for a full list of accepted parameters and what each of these do.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 id="summary">Summary</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>With our Courses Taxonomy example, WordPress will automatically create an archive page and child pages for the <code>course</code> Taxonomy.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>The archive page will be at <code>/course/</code> with child pages spawning under it using the Term's slug (<code>/course/%%term-slug%%/</code>).</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 id="using-your-taxonomy">Using Your Taxonomy</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>WordPress has <strong>many</strong> functions for interacting with your Custom Taxonomy and the Terms within it.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Here are some examples:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:list -->
+<ul><li><code>the_terms</code>: Takes a Taxonomy argument and renders the terms in a list.</li><li><code>wp_tag_cloud</code>: Takes a Taxonomy argument and renders a tag cloud of the terms.</li><li><code>is_taxonomy</code>: Allows you to determine if a given taxonomy exists.</li></ul>
+<!-- /wp:list -->

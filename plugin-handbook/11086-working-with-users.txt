@@ -1,0 +1,172 @@
+https://developer.wordpress.org/plugins/users/working-with-users/
+
+<!-- wp:heading -->
+<h2>Adding Users</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>To add a user you can use <code>wp_create_user()</code> or <code>wp_insert_user()</code>.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><code>wp_create_user()</code> creates a user using only the username, password and email parameters while <code>wp_insert_user()</code> accepts an array or object describing the user and its properties.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3>Create User</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p><code>wp_create_user()</code> allows you to create a new WordPress user.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:shortcode -->
+[info]
+It uses wp_slash() to escape the values. The PHP compact() function to create an array with these values. The wp_insert_user() to perform the insert operation.
+[/info]
+<!-- /wp:shortcode -->
+
+<!-- wp:paragraph -->
+<p>Please refer to the Function Reference about <code>wp_create_user()</code> for full explanation about the used parameters.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":4} -->
+<h4>Example Create</h4>
+<!-- /wp:heading -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">// check if the username is taken
+$user_id = username_exists( $user_name );
+
+// check that the email address does not belong to a registered user
+if ( ! $user_id &amp;&amp; email_exists( $user_email ) === false ) {
+	// create a random password
+	$random_password = wp_generate_password( 12, false );
+	// create the user
+	$user_id = wp_create_user(
+		$user_name,
+		$random_password,
+		$user_email
+	);
+}</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:heading {"level":3} -->
+<h3>Insert User</h3>
+<!-- /wp:heading -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">wp_insert_user( $userdata );</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:shortcode -->
+[info]
+The function calls a filter for most predefined properties.
+
+The function performs the action <code>user_register</code> when creating a user (user ID does not exist).
+
+The function performs the action <code>profile_update</code> when updating the user (user ID exists).
+[/info]
+<!-- /wp:shortcode -->
+
+<!-- wp:paragraph -->
+<p>Please refer to the Function Reference about <code>wp_insert_user()</code> for full explanation about the used parameters.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":4} -->
+<h4>Example Insert</h4>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Below is an example showing how to insert a new user with the website profile field filled in.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">$username  = $_POST['username'];
+$password  = $_POST['password'];
+$website   = $_POST['website'];
+$user_data = [
+	'user_login' =&gt; $username,
+	'user_pass'  =&gt; $password,
+	'user_url'   =&gt; $website,
+];
+
+$user_id = wp_insert_user( $user_data );
+
+// success
+if ( ! is_wp_error( $user_id ) ) {
+	echo 'User created: ' . $user_id;
+}</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:heading -->
+<h2>Updating Users</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p><code>wp_update_user()</code> Updates a single user in the database. The update data is passed along in the <code>$userdata</code> array/object.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>To update a single piece of user meta data, use <code>update_user_meta()</code> instead. To create a new user, use <code>wp_insert_user()</code> instead.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:shortcode -->
+[info]
+If current user's password is being updated, then the cookies will be cleared!
+[/info]
+<!-- /wp:shortcode -->
+
+<!-- wp:paragraph -->
+<p>Please refer to the Function Reference about <code>wp_update_user()</code> for full explanation about the used parameters.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":4} -->
+<h4>Example Update</h4>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Below is an example showing how to update a user's website profile field.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">$user_id = 1;
+$website = 'https://wordpress.org';
+
+$user_id = wp_update_user(
+	array(
+		'ID'       =&gt; $user_id,
+		'user_url' =&gt; $website,
+	)
+);
+
+if ( is_wp_error( $user_id ) ) {
+	// error
+} else {
+	// success
+}</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:heading -->
+<h2>Deleting Users</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p><code>wp_delete_user()</code> deletes the user and optionally reassign associated entities to another user ID.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:shortcode -->
+[info]
+The function performs the action <code>deleted_user</code> after the user have been deleted.
+[/info]
+<!-- /wp:shortcode -->
+
+<!-- wp:shortcode -->
+[alert]
+If the $reassign parameter is not set to a valid user ID, then all entities belonging to the deleted user will be deleted!
+[/alert]
+<!-- /wp:shortcode -->
+
+<!-- wp:paragraph -->
+<p>Please refer to the Function Reference about <code>wp_delete_user()</code> for full explanation about the used parameters.</p>
+<!-- /wp:paragraph -->

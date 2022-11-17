@@ -1,0 +1,57 @@
+https://developer.wordpress.org/plugins/javascript/summary/
+
+<!-- wp:paragraph -->
+<p>Here are all the example code snippets from the preceding discussion, assembled into two complete code pages: one for jQuery and the other for PHP.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":4} -->
+<h4>PHP</h4>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>This code resides on one of your plugin pages.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:preformatted -->
+<pre class="wp-block-preformatted">add_action( 'admin_enqueue_scripts', 'my_enqueue' );<br>function my_enqueue( $hook ) {<br>   if ( 'myplugin_settings.php' !== $hook ) {<br>      return;<br>   }<br>   wp_enqueue_script(<br>      'ajax-script',<br>      plugins_url( '/js/myjquery.js', <em>__FILE__ </em>),<br>      array( 'jquery' ),<br>      '1.0.0',<br>      true<br>   );<br>   $title_nonce = wp_create_nonce( 'title_example' );<br>   wp_localize_script(<br>      'ajax-script',<br>      'my_ajax_obj',<br>      array(<br>         'ajax_url' =&gt; admin_url( 'admin-ajax.php' ),<br>         'nonce'    =&gt; $title_nonce,<br>      )<br>   );<br>}<br><br>add_action( 'wp_ajax_my_tag_count', 'my_ajax_handler' );<br>function my_ajax_handler() {<br>   check_ajax_referer( 'title_example' );<br>   update_user_meta( get_current_user_id(), 'title_preference', $_POST['title'] );<br>   $args      = array(<br>      'tag' =&gt; $_POST['title'],<br>   );<br>   $the_query = new WP_Query( $args );<br>   echo $_POST['title'] . ' (' . $the_query-&gt;post_count . ') ';<br>   wp_die(); <em>// all ajax handlers should die when finished<br></em>}</pre>
+<!-- /wp:preformatted -->
+
+<!-- wp:heading {"level":4} -->
+<h4>jQuery</h4>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>This code is in the file <code>js/myjquery.js</code> below your plugin folder.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"jscript"} -->
+<pre class="wp-block-syntaxhighlighter-code">jQuery(document).ready(function($) { 	   //wrapper
+	$(".pref").change(function() { 		   //event
+		var this2 = this; 		           //use in callback
+		$.post(my_ajax_obj.ajax_url, { 	   //POST request
+	       _ajax_nonce: my_ajax_obj.nonce, //nonce
+			action: "my_tag_count",        //action
+	  		title: this.value 	           //data
+  		}, function(data) {		           //callback
+			this2.nextSibling.remove();    //remove the current title
+			$(this2).after(data); 	       //insert server response
+		});
+	});
+});</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p>And after storing the preference, the resulting post count is added to the selected title.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2>More Information</h2>
+<!-- /wp:heading -->
+
+<!-- wp:list -->
+<ul><li><a title="External Site" href="http://wp.smashingmagazine.com/2011/10/18/how-to-use-ajax-in-wordpress/">How To Use AJAX In WordPress</a></li><li><a title="External Site" href="http://www.glennmessersmith.com/pages/wpajax.html">AJAX for WordPress</a></li></ul>
+<!-- /wp:list -->

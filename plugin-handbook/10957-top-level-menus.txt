@@ -1,0 +1,235 @@
+https://developer.wordpress.org/plugins/administration-menus/top-level-menus/
+
+<!-- wp:heading -->
+<h2>Add a Top-Level Menu</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>To add a new Top-level menu to WordPress Administration, use the add_menu_page() function.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">&lt;?php
+add_menu_page(
+    string $page_title,
+    string $menu_title,
+    string $capability,
+    string $menu_slug,
+    callable $function = '',
+    string $icon_url = '',
+    int $position = null
+);</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:heading {"level":3} -->
+<h3>Example</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Lets say we want to add a new Top-level menu called "WPOrg".</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>The first step</strong> will be creating a function which will output the HTML. In this function we will perform the necessary security checks and render the options we've registered using the <a href="https://developer.wordpress.org/plugins/settings/">Settings API</a>.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:shortcode -->
+[info]<p>We recommend wrapping your HTML using a <code>&lt;div&gt;</code> with a class of <code>wrap</code>.</p>[/info]
+<!-- /wp:shortcode -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">&lt;?php
+function wporg_options_page_html() {
+    ?&gt;
+    &lt;div class="wrap"&gt;
+      &lt;h1&gt;&lt;?php echo esc_html( get_admin_page_title() ); ?&gt;&lt;/h1&gt;
+      &lt;form action="options.php" method="post"&gt;
+        &lt;?php
+        // output security fields for the registered setting "wporg_options"
+        settings_fields( 'wporg_options' );
+        // output setting sections and their fields
+        // (sections are registered for "wporg", each field is registered to a specific section)
+        do_settings_sections( 'wporg' );
+        // output save settings button
+        submit_button( __( 'Save Settings', 'textdomain' ) );
+        ?&gt;
+      &lt;/form&gt;
+    &lt;/div&gt;
+    &lt;?php
+}
+?&gt;</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p><strong>The second step</strong> will be registering our WPOrg menu. The registration needs to occur during the <code>admin_menu</code> action hook.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">&lt;?php
+add_action( 'admin_menu', 'wporg_options_page' );
+function wporg_options_page() {
+    add_menu_page(
+        'WPOrg',
+        'WPOrg Options',
+        'manage_options',
+        'wporg',
+        'wporg_options_page_html',
+        plugin_dir_url(__FILE__) . 'images/icon_wporg.png',
+        20
+    );
+}
+?&gt;</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p>For a list of parameters and what each do please see the add_menu_page() in the reference.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3>Using a PHP File for HTML</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>The best practice for portable code would be to create a Callback that requires/includes your PHP file.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>For the sake of completeness and helping you understand legacy code, we will show another way: passing a <code>PHP file path</code> as the <code>$menu_slug</code> parameter with an <code>null</code> <code>$function</code> parameter.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">&lt;?php
+add_action( 'admin_menu', 'wporg_options_page' );
+function wporg_options_page() {
+    add_menu_page(
+        'WPOrg',
+        'WPOrg Options',
+        'manage_options',
+        plugin_dir_path(__FILE__) . 'admin/view.php',
+        null,
+        plugin_dir_url(__FILE__) . 'images/icon_wporg.png',
+        20
+    );
+}
+?&gt;</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:heading -->
+<h2>Remove a Top-Level Menu</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>To remove a registered menu from WordPress Administration, use the remove_menu_page() function.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">&lt;?php
+remove_menu_page(
+    string $menu_slug
+);
+?&gt;</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:shortcode -->
+[warning]
+Removing menus won't prevent users accessing them directly.<br>This should never be used as a way to restrict <a href="https://developer.wordpress.org/plugins/users/roles-and-capabilities/">user capabilities</a>.
+[/warning]
+<!-- /wp:shortcode -->
+
+<!-- wp:heading {"level":3} -->
+<h3>Example</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Lets say we want to remove the "Tools" menu from.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code -->
+<pre class="wp-block-syntaxhighlighter-code">&lt;?php
+add_action( 'admin_menu', 'wporg_remove_options_page', 99 );
+function wporg_remove_options_page() {
+    remove_menu_page( 'tools.php' );
+}
+?&gt;</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p>Make sure that the menu have been registered with the <code>admin_menu</code> hook before attempting to remove, specify a higher priority number for add_action().</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2>Submitting forms</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>To process the submissions of forms on options pages, you will need two things:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:list {"ordered":true} -->
+<ol><li>Use the URL of the page as the <code>action</code> attribute of the form.</li><li>Add a hook with the slug, returned by <code>add_menu_page</code>.</li></ol>
+<!-- /wp:list -->
+
+<!-- wp:shortcode -->
+[info]
+You only need to follow those steps if you are manually creating forms in the back-end. The <a href="https://developer.wordpress.org/plugins/settings/">Settings API</a> is the recommended way to do this.
+[/info]
+<!-- /wp:shortcode -->
+
+<!-- wp:heading {"level":3} -->
+<h3>Form action attribute</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Use the <code>$menu_slug</code> parameter of the options page as the first parameter of  <code><a href="https://developer.wordpress.org/reference/functions/menu_page_url/">menu_page_url()</a></code>. By the function will automatically escape URL and echo it by default, so you can directly use it within the <code>&lt;form&gt;</code> tag:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">&lt;form action="&lt;?php menu_page_url( 'wporg' ) ?&gt;" method="post"&gt;</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:heading {"level":3} -->
+<h3>Processing the form</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>The <code>$function</code> you specify while adding the page will only be called once it is time to display the page, which makes it inappropriate if you need to send headers (ex. redirects) back to the browser.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><code>add_menu_page</code> returns a <code>$hookname</code>, and WordPress triggers the <code>"load-$hookname"</code> action before any HTML output. You can use this to assign a function, which could process the form.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:shortcode -->
+[info]
+<code>"load-$hookname"</code> will be executed every time before an options page will be displayed, even when the form is not being submitted.
+[/info]
+<!-- /wp:shortcode -->
+
+<!-- wp:paragraph -->
+<p>With the return parameter and action in mind, the example from above would like this:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">add_action( 'admin_menu', 'wporg_options_page' );
+function wporg_options_page() {
+	$hookname = add_menu_page(
+		'WPOrg',
+		'WPOrg Options',
+		'manage_options',
+		'wporg',
+		'wporg_options_page_html',
+		plugin_dir_url(__FILE__) . 'images/icon_wporg.png',
+		20
+	);
+
+	add_action( 'load-' . $hookname, 'wporg_options_page_submit' );
+}</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p>You can program <code>wporg_options_page_submit</code> according to your needs, but keep in mind that you must manually perform all necessary checks, including:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:list {"ordered":true} -->
+<ol><li>Whether the form is being submitted (<code>'POST' === $_SERVER['REQUEST_METHOD']</code>).</li><li><a href="https://developer.wordpress.org/plugins/security/nonces/">CSRF verification</a></li><li>Validation</li><li>Sanitization</li></ol>
+<!-- /wp:list -->

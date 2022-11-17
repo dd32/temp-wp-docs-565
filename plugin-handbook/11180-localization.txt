@@ -1,0 +1,280 @@
+https://developer.wordpress.org/plugins/internationalization/localization/
+
+<!-- wp:heading -->
+<h2>What is localization?</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Localization describes the subsequent process of translating an internationalized plugin. Localization is often abbreviated as <code>l10n</code> (because there are 10 letters between the l and the n.)</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2>Localization files</h2>
+<!-- /wp:heading -->
+
+<!-- wp:heading {"level":3} -->
+<h3><code>POT</code> (Portable Object Template) files</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>This file contains the original strings (in English) in your plugin.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3><code>PO</code> (Portable Object) files</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Every translator will take the <code>POT</code> file and translate the <code>msgstr</code> sections into their own language. The result is a <code>PO</code> file with the same format as a <code>POT</code>, but with translations and some specific headers. There is one <code>PO</code> file per language.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3><code>MO</code> (Machine Object) files</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>From every translated <code>PO</code> file a <code>MO</code> file is built. These are machine-readable, binary files that the gettext functions actually use (they don’t care about <code>.POT</code> or <code>.PO</code> files), and are a “compiled” version of the <code>PO</code> file. The conversion is done using the <code>msgfmt</code> command line tool. In general, an application may use more than one large logical translatable module and a different <code>MO</code> file accordingly. A text domain is a handle of each module, which has a different <code>MO</code> file.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2>Generating the <code>POT</code> file</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>The <code>POT</code> file is the one you need to hand to translators, so that they can do their work. The <code>POT</code> and<code> PO</code> files can easily be interchangeably renamed to change file types without issues. </p>
+<!-- /wp:paragraph -->
+
+<!-- wp:shortcode -->
+[info]It is a good idea to offer the POT file along with your plugin, so that translators won't have to ask you specifically about it.[/info]
+<!-- /wp:shortcode -->
+
+<!-- wp:paragraph -->
+<p> There are a couple of ways to generate a <code>POT</code> file for your plugin:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3>WP-CLI</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Install <a href="https://make.wordpress.org/cli/handbook/installing/" rel="nofollow">WP-CLI</a> and use the <code>wp i18n make-pot</code> command according to the <a class="external text" href="https://developer.wordpress.org/cli/commands/i18n/make-pot/" rel="nofollow">documentation</a>.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3>Poedit</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>You can also use <a title="http://www.poedit.net/" href="http://www.poedit.net/">Poedit</a> locally when translating. This is an open source tool for all major OSs. The free Poedit default version supports manual scanning of all source code with Gettext functions. A pro version of it also features one-click scanning for WordPress plugins. After generating the <code>PO</code> file you can rename the file to <code>POT</code>. If a <code>MO</code> was generated then you can delete that file as it is not needed. If you don't have the pro version you can easily get the <a href="https://github.com/fxbenard/Blank-WordPress-Pot">Blank POT</a> and use that as the base of your <code>POT file</code>. Once you have placed the blank <code>POT</code> in the languages folder you can click "Update" in Poedit to update the <code>POT</code> file with your strings.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3>Grunt Tasks</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>There are even some grunt tasks that you can use to create the POTs. <a href="https://github.com/blazersix/grunt-wp-i18n">grunt-wp-i18n</a> &amp; <a href="https://www.npmjs.org/package/grunt-pot">grunt-pot</a>. Steps on setting up grunt are beyond the scope of this documentation, but just be aware that it is possible. Here is an <a href="https://gist.github.com/grappler/10187003">example Grunt.js and package.json</a> that you can place in the root of your plugin.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2>Translate the <code>PO</code> file</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Save the translated file as <code>my-plugin-{locale}.mo</code>. The locale is the language code and/or country code. For example, the locale for German is <code>de_DE</code>. From the code example above the text domain is ‘my-plugin’ therefore the German MO and PO files should be named <code>my-plugin-de_DE.mo</code> and <code>my-plugin-de_DE.po</code>. For more information about language and country codes, see <a href="http://codex.wordpress.org/Installing_WordPress_in_Your_Language">Installing WordPress in Your Language</a>.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>There are multiple ways to translate a <code>PO</code> file.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3>Manually</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>You can use a text editor to enter the translation. In a text editor it will look like this.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code -->
+<pre class="wp-block-syntaxhighlighter-code">#: plugin-name.php:123
+msgid "Page Title"
+msgstr ""</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p>You enter the translation between the quotation marks. For the German translation it would look like this.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code -->
+<pre class="wp-block-syntaxhighlighter-code">#: plugin-name.php:123
+msgid "Page Title"
+msgstr "Seitentitel"</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:heading {"level":3} -->
+<h3>Poedit</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>You can also use <a title="http://www.poedit.net/" href="http://www.poedit.net/">Poedit</a> when translating. The free Poedit default version supports manual scanning of all source code with Gettext functions. A pro version of it also features one-click scanning for WordPress plugins and themes.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3>Online Services</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>A third option is to use an online translation service. The general idea is that you upload the <code>POT</code> file and then you can give permission to users or translators to translate your plugin. This allows you to track the changes, always have the latest translation and reduce the translation being done twice.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Here are&nbsp;a few tools that can be used to translate PO files online:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:list -->
+<ul><li><a title="https://www.transifex.com/" href="https://www.transifex.com/">Transifex</a></li><li><a title="https://webtranslateit.com/" href="https://webtranslateit.com/en">WebTranslateIt</a></li><li><a href="https://poeditor.com/">Poeditor</a></li><li><a title="http://translate.google.com/toolkit/" href="http://translate.google.com/toolkit/">Google&nbsp;Translator Toolkit</a></li><li><a title="http://blog.glotpress.org/" href="http://blog.glotpress.org/">GlotPress</a></li></ul>
+<!-- /wp:list -->
+
+<!-- wp:heading -->
+<h2>Generate MO file</h2>
+<!-- /wp:heading -->
+
+<!-- wp:heading {"level":3} -->
+<h3>Command line</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p><code>msgfmt</code> is used to create the MO file. <code>msgfmt</code> is part of Gettext package. Otherwise command line can be used. A typical <code>msgfmt</code> command looks like this:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Unix Operating Systems</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"bash"} -->
+<pre class="wp-block-syntaxhighlighter-code">msgfmt -o filename.mo filename.po</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p><strong>Windows Operating Systems</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"bash"} -->
+<pre class="wp-block-syntaxhighlighter-code">msgfmt -o filename.mo filename.po</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p>If you have a lot of&nbsp;<code>PO</code>&nbsp;files to convert at once, you can run it as a batch. For example, using a&nbsp;<code>bash</code>&nbsp;command:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Unix Operating Systems</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"bash"} -->
+<pre class="wp-block-syntaxhighlighter-code"># Find PO files, process each with msgfmt and rename the result to MO
+for file in `find . -name "*.po"` ; do msgfmt -o ${file/.po/.mo} $file ; done</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p><strong>Windows Operating Systems</strong><br>For Windows you need to install&nbsp;<a href="http://www.cygwin.com/">Cygwin</a> first.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Create a file called <code>potomo.sh</code> and put the following into it:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"bash"} -->
+<pre class="wp-block-syntaxhighlighter-code">#! /bin/sh
+# Find PO files, process each with msgfmt and rename the result to MO
+for file in `/usr/bin/find . -name '*.po'` ; do /usr/bin/msgfmt -o ${file/.po/.mo} $file ; done</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p>You can run this command in the command line.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"bash"} -->
+<pre class="wp-block-syntaxhighlighter-code">cd C:/path/to/language/folder/my-plugin/languages &amp; C:/cygwin/bin/bash -c /cygdrive/c/path/to/script/directory/potomo.sh</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:heading {"level":3} -->
+<h3>Poedit</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p><code>msgfmt</code> is also integrated in <a title="http://www.poedit.net/" href="http://www.poedit.net/">Poedit</a>&nbsp;allowing you to use it to generate the MO file. There is a setting in the preferences where you can enable or disable it.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:image {"align":"center","id":11250} -->
+<div class="wp-block-image"><figure class="aligncenter"><img src="http://developer.wordpress.org/files/2014/10/internationalization-localization-04.jpg" alt="internationalization-localization-04" class="wp-image-11250" /></figure></div>
+<!-- /wp:image -->
+
+<!-- wp:heading {"level":3} -->
+<h3>Grunt task</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>There is <a href="https://www.npmjs.org/package/grunt-po2mo">grunt-po2mo</a> that will convert all of the files.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2>Tips for Good Translations</h2>
+<!-- /wp:heading -->
+
+<!-- wp:heading {"level":3} -->
+<h3>Don't translate literally, translate organically</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Being bi- or multi-lingual, you undoubtedly know that the languages you speak have different structures, rhythms, tones, and inflections. Translated messages don't need to be structured the same way as the English ones: take the ideas that are presented and come up with a message that expresses the same thing in a natural way for the target language. It's the difference between creating an equal message and an equivalent message: don't replicate, replace. Even with more structural items in messages, you have creative license to adapt and change if you feel it will be more logical for, or better adapted to, your target audience.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3>Try to keep the same level of formality (or informality)</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Each message has a different level of formality or informality. Exactly what level of formality or informality to use for each message in your target language is something you'll have to figure out on your own (or with your team), but WordPress messages (informational messages in particular) tend to have a politely informal tone in English. Try to accomplish the equivalent in the target language, within your cultural context.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3>Don't use slang or audience-specific terms</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Some amount of terminology is to be expected in a blog, but refrain from using colloquialisms that only the "in" crowd will get. If the uninitiated blogger were to install WordPress in your language, would they know what the term means? Words like pingback, trackback, and feed are exceptions to this rule; they're terminology that are typically difficult to translate, and many translators choose to leave in English.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3>Read other software's localizations in your language</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>If you get stuck or need direction, try reading through the translations of other popular software tools to get a feel for what terms are commonly used, how formality is addressed, etc. Of course, WordPress has its own tone and feel, so keep that in mind when you're reading other localizations, but feel free to dig up UI terms and the like to maintain consistency with other software in your language.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2>Using Localizations</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Place the localization files in the language folder, either in the plugin <code>languages</code> folder or as of WordPress 3.7 in the plugin <code>languages</code> folder normally under <code>wp-content</code>. The full path would be <code>wp-content/languages/plugins/my-plugin-fr_FR.mo</code>.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>You can change the language in the "General Settings". If you do not see this option, or the language into which you want to switch i snot listed, do it manually:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:list -->
+<ul><li>Define <code>WPLANG</code> inside of <code>wp-config.php</code> to your chosen language. For example, if you wanted to use French, you would have: <pre>define ('WPLANG', 'fr_FR');</pre> </li><li>Go to <code>wp-admin/options-general.php</code> or "Settings" -&gt; "General"</li><li>Select your language in "Site Language" dropdown</li><li>Go to <code>wp-admin/update-core.php</code></li><li>Click “Update translations”, when available</li><li>Core translations files are downloaded, when available</li></ul>
+<!-- /wp:list -->
+
+<!-- wp:heading -->
+<h2>Resources</h2>
+<!-- /wp:heading -->
+
+<!-- wp:list -->
+<ul><li><a href="https://foxland.fi/creating-pot-file-for-your-theme-or-plugin/">Creating .pot file for your theme or plugin</a></li><li><a href="http://tommcfarlin.com/internationalize-wordpress-plugins/">How To Internationalize WordPress Plugins</a></li><li><a href="http://wp.tutsplus.com/tutorials/theme-development/translating-your-theme/">Translating Your Theme</a></li><li><a href="https://github.com/fxbenard/Blank-WordPress-Pot">Blank WordPress POT</a></li><li><a href="https://github.com/grappler/i18n">Improved&nbsp;i18n WordPress tools</a></li><li><a href="http://ulrich.pogson.ch/update-translations-quickly">How to update translations quickly</a></li><li><a href="http://wp-translations.org/workflow-using-github/">Workflow between GitHub/Transifex</a></li><li><a href="https://gist.github.com/grappler/10187003">Gist: Complete Localization Grunt&nbsp;task</a></li><li><a href="http://wordpress.tv/">WordPress.tv</a> tags: <a href="http://wordpress.tv/tag/i18n/">i18n</a>, <a href="http://wordpress.tv/tag/internationalization/">internationalization</a> and <a href="http://wordpress.tv/tag/translation/">translation</a></li></ul>
+<!-- /wp:list -->

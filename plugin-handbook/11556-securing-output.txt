@@ -1,0 +1,97 @@
+https://developer.wordpress.org/plugins/security/securing-output/
+
+<!-- wp:paragraph -->
+<p>Securing output is the process of <em>escaping</em> output data.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Escaping means stripping out unwanted data, like malformed HTML or script tags.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Whenever you're rendering data, make sure to properly escape it. Escaping output prevents XSS (Cross-site scripting) attacks.</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:shortcode -->
+[info]
+<a href="https://en.wikipedia.org/wiki/Cross-site_scripting" target="_blank" rel="noopener noreferrer">Cross-site scripting (XSS)</a> is a type of computer security vulnerability typically found in web applications. XSS enables attackers to inject client-side scripts into web pages viewed by other users. A cross-site scripting vulnerability may be used by attackers to bypass access controls such as the same-origin policy.
+[/info]
+<!-- /wp:shortcode -->
+
+<!-- wp:heading -->
+<h2>Escaping</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Escaping&nbsp;helps secure your data&nbsp;prior to rendering it for the end user. WordPress has many helper functions&nbsp;you can use for most common scenarios.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:list -->
+<ul><li>esc_attr() - Use on everything else that's printed into an HTML element's attribute.</li><li>esc_html() - Use anytime an HTML element encloses a section of data being displayed. This <strong>WILL NOT</strong> display HTML as HTML (so <code>&lt;strong&gt;</code> would be output as is, instead of making something bold), it is meant for being used inside HTML and will remove your HTML.</li><li>esc_js() - Use for inline Javascript, it escapes javascript for use in <code>&lt;script&gt;</code> tags.</li><li>esc_textarea() - Use this to encode text for use inside a textarea element.</li><li>esc_url() - Use on all URLs, including those in the <code>src</code> and <code>href</code> attributes of an HTML element.</li><li>esc_url_raw() - Use when storing a URL in the database or in other cases where non-encoded URLs are needed.</li><li>esc_xml() - Use to escape XML block.</li><li>wp_kses() - Use to safely escape for all non-trusted HTML (post text, comment text, etc.). This <strong>WILL</strong> display HTML as HTML (so <code>&lt;em&gt;</code> will show as emphasized text)</li><li>wp_kses_post() - Alternative version of <code>wp_kses()</code> that automatically allows all HTML that is permitted in post content.</li><li>wp_kses_data() - Alternative version of <code>wp_kses()</code> that allows only the HTML permitted in post comments.</li></ul>
+<!-- /wp:list -->
+
+<!-- wp:paragraph -->
+<p>Pay close attention to what each function does, as some will <em>remove</em> HTML while others will permit it. You must use the <em>most</em> appropriate function to the content and context of what you're echoing. You always want to escape <strong>when</strong> you echo, not before.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:shortcode -->
+[alert]
+Most WordPress functions properly prepare data for output, so you don't need to escape the data again. For example, you can safely call the_title() without escaping.
+[/alert]
+<!-- /wp:shortcode -->
+
+<!-- wp:heading -->
+<h2>Escaping with Localization</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Rather than using <code>echo</code> to output data, it's common to use the WordPress localization functions, such as <code>_e()</code> or <code>__()</code>.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>These functions simply wrap a localization function inside an escaping function:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php","makeURLsClickable":false} -->
+<pre class="wp-block-syntaxhighlighter-code">esc_html_e( 'Hello World', 'text_domain' );
+// Same as
+echo esc_html( __( 'Hello World', 'text_domain' ) );</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p>These helper functions combine localization and escaping:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:list -->
+<ul><li>esc_html__()</li><li>esc_html_e()</li><li>esc_html_x()</li><li>esc_attr__()</li><li>esc_attr_e()</li><li>esc_attr_x()</li></ul>
+<!-- /wp:list -->
+
+<!-- wp:heading -->
+<h2>Custom Escaping</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>In the case that you need to escape your output in a specific way, the function wp_kses() (pronounced "kisses") will come in handy.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>This function makes sure that only the specified HTML elements, attributes, and attribute values will occur in your output, and normalizes&nbsp;HTML entities.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">$allowed_html = array(
+	'a'      =&gt; array(
+		'href'  =&gt; array(),
+		'title' =&gt; array(),
+	),
+	'br'     =&gt; array(),
+	'em'     =&gt; array(),
+	'strong' =&gt; array(),
+);
+echo wp_kses( $custom_content, $allowed_html );
+</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p><code>wp_kses_post()</code> is a wrapper function for <code>wp_kses</code> where <code>$allowed_html</code> is a set of rules used by post content.</p>
+<!-- /wp:paragraph -->

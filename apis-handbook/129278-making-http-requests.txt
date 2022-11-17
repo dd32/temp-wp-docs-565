@@ -1,0 +1,46 @@
+https://developer.wordpress.org/apis/handbook/making-http-requests/
+
+<!-- wp:paragraph -->
+<p>Very often we need to make HTTP requests from our theme or plugin, for example when we need to fetch data from an external API. Luckily WordPress has many helper functions to help you do that.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>In this section, you will learn how to properly make HTTP requests and handle their responses.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Here's an example of what you're going to see</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">$response = wp_remote_get( 'https://api.github.com/users/wordpress' );
+$body     = wp_remote_retrieve_body( $response );</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p>In the next articles you'll see a detailed explanation on how to make the requests:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:list -->
+<ul><li><a href="https://developer.wordpress.org/apis/making-http-requests/getting-data-from-an-external-service/">GETting data from an external service</a></li><li><a href="https://developer.wordpress.org/apis/making-http-requests/posting-data-to-an-external-service/">POSTing data to an external service</a></li><li><a href="https://developer.wordpress.org/apis/making-http-requests/performance/">Performance</a></li><li><a href="https://developer.wordpress.org/apis/making-http-requests/advanced/">Advanced</a></li><li><a href="https://developer.wordpress.org/apis/making-http-requests/authentication/">Authentication</a></li></ul>
+<!-- /wp:list -->
+
+<!-- wp:paragraph -->
+<p>If you're just looking for the available helper functions, here they are:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>The functions below are the ones you will use to retrieve a URL.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:list -->
+<ul><li><a href="https://developer.wordpress.org/reference/functions/wp_remote_get/"><code>wp_remote_get()</code></a>: Retrieves a URL using the GET HTTP method.</li><li><a href="https://developer.wordpress.org/reference/functions/wp_remote_post/"><code>wp_remote_post()</code></a>: Retrieves a URL using the POST HTTP method.</li><li><a href="https://developer.wordpress.org/reference/functions/wp_remote_head/"><code>wp_remote_head()</code></a>: Retrieves a URL using the HEAD HTTP method.</li><li><a href="https://developer.wordpress.org/reference/functions/wp_remote_request/"><code>wp_remote_request()</code></a>: Retrieves a URL using either the default GET or a custom HTTP method that you specify. </li></ul>
+<!-- /wp:list -->
+
+<!-- wp:paragraph -->
+<p>The other helper functions deal with retrieving different parts of the response. These make usage of the API very simple and are the preferred method for processing response objects.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:list -->
+<ul><li><code><a href="https://developer.wordpress.org/reference/functions/wp_remote_retrieve_body/">wp_remote_retrieve_body()</a></code> - Retrieves just the body from the response.</li><li><code><a href="https://developer.wordpress.org/reference/functions/wp_remote_retrieve_header/">wp_remote_retrieve_header()</a></code> - Retrieve a single header by name from the raw response.</li><li><code><a href="https://developer.wordpress.org/reference/functions/wp_remote_retrieve_headers/">wp_remote_retrieve_headers()</a></code> - Retrieve only the headers from the raw response.</li><li><code><a href="https://developer.wordpress.org/reference/functions/wp_remote_retrieve_response_code/">wp_remote_retrieve_response_code()</a></code> - Retrieve the response code for the HTTP response. This should be 200, but could be 4xx or even 3xx on failure.</li><li><code><a href="https://developer.wordpress.org/reference/functions/wp_remote_retrieve_response_message/">wp_remote_retrieve_response_message()</a></code> - Retrieve only the response message from the raw response.</li></ul>
+<!-- /wp:list -->

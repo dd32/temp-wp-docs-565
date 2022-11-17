@@ -1,0 +1,109 @@
+https://developer.wordpress.org/plugins/metadata/managing-post-metadata/
+
+<!-- wp:heading -->
+<h2>Adding Metadata</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Adding metadata can be done quite easily with add_post_meta(). The function accepts a <code>post_id</code>, a <code>meta_key</code>, a <code>meta_value</code>, and a <code>unique</code> flag.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>The <code>meta_key</code> is how your plugin will reference the meta value elsewhere in your code. Something like <code>mycrazymetakeyname</code> would work, however a prefix related to your plugin or theme followed by a description of the key would be more useful. <code>wporg_featured_menu</code> might be a good one. It should be noted that the same <code>meta_key</code> may be used multiple times to store variations of the metadata (see the unique flag below).</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>The <code>meta_value</code> can be a string, integer, or an array. If it's an array, it will be automatically serialized before being stored in the database.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>The <code>unique</code> flag allows you to declare whether this key should be unique. A <strong>non</strong> unique key is something a post can have multiple variations of, like price.<br>If you only ever want <strong>one</strong> price for a post, you should flag it <code>unique</code> and the <code>meta_key</code> will have one value only.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2>Updating Metadata</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>If a key already exists and you want to update it, use update_post_meta(). If you use this function and the key does <strong>NOT</strong> exist, then it will create it, as if you'd used add_post_meta().</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Similar to add_post_meta(), the function accepts a <code>post_id</code>, a <code>meta_key</code>, and <code>meta_value</code>. It also accepts an optional <code>prev_value</code> – which, if specified, will cause the function to only update existing metadata entries with this value. If it isn't provided, the function defaults to updating all entries.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2>Deleting Metadata</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>delete_post_meta() takes a <code>post_id</code>, a <code>meta_key</code>, and optionally <code>meta_value</code>. It does exactly what the name suggests.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2>Character Escaping</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Post meta values are passed through the <a href="http://php.net/manual/en/function.stripslashes.php">stripslashes()</a> function upon being stored, so you will need to be careful when passing in values (such as JSON) that might include \ escaped characters.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Consider the JSON value <code>{"key":"value with \"escaped quotes\""}</code>:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">$escaped_json = '{"key":"value with \"escaped quotes\""}';
+update_post_meta( $id, 'escaped_json', $escaped_json );
+$broken = get_post_meta( $id, 'escaped_json', true );
+/*
+$broken, after stripslashes(), ends up unparsable:
+{"key":"value with "escaped quotes""}
+*/</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:heading {"level":3} -->
+<h3>Workaround</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>By adding one more level of \ escaping using the function wp_slash() (introduced in WP 3.6), you can compensate for the call to <a href="http://php.net/manual/en/function.stripslashes.php">stripslashes()</a>:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code -->
+<pre class="wp-block-syntaxhighlighter-code">$escaped_json = '{"key":"value with \"escaped quotes\""}';
+update_post_meta( $id, 'double_escaped_json', wp_slash( $escaped_json ) );
+$fixed = get_post_meta( $id, 'double_escaped_json', true );
+/*
+$fixed, after stripslashes(), ends up as desired:
+{"key":"value with \"escaped quotes\""}
+*/</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:heading -->
+<h2>Hidden Custom Fields</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>If you are a plugin or theme developer and you are planning to use custom fields to store parameters, it is important to note that WordPress will not show custom fields which have <code>meta_key</code> starting with an "_" (underscore) in the custom fields list on the post edit screen or when using the the_meta() template function.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>This can be useful in order to show these custom fields in an unusual way by using the add_meta_box() function.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>The example below will add a unique custom field with the <code>meta_key</code> name '_color' and the <code>meta_value</code> of 'red' but this custom field will not display in the post edit screen:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">add_post_meta( 68, '_color', 'red', true );</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:heading {"level":3} -->
+<h3>Hidden Arrays</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>In addition, if the <code>meta_value</code> is an array, it will not be displayed on the page edit screen, even if you don't prefix the <code>meta_key</code> name with an underscore.</p>
+<!-- /wp:paragraph -->

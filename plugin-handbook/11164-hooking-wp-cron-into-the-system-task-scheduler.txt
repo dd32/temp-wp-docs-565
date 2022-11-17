@@ -1,0 +1,77 @@
+https://developer.wordpress.org/plugins/cron/hooking-wp-cron-into-the-system-task-scheduler/
+
+<!-- wp:paragraph -->
+<p>As previously mentioned, WP-Cron does not run continuously, which can be an issue if there are critical tasks that must run on time. There is an easy solution for this. Simply set up your system's task scheduler to run on the intervals you desire (or at the specific time needed). The easiest solution is to use a tool to make a web request to the <code>wp-cron.php</code> file.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>After scheduling the task on your system, there is one more step to complete. WordPress will continue to run WP-Cron on each page load. This is no longer necessary and will contribute to extra resource usage on your server. WP-Cron can be disabled in the <code>wp-config.php</code> file. Open the <code>wp-config.php</code> file for editing and add the following line:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php","lineNumbers":false} -->
+<pre class="wp-block-syntaxhighlighter-code">define('DISABLE_WP_CRON', true);</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:heading -->
+<h2>Windows</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Windows calls their time based scheduling system the Task Scheduler. It can be accessed via the <strong>Administrative Tools</strong> in the control panel.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>How you setup the task varies with server setup. One method is to use PowerShell and a Basic Task. After creating a Basic Task the following command can be used to call the WordPress Cron script.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"powershell","lineNumbers":false,"makeURLsClickable":false} -->
+<pre class="wp-block-syntaxhighlighter-code">powershell "Invoke-WebRequest http://YOUR_SITE_URL/wp-cron.php"</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:heading -->
+<h2>MacOS and Linux</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Mac OS X and Linux both use cron as their time based scheduling system. It is typically access from the terminal with the <code>crontab -e</code> command. It should be noted that tasks will be run as a regular user or as root depending on the system user running the command.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Cron has a specific syntax that needs to be followed and contains the following parts:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:list -->
+<ul><li>Minute</li><li>Hour</li><li>Day of month</li><li>Month</li><li>Day of week</li><li>Command to execute</li></ul>
+<!-- /wp:list -->
+
+<!-- wp:image {"id":11813,"sizeSlug":"large"} -->
+<figure class="wp-block-image size-large"><img src="https://developer.wordpress.org/files/2014/10/plugin-wp-cron-cron-scheduling.png" alt="" class="wp-image-11813" /></figure>
+<!-- /wp:image -->
+
+<!-- wp:paragraph -->
+<p>If a command should be run regardless of one of the time sections an asterisk (*) should be used. For example if you wanted to run a command every 15 minutes regardless of the hour, day, or month it would look like:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"bash"} -->
+<pre class="wp-block-syntaxhighlighter-code">*/15 * * * * command</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p>Many servers have <code>wget</code> installed and this is an easy tool to call the WordPress Cron script.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"bash","lineNumbers":false} -->
+<pre class="wp-block-syntaxhighlighter-code">wget --delete-after http://YOUR_SITE_URL/wp-cron.php</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:shortcode -->
+[info]Note: without --delete-after option, wget would save the output of the HTTP GET request.[/info]
+<!-- /wp:shortcode -->
+
+<!-- wp:paragraph -->
+<p>A daily call to your site's WordPress Cron that triggers at midnight every night could look similar to:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"bash","lineNumbers":false,"makeURLsClickable":false} -->
+<pre class="wp-block-syntaxhighlighter-code">0 0 * * * wget --delete-after http://YOUR_SITE_URL/wp-cron.php</pre>
+<!-- /wp:syntaxhighlighter/code -->

@@ -1,0 +1,47 @@
+https://developer.wordpress.org/plugins/cron/understanding-wp-cron-scheduling/
+
+<!-- wp:paragraph -->
+<p>Unlike a traditional system cron that schedules tasks for specific times (e.g. "every hour at 5 minutes past the hour"), WP-Cron uses intervals to simulate a system cron. </p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>WP-Cron is given two arguments: the time for the first task, and an interval (in seconds) after which the task should be repeated. For example, if you schedule a task to begin at 2:00PM with an interval of 300 seconds (five minutes), the task would first run at 2:00PM and then again at 2:05PM, then again at 2:10PM, and so on, every five minutes.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>To simplify scheduling tasks, WordPress provides some default intervals and an easy method for adding custom intervals.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>The default intervals provided by WordPress&nbsp;are:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:list -->
+<ul><li>hourly</li><li>twicedaily</li><li>daily</li><li>weekly (since WP 5.4)</li></ul>
+<!-- /wp:list -->
+
+<!-- wp:heading -->
+<h2>Custom Intervals</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>To add a custom interval, you can create a filter, such as:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">add_filter( 'cron_schedules', 'example_add_cron_interval' );
+function example_add_cron_interval( $schedules ) { 
+    $schedules['five_seconds'] = array(
+        'interval' =&gt; 5,
+        'display'  =&gt; esc_html__( 'Every Five Seconds' ), );
+    return $schedules;
+}</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p>This filter function creates a new interval that will allow us to run a cron task every five seconds.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Note:</strong> All intervals are in seconds.</p>
+<!-- /wp:paragraph -->

@@ -1,0 +1,73 @@
+https://developer.wordpress.org/plugins/settings/options-api/
+
+<!-- wp:paragraph -->
+<p>The Options API, added in WordPress 1.0, allows creating, reading, updating and deleting of WordPress options. In combination with the <a href="https://developer.wordpress.org/plugins/settings/settings-api/">Settings API</a> it allows controlling of options defined in settings pages.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2>Where Options are Stored?</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Options are stored in the <code>{$wpdb-&gt;prefix}_options</code> table. <code>$wpdb-&gt;prefix</code> is defined by the <code>$table_prefix</code> variable set in the <code>wp-config.php</code> file.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2>How Options are Stored?</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Options may be stored in the WordPress database in one of two ways: as a single value or as an array of values.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3>Single Value</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>When saved as a single value, the option name refers to a single value.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">// add a new option
+add_option('wporg_custom_option', 'hello world!');
+// get an option
+$option = get_option('wporg_custom_option');</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:heading {"level":3} -->
+<h3>Array of Values</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>When saved as an array of values, the option name refers to an array, which itself may be comprised key/value pairs.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">// array of options
+$data_r = array('title' =&gt; 'hello world!', 1, false );
+// add a new option
+add_option('wporg_custom_option', $data_r);
+// get an option
+$options_r = get_option('wporg_custom_option');
+// output the title
+echo esc_html($options_r['title']);</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p>If you are working with a large number of related options, storing them as an array can have a positive impact on overall performance.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:shortcode -->
+[info]
+Accessing data as individual options may result in many individual database transactions, and as a rule, database transactions are expensive operations (in terms of time and server resources). When you store or retrieve an array of options, it happens in a single transaction, which is ideal.
+[/info]
+<!-- /wp:shortcode -->
+
+<!-- wp:heading -->
+<h2>Function Reference</h2>
+<!-- /wp:heading -->
+
+<!-- wp:table -->
+<figure class="wp-block-table"><table><tbody><tr><th>Add Option</th><th>Get Option</th><th>Update Option</th><th>Delete Option</th></tr><tr><td><tt>add_option()</tt></td><td><tt>get_option()</tt></td><td><tt>update_option()</tt></td><td><tt>delete_option()</tt></td></tr><tr><td><tt>add_site_option()</tt></td><td><tt>get_site_option()</tt></td><td><tt>update_site_option()</tt></td><td><tt>delete_site_option()</tt></td></tr></tbody></table></figure>
+<!-- /wp:table -->

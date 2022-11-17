@@ -1,0 +1,255 @@
+https://developer.wordpress.org/apis/handbook/transients/
+
+<!-- wp:heading -->
+<h2>Overview</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>This page contains the technical documentation of&nbsp;<strong>WordPress Transients API</strong>, which offers a simple and standardized way of storing cached data in the database temporarily by giving it a custom name and a timeframe after which it will expire and be deleted.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>The Transients API is very similar to the <a href="https://developer.wordpress.org/plugins/settings/options-api/">Options API</a> but with the added feature of an expiration time, which simplifies the process of using the <code>wp_options</code> database table to temporarily store cached information.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Note that the "site_" functions are essentially the same as their counterparts, but work network wide when using WordPress&nbsp;<a href="https://codex.wordpress.org/Glossary#Multisite">Multisite</a>.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Also of note is that Transients are inherently sped up by caching plugins, where normal Options are not. A <em>memcached</em> plugin, for example, would make WordPress store transient values in fast memory instead of in the database. For this reason, transients should be used to store any data that is expected to expire, or which can expire at any time. Transients should also never be assumed to be in the database, since they may not be stored there at all.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Furthermore, it is possible for the transient to not be available before the expiration time. Much like what is done with caching, your code should have a fall back method to re-generate the data if the transient is not available.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Ryan McCue explained it this way on a <a href="https://core.trac.wordpress.org/ticket/20316#comment:47">ticket</a>:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:quote {"className":"is-style-large"} -->
+<blockquote class="wp-block-quote is-style-large"><p>Everyone seems to misunderstand how transient expiration works, so the long and short of it is: transient expiration times are a maximum time. There is no minimum age. Transients might disappear one second after you set them, or 24 hours, but they will never be around after the expiration time.</p></blockquote>
+<!-- /wp:quote -->
+
+<!-- wp:paragraph -->
+<p>The intended audience for this article includes WordPress theme authors, plugin authors and anyone who needs to cache specific data but wants it to be refreshed within a given timeframe. This document assumes a basic understanding of PHP scripting.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2>Function Reference</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p><strong>Set/Get Transient:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:list -->
+<ul><li><a href="https://developer.wordpress.org/reference/functions/set_transient/">set_transient()</a></li><li><a href="https://developer.wordpress.org/reference/functions/get_transient/">get_transient()</a></li><li><a href="https://developer.wordpress.org/reference/functions/set_site_transient/">set_site_transient()</a></li><li><a href="https://developer.wordpress.org/reference/functions/get_site_transient/">get_site_transient()</a></li></ul>
+<!-- /wp:list -->
+
+<!-- wp:paragraph -->
+<p><strong>Delete Transient:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:list -->
+<ul><li><a href="https://developer.wordpress.org/reference/functions/delete_transient/">delete_transient()</a></li><li><a href="https://developer.wordpress.org/reference/functions/delete_site_transient/">delete_site_transient()</a></li></ul>
+<!-- /wp:list -->
+
+<!-- wp:heading -->
+<h2>Using Transients</h2>
+<!-- /wp:heading -->
+
+<!-- wp:heading {"level":3} -->
+<h3>Saving Transients</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>To save a transient you use <a href="https://developer.wordpress.org/reference/functions/set_transient/">set_transient()</a>:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">set_transient( $transient, $value, $expiration );</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:list -->
+<ul><li><code>$transient</code> (string): Transient name. <br>Expected to not be SQL-escaped. Must be 172 characters or fewer in length.</li><li><code>$value</code> (array|object): Data to save, either a regular variable or an array/object. <br>The API will handle serialization of complex data for you.</li><li><code>$expiration</code> (integer): The maximum of seconds to keep the data before refreshing. <br>Transients may expire before the <code>$expiration</code> (Due to External Object Caches, or database upgrades) but will never return their value past $expiration.</li></ul>
+<!-- /wp:list -->
+
+<!-- wp:paragraph -->
+<p>So for example to save the <code>$special_query_results</code> object for 12 hours you would do:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">set_transient( 'special_query_results', $special_query_results, 60*60*12 );</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:heading {"level":4} -->
+<h4>Using Time Constants</h4>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>In <a href="https://codex.wordpress.org/Version_3.5">WordPress 3.5</a>, several constants were introduced to easily express time:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">MINUTE_IN_SECONDS  = 60 (seconds)
+HOUR_IN_SECONDS    = 60 * MINUTE_IN_SECONDS
+DAY_IN_SECONDS     = 24 * HOUR_IN_SECONDS
+WEEK_IN_SECONDS    = 7 * DAY_IN_SECONDS
+MONTH_IN_SECONDS   = 30 * DAY_IN_SECONDS
+YEAR_IN_SECONDS    = 365 * DAY_IN_SECONDS</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p>So for example, the code sample from above can be simplified to:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">set_transient( 'special_query_results', $special_query_results, 12 * HOUR_IN_SECONDS );</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:heading {"level":3} -->
+<h3>Fetching Transients</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>To get a saved transient you use <a href="https://developer.wordpress.org/reference/functions/get_transient/">get_transient()</a>:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">get_transient( $transient );</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p><code>$transient</code>: the unique slug used while saving the transient with <code>set_transient()</code>.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>In our case we could fetch our special query results with:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">get_transient( 'special_query_results' );</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p>If the transient does not exist, or has expired, then <code>get_transient()</code> will return <code>false</code>. This should be checked using the identity operator <code>===</code> instead of the normal equality operator <code>==</code>, because an integer value of zero (or other "empty"/"falsey" data) could be the data you're wanting to store. Because of this "false" value, transients should not be used to hold plain boolean values (true/false). Put them into an array or convert them to integers instead.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Example usage:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">if ( false === ( $value = get_transient( 'value' ) ) ) {
+	// this code runs when there is no valid transient set
+}</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p>The above code will get the transient and put it into <code>$value</code>. The code inside the if block only runs when there's not a valid transient for it to get. This is typically a method to re-generate the transient value through other means. Keep in mind that it's possible for a transient to not be available before it's normal expiration time.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3>Removing Saved Transients</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Our transient will die naturally of old age once $expiration seconds have passed since we last ran <a href="https://developer.wordpress.org/reference/functions/set_transient/">set_transient()</a>, but we can force the transient to die early by manually deleting it. This is useful for times when a given activity (saving a post, adding a category etc.) will make the cached data inherently stale and in need of updating.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">delete_transient( $transient );</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p><code>$transient</code>: the unique name used when saving with <code>set_transient()</code>.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>In our case, obviously, this would be:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">delete_transient( 'special_query_results' );</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p>WordPress infrequently cleans out expired transients. To prevent expired transients from building up in the database, it's a good practice to always remove your transient once you are done with it and no longer need it.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2>Complete Example</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Putting it all together here is an example of how to use transients in your code.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">&lt;?php
+// Get any existing copy of our transient data
+if ( false === ( $special_query_results = get_transient( 'special_query_results' ) ) ) {
+	// It wasn't there, so regenerate the data and save the transient
+	$special_query_results = new WP_Query( 'cat=5&amp;order=random&amp;tag=tech&amp;post_meta_key=thumbnail' );
+	set_transient( 'special_query_results', $special_query_results, 12 * HOUR_IN_SECONDS );
+}
+// Use the data like you would have normally...
+?&gt;</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p>And an example of using <a href="https://developer.wordpress.org/reference/functions/delete_transient/">delete_transient()</a>. In this case we'll add a function to the <code>edit_term</code> action, which will run every time a category or tag is edited (i.e. we're assuming that the editing of a term invalidates our data and we want to remove the cached version).</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">&lt;?php
+// Create a simple function to delete our transient
+function edit_term_delete_transient() {
+	delete_transient( 'special_query_results' );
+}
+// Add the function to the edit_term hook so it runs when categories/tags are edited
+add_action( 'edit_term', 'edit_term_delete_transient' );
+?&gt;</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p>Use transients with <a href="https://developer.wordpress.org/reference/classes/wp_query/">WP_Query</a> to retrieve "featured posts":</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">&lt;?php 
+// Check for transient. If none, then execute WP_Query
+if ( false === ( $featured = get_transient( 'foo_featured_posts' ) ) ) {
+	$featured = new WP_Query(
+		array(
+			'category' =&gt; 'featured',
+			'posts_per_page' =&gt; 5
+		)
+	);
+
+	// Put the results in a transient. Expire after 12 hours.
+	set_transient( 'foo_featured_posts', $featured, 12 * HOUR_IN_SECONDS );
+}
+?&gt;
+ 
+// Run the loop as normal
+
+&lt;?php if ( $featured-&gt;have_posts() ) : ?&gt;
+
+	&lt;?php while ( $featured-&gt;have_posts() ) : $featured-&gt;the_post(); ?&gt;
+		// featured posts found, do stuff
+	&lt;?php endwhile; ?&gt;
+
+&lt;?php else: ?&gt;
+	// no featured posts found
+&lt;?php endif; ?&gt;
+
+&lt;?php wp_reset_postdata(); ?&gt;
+</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p>Using transients in your plugins and themes is simple and only adds a few extra lines of code, but if used in the right situations (long/expensive database queries or complex processed data) it can save seconds off the load times on your site.</p>
+<!-- /wp:paragraph -->

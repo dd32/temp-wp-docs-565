@@ -1,0 +1,114 @@
+https://developer.wordpress.org/plugins/shortcodes/enclosing-shortcodes/
+
+<!-- wp:paragraph -->
+<p>The are two scenarios for using shortcodes:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:list -->
+<ul><!-- wp:list-item -->
+<li>The shortcode is a self-closing tag like we seen in the <a href="https://developer.wordpress.org/plugins/shortcodes/basic-shortcodes/">Basic Shortcodes</a> section.</li>
+<!-- /wp:list-item -->
+
+<!-- wp:list-item -->
+<li>The shortcode is enclosing content.</li>
+<!-- /wp:list-item --></ul>
+<!-- /wp:list -->
+
+<!-- wp:heading -->
+<h2>Enclosing Content</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Enclosing content with a shortcode allows manipulations on the enclosed content.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">[wporg]content to manipulate[/wporg]</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p>As seen above, all you need to do in order to enclose a section of content is add a beginning <code>[$tag]</code> and an end <code>[/$tag]</code>, similar to HTML.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2>Processing Enclosed Content</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Lets get back to our original [wporg] shortcode code:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">function wporg_shortcode( $atts = array(), $content = null ) {
+    // do something to $content
+    // always return
+    return $content;
+}
+add_shortcode( 'wporg', 'wporg_shortcode' );</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p>Looking at the callback function we see that we chose to accept two parameters, <code>$atts</code> and <code>$content</code>. The <code>$content</code> parameter is going to hold our enclosed content. We will talk about <code>$atts</code> later.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>The default value of <code>$content</code> is set to <code>null</code> so we can differentiate between a self-closing tag and enclosing tags by using PHP function <a href="http://php.net/is_null">is_null()</a>.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>The shortcode <code>[$tag]</code>, including its content and the end <code>[/$tag]</code> will be replaced with the <strong>return value</strong> of the handler function.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:shortcode -->
+[alert]
+It is the responsibility of the handler function to <a href="https://developer.wordpress.org/plugins/security/securing-output/">secure the output</a>.
+[/alert]
+<!-- /wp:shortcode -->
+
+<!-- wp:heading -->
+<h2>Shortcode-ception</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>The shortcode parser performs a <strong>single pass</strong> on the content of the post.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>This means that if the <code>$content</code> parameter of a shortcode handler contains another shortcode, it won't be parsed. In this example, <code>[shortcode]</code> will not be processed:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code -->
+<pre class="wp-block-syntaxhighlighter-code">[wporg]another [shortcode] is included[/wporg]</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p>Using shortcodes inside other shortcodes is possible by calling <code>do_shortcode()</code> on the <strong>final return value</strong> of the handler function.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<pre class="wp-block-syntaxhighlighter-code">
+function wporg_shortcode( $atts = array(), $content = null ) {
+	// do something to $content
+	// run shortcode parser recursively
+	$content = do_shortcode( $content );
+	// always return
+	return $content;
+}
+add_shortcode( 'wporg', 'wporg_shortcode' );</pre>
+<!-- /wp:html -->
+
+<!-- wp:heading -->
+<h2>Limitations</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>The shortcode parser is unable to handle mixing of enclosing and non-enclosing forms of the same <code>[$tag]</code>.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code -->
+<pre class="wp-block-syntaxhighlighter-code">[wporg] non-enclosed content [wporg]enclosed content[/wporg]</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p>Instead of being treated as two shortcodes separated by the text "<code> non-enclosed content </code>", the parser treats this as a single shortcode enclosing "<code> non-enclosed content [wporg]enclosed content</code>".</p>
+<!-- /wp:paragraph -->

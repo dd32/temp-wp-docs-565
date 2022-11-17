@@ -1,0 +1,246 @@
+https://developer.wordpress.org/plugins/users/working-with-user-metadata/
+
+<!-- wp:heading -->
+<h2>Introduction</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>WordPress' <code>users</code> table was designed to contain only the essential information about the user.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:shortcode -->
+[info]
+As of WP 4.7 the table contains: <code>ID</code>, <code>user_login</code>, <code>user_pass</code>, <code>user_nicename</code>, <code>user_email</code>, <code>user_url</code>, <code>user_registered</code>, <code>user_activation_key</code>, <code>user_status</code> and <code>display_name</code>.
+[/info]
+<!-- /wp:shortcode -->
+
+<!-- wp:paragraph -->
+<p>Because of this, to store additional data, the <code>usermeta</code> table was introduced, which can store any arbitrary amount of data about a user.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Both tables are tied together using one-to-many relationship based on the <code>ID</code> in the <code>users</code> table.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2>Manipulating User Metadata</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>There are two main ways for manipulating User Metadata.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:list {"ordered":true} -->
+<ol><li>A form field in the user's profile screen.</li><li>Programmatically, via a function call.</li></ol>
+<!-- /wp:list -->
+
+<!-- wp:heading {"level":3} -->
+<h3>via a Form Field</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>The form field option is suitable for cases where the user will have access to the WordPress admin area, in which he will be able to view and edit profiles.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Before we dive into an example, it's important to understand the hooks involved in the process and why they are there.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":4} -->
+<h4><code>show_user_profile</code> hook</h4>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>This action hook is fired whenever a user edits <strong>it's own</strong> user profile.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Remember,</strong> a user that doesn't have the capability of editing his own profile won't fire this hook.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":4} -->
+<h4><code>edit_user_profile</code> hook</h4>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>This action hook is fired whenever a user edits a user profile of <strong>somebody else</strong>.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Remember,</strong> a user that doesn't have the capability for editing 3rd party profiles won't fire this hook.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":4} -->
+<h4>Example Form Field</h4>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>In the example below we will be adding a birthday field to the all profile screens. Saving it to the database on profile updates.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">&lt;?php
+/**
+ * The field on the editing screens.
+ *
+ * @param $user WP_User user object
+ */
+function wporg_usermeta_form_field_birthday( $user )
+{
+    ?&gt;
+    &lt;h3&gt;It's Your Birthday&lt;/h3&gt;
+    &lt;table class="form-table"&gt;
+        &lt;tr&gt;
+            &lt;th&gt;
+                &lt;label for="birthday"&gt;Birthday&lt;/label&gt;
+            &lt;/th&gt;
+            &lt;td&gt;
+                &lt;input type="date"
+                       class="regular-text ltr"
+                       id="birthday"
+                       name="birthday"
+                       value="&lt;?= esc_attr( get_user_meta( $user-&gt;ID, 'birthday', true ) ) ?&gt;"
+                       title="Please use YYYY-MM-DD as the date format."
+                       pattern="(19[0-9][0-9]|20[0-9][0-9])-(1[0-2]|0[1-9])-(3[01]|[21][0-9]|0[1-9])"
+                       required&gt;
+                &lt;p class="description"&gt;
+                    Please enter your birthday date.
+                &lt;/p&gt;
+            &lt;/td&gt;
+        &lt;/tr&gt;
+    &lt;/table&gt;
+    &lt;?php
+}
+ 
+/**
+ * The save action.
+ *
+ * @param $user_id int the ID of the current user.
+ *
+ * @return bool Meta ID if the key didn't exist, true on successful update, false on failure.
+ */
+function wporg_usermeta_form_field_birthday_update( $user_id )
+{
+    // check that the current user have the capability to edit the $user_id
+    if ( ! current_user_can( 'edit_user', $user_id ) ) {
+        return false;
+    }
+ 
+    // create/update user meta for the $user_id
+    return update_user_meta(
+        $user_id,
+        'birthday',
+        $_POST['birthday']
+    );
+}
+ 
+// Add the field to user's own profile editing screen.
+add_action(
+    'show_user_profile',
+    'wporg_usermeta_form_field_birthday'
+);
+ 
+// Add the field to user profile editing screen.
+add_action(
+    'edit_user_profile',
+    'wporg_usermeta_form_field_birthday'
+);
+ 
+// Add the save action to user's own profile editing screen update.
+add_action(
+    'personal_options_update',
+    'wporg_usermeta_form_field_birthday_update'
+);
+ 
+// Add the save action to user profile editing screen update.
+add_action(
+    'edit_user_profile_update',
+    'wporg_usermeta_form_field_birthday_update'
+);</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:heading {"level":3} -->
+<h3>Programmatically</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>This option is suitable for cases where you're building a custom user area and/or plan to disable access to the WordPress admin area.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>The functions available for manipulating User Metadata are: <code><a href="/reference/functions/add_user_meta/">add_user_meta()</a></code>, <code><a href="/reference/functions/update_user_meta/">update_user_meta()</a></code>, <code><a href="/reference/functions/delete_user_meta/">delete_user_meta()</a></code> and <code><a href="/reference/functions/get_user_meta/">get_user_meta()</a></code>.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":4} -->
+<h4>Add</h4>
+<!-- /wp:heading -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">add_user_meta(
+    int $user_id,
+    string $meta_key,
+    mixed $meta_value,
+    bool $unique = false
+);</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p>Please refer to the Function Reference about <code><a href="/reference/functions/add_user_meta/">add_user_meta()</a></code> for full explanation about the used parameters.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":4} -->
+<h4>Update</h4>
+<!-- /wp:heading -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">update_user_meta(
+    int $user_id,
+    string $meta_key,
+    mixed $meta_value,
+    mixed $prev_value = ''
+);</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p>Please refer to the Function Reference about <code><a href="/reference/functions/update_user_meta/">update_user_meta()</a></code> for full explanation about the used parameters.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":4} -->
+<h4>Delete</h4>
+<!-- /wp:heading -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">delete_user_meta(
+    int $user_id,
+    string $meta_key,
+    mixed $meta_value = ''
+);</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p>Please refer to the Function Reference about <code><a href="/reference/functions/delete_user_meta/">delete_user_meta()</a></code> for full explanation about the used parameters.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":4} -->
+<h4>Get</h4>
+<!-- /wp:heading -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">get_user_meta(
+    int $user_id,
+    string $key = '',
+    bool $single = false
+);</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p>Please refer to the Function Reference about <code><a href="/reference/functions/get_user_meta/">get_user_meta()</a></code> for full explanation about the used parameters.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Please note, if you pass only the <code>$user_id</code>, the function will retrieve all Metadata as an associative array.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>You can render User Metadata anywhere in your plugin or theme.</p>
+<!-- /wp:paragraph -->

@@ -1,0 +1,939 @@
+https://developer.wordpress.org/apis/handbook/shortcode/
+
+<!-- wp:heading -->
+<h2>The Shortcode API</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>The <strong>Shortcode API</strong> is a simple set of functions for creating WordPress <a href="https://developer.wordpress.org/plugins/shortcodes/">shortcodes</a> for use in posts and pages. For instance, the following shortcode (in the body of a post or page) would add a photo gallery of images attached to that post or page: <code>[ gallery ]</code></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>The API enables plugin developers to create special kinds of content (e.g. forms, content generators) that users can attach to certain pages by adding the corresponding shortcode into the page text.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>The Shortcode API makes it easy to create shortcodes that support attributes like this:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">[ gallery id="123" size="medium" ]</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p>The API handles all the tricky parsing, eliminating the need for writing a custom regular expression for each shortcode. Helper functions are included for setting and fetching default attributes. The API supports both self-closing and enclosing shortcodes.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>As a quick start for those in a hurry, here's a minimal example of the PHP code required to create a shortcode:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">// [foobar]
+function wporg_foobar_func( $atts ) {
+	return "foo and bar";
+}
+add_shortcode( 'foobar', 'wporg_foobar_func' );</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p>This will create <code>[foobar]</code> shortcode that returns as: foo and bar</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>With attributes:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">// [bartag foo="foo-value"]
+function bartag_func( $atts ) {
+	$a = shortcode_atts( array(
+		'foo' =&gt; 'something',
+		'bar' =&gt; 'something else',
+	), $atts );
+
+	return "foo = {$a['foo']}";
+}
+add_shortcode( 'bartag', 'bartag_func' );</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p>This creates a <code>[bartag]</code> shortcode that supports two attributes: "foo" and "bar". Both attributes are optional and will take on default options <code>[foo="something" bar="something else"]</code> if they are not provided. The shortcode will return as <code>foo = {the value of the foo attribute}</code>.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2>History</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>The Shortcode API was introduced in WordPress 2.5.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2>Overview</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Shortcodes are written by providing a handler function. Shortcode handlers are broadly similar to WordPress filters: they accept parameters (attributes) and return a result (the shortcode output).</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Shortcode names should be all lowercase and use all letters, but numbers and underscores should work fine too. Be wary of&nbsp;using hyphens&nbsp;(dashes), you'll be better off not using them.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>The&nbsp;<code><a href="https://developer.wordpress.org/reference/functions/add_shortcode/">add_shortcode</a></code>&nbsp;function is used to register a shortcode handler. It takes two parameters: the shortcode name (the string used in a post body), and the callback function name.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Three parameters are passed to the shortcode callback function. You can choose to use any number of them including none of them.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:list -->
+<ul><li><code>$atts</code>: an associative array of attributes, or an empty string if no attributes are given</li><li><code>$content</code>: the enclosed content (if the shortcode is used in its enclosing form)</li><li><code>$tag</code>: the shortcode tag, useful for shared callback functions</li></ul>
+<!-- /wp:list -->
+
+<!-- wp:paragraph -->
+<p>The API call to register the shortcode handler would look something like this:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">add_shortcode( 'wporgshortcode', 'wporg_shortcode_handler' );</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p>When&nbsp;<a href="https://developer.wordpress.org/reference/functions/the_content/">the_content</a>&nbsp;is displayed, the shortcode API will parse any registered shortcodes such as <code>[myshortcode]</code>, separate and parse the attributes and content, if any, and pass them the corresponding shortcode handler function. Any string&nbsp;<em>returned</em>&nbsp;(not echoed) by the shortcode handler will be inserted into the post body in place of the shortcode itself.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Shortcode attributes are entered like this:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><code>[wporgshortcode foo="bar" bar="bing"]</code></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>These attributes will be converted into an associative array like the following, passed to the handler function as its&nbsp;<code>$atts</code>&nbsp;parameter:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code -->
+<pre class="wp-block-syntaxhighlighter-code">array( 'foo' =&gt; 'bar', 'bar' =&gt; 'bing' )</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p>The array keys are the attribute names; array values are the corresponding attribute values. In addition, the zeroeth entry (<code>$atts[0]</code>) will hold the string that matched the shortcode regex, but ONLY IF that is different from the callback name.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3>Handling Attributes</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>The raw <code>$atts</code> array may include any arbitrary attributes that are specified by the user. (In addition, the zeroeth entry of the array may contain the string that was recognized by the regex; see the note below.)</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>In order to help set default values for missing attributes, and eliminate any attributes that are not recognized by your shortcode, the API provides a shortcode_atts() function.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><code><a href="https://developer.wordpress.org/reference/functions/shortcode_atts/">shortcode_atts()</a></code>&nbsp;resembles the&nbsp;<code><a href="https://developer.wordpress.org/reference/functions/wp_parse_args/">wp_parse_args</a></code>&nbsp;function, but has some important differences. Its parameters are:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">shortcode_atts( $defaults_array, $atts );</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p>Both parameters are required.&nbsp;<code>$defaults_array</code>&nbsp;is an associative array that specifies the recognized attribute names and their default values.&nbsp;<code>$atts</code>&nbsp;is the raw attributes array as passed into your shortcode handler.&nbsp;<code>shortcode_atts()</code>&nbsp;will return a normalized array containing all of the keys from the&nbsp;<code>$defaults_array</code>, filled in with values from the&nbsp;<code>$atts</code>&nbsp;array if present. For example:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">$a = shortcode_atts( array(
+	'title' =&gt; 'My Title',
+	'foo' =&gt; 123,
+), $atts );</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p>If&nbsp;<code>$atts</code>&nbsp;were to contain&nbsp;<code>array( 'foo' =&gt; 456, 'bar' =&gt; 'something' )</code>, the resulting&nbsp;<code>$a</code>&nbsp;would be&nbsp;<code>array( 'title' =&gt; 'My Title', 'foo' =&gt; 456 )</code>. The value of&nbsp;<code>$atts['foo']</code>&nbsp;overrides the default of 123.&nbsp;<code>$atts['title']</code>&nbsp;is not set, so the default 'My Title' is used. There is no 'bar' item in the defaults array, so it is not included in the result.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Attribute names are always converted to lowercase before they are passed into the handler function. Values are untouched.<code>[myshortcode FOO="BAR"]</code>&nbsp;produces&nbsp;<code>$atts = array( 'foo' =&gt; 'BAR' )</code>.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>A suggested code idiom for declaring defaults and parsing attributes in a shortcode handler is as follows:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code -->
+<pre class="wp-block-syntaxhighlighter-code">function wporg_shortcode_handler( $atts, $content = null ) {
+	$a = shortcode_atts( array(
+		'attr_1' =&gt; 'attribute 1 default',
+		'attr_2' =&gt; 'attribute 2 default',
+		// ...etc
+	), $atts );
+}</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p>This will parse the attributes, set default values, eliminate any unsupported attributes, and store the results in a local array variable named&nbsp;<code>$a</code>&nbsp;with the attributes as keys -&nbsp;<code>$a['attr_1']</code>,&nbsp;<code>$a['attr_2']</code>, and so on. In other words, the array of defaults approximates a list of local variable declarations.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>IMPORTANT - Don't use camelCase or UPPER-CASE for your&nbsp;<code>$atts</code>&nbsp;attribute names</strong>:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><code>$atts</code>&nbsp;values are&nbsp;<em><strong>lower-cased</strong></em>&nbsp;during&nbsp;<code>shortcode_atts( array( 'attr_1' =&gt; 'attr_1 default', // ...etc ), $atts )</code>&nbsp;processing, so you might want to&nbsp;<em>just use lower-case</em>.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>NOTE on confusing regex/callback name reference:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>The zeroeth entry of the attributes array (<strong><code>$atts[0]</code></strong>) will contain the string that matched the shortcode regex, but ONLY if that differs from the callback name, which otherwise appears as the third argument to the callback function.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">add_shortcode('foo','foo'); // two shortcodes referencing the same callback
+ add_shortcode('bar','foo');
+    produces this behavior:
+ [foo a='b'] ==&gt; callback to: foo(array('a'=&gt;'b'),NULL,"foo");
+ [bar a='c'] ==&gt; callback to: foo(array(0 =&gt; 'bar', 'a'=&gt;'c'),NULL,"");</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p>This is confusing and perhaps reflects an underlying bug, but an overloaded callback routine can correctly determine what shortcode was used to call it, by checking BOTH the third argument to the callback and the zeroeth attribute. (It is NOT an error to have two shortcodes reference the same callback routine, which allows for common code.)</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3>Output</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>The return value of a shortcode handler function is inserted into the post content output in place of the shortcode macro.&nbsp;<strong>Remember to use return and not echo - anything that is echoed will be output to the browser, but it won't appear in the correct place on the page</strong>.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Shortcodes are parsed after&nbsp;<a href="https://developer.wordpress.org/reference/functions/wpautop/">wpautop</a>&nbsp;and&nbsp;<a href="https://developer.wordpress.org/reference/functions/wptexturize/">wptexturize</a>&nbsp;post formatting has been applied. This means that your shortcode output HTML won't automatically have curly quotes applied, p and br tags added, and so on. If you do want your shortcode output to be formatted, you should call <code>wpautop()</code> or <code>wptexturize()</code> directly when you return the output from your shortcode handler.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>wpautop recognizes shortcode syntax and will attempt not to wrap p or br tags around shortcodes that stand alone on a line by themselves. Shortcodes intended for use in this manner should ensure that the output is wrapped in an appropriate block tag such as <code>&lt;p&gt;</code> or <code>&lt;div&gt;</code>.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>If the shortcode produces a lot of HTML then <code>ob_start</code> can be used to capture output and convert it to a string as follows:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code -->
+<pre class="wp-block-syntaxhighlighter-code">function wporg_shortcode() {
+	ob_start();
+	?&gt; &lt;HTML&gt; &lt;here&gt; ... &lt;?php
+	return ob_get_clean();
+}</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:heading {"level":3} -->
+<h3>Enclosing vs self-closing shortcodes</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>The examples above show self-closing shortcode macros such as <code>[myshortcode]</code>. The API also supports enclosing shortcodes such as <code>[myshortcode]content[/myshortcode]</code>.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>If a shortcode macro is used to enclose content, its handler function will receive a second parameter containing that content. Users might write shortcodes in either form, so it is necessary to allow for either case by providing a default value for the second parameter to your handler function:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">function wporg_shortcode_handler( $atts, $content = null )</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p><code>empty( $content )</code> can be used to distinguish between the self-closing and enclosing cases.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>When content is enclosed, the complete shortcode macro including its content will be replaced with the function output. It is the responsibility of the handler function to provide any necessary escaping or encoding of the raw content string, and include it in the output.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Here's a trivial example of an enclosing shortcode:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code -->
+<pre class="wp-block-syntaxhighlighter-code">function wporg_caption_shortcode( $atts, $content = null ) {
+	return '&lt;span class="caption"&gt;' . $content . '&lt;/span&gt;';
+}
+add_shortcode( 'caption', 'wporg_caption_shortcode' );</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p>When used like this:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">[caption]My Caption[/caption]</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p>The output would be:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">&lt;span class="caption"&gt;My Caption&lt;/span&gt;</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p>Since <code>$content</code> is included in the return value without any escaping or encoding, the user can include raw HTML:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">[caption]&lt;a href="http://example.com/"&gt;My Caption&lt;/a&gt;[/caption]</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p>Which would produce:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">&lt;span class="caption"&gt;&lt;a href="http://example.com/"&gt;My Caption&lt;/a&gt;&lt;/span&gt;</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p>This may or may not be intended behaviour - if the shortcode should not permit raw HTML in its output, it should use an escaping or filtering function to deal with it before returning the result.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>The shortcode parser uses a single pass on the post content. This means that if the <code>$content</code> parameter of a shortcode handler contains another shortcode, it won't be parsed:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">[caption]Caption: [myshortcode][/caption]</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p>This would produce:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">&lt;span class="caption"&gt;Caption: [myshortcode]&lt;/span&gt;</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p>If the enclosing shortcode is intended to permit other shortcodes in its output, the handler function can call&nbsp;<a href="https://developer.wordpress.org/reference/functions/do_shortcode/">do_shortcode()</a>&nbsp;recursively:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">function wporg_caption_shortcode( $atts, $content = null ) {
+    return '&lt;span class="caption"&gt;' . do_shortcode($content) . '&lt;/span&gt;';
+}</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p>In the previous example, this would ensure the <code>[myshortcode]</code> macro in the enclosed content is parsed, and its output enclosed by the caption span:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">&lt;span class="caption"&gt;Caption: The result of myshortcode's handler function&lt;/span&gt;</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p>The parser does not handle mixing of enclosing and non-enclosing forms of the same shortcode as you would want it to. For example, if you have:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">[myshortcode example='non-enclosing' /] non-enclosed content [myshortcode] enclosed content [/myshortcode]</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p>Instead of being treated as two shortcodes separated by the text " non-enclosed content ", the parser treats this as a single shortcode enclosing " non-enclosed content <code>[myshortcode]</code> enclosed content".</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Enclosing shortcodes support attributes in the same way as self-closing shortcodes. Here's an example of the <code>caption_shortcode()</code> improved to support a 'class' attribute:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">function wporg_caption_shortcode( $atts, $content = null ) {
+	$a = shortcode_atts( array(
+		'class' =&gt; 'caption',
+	), $atts );
+
+	return '&lt;span class="' . esc_attr($a['class']) . '"&gt;' . $content . '&lt;/span&gt;';
+}</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">[caption class="headline"]My Caption[/caption]</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">&lt;span class="headline"&gt;My Caption&lt;/span&gt;</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:heading {"level":3} -->
+<h3>Other features in brief</h3>
+<!-- /wp:heading -->
+
+<!-- wp:list -->
+<ul><li>The parser supports xhtml-style closing shortcodes like <code>[myshortcode /]</code>, but this is optional.</li><li>Shortcode macros may use single or double quotes for attribute values, or omit them entirely if the attribute value does not contain spaces. <code>[myshortcode foo='123' bar=456]</code> is equivalent to <code>[myshortcode foo="123" bar="456"]</code>. Note the attribute value in the last position may not end with a forward slash because the feature in the paragraph above will consume that slash.</li><li>For backwards compatibility with older ad-hoc shortcodes, attribute names may be omitted. If an attribute has no name it will be given a positional numeric key in the <code>$atts</code> array. For example, <code>[myshortcode 123]</code> will produce <code>$atts = array( 0 =&gt; 123 )</code>. Positional attributes may be mixed with named ones, and quotes may be used if the values contain spaces or other significant characters.</li><li>The shortcode API has test cases. The tests -- which contain a number of examples of error cases and unusual syntax -- can be found at&nbsp;<a href="http://svn.automattic.com/wordpress-tests/trunk/tests/shortcode.php">http://svn.automattic.com/wordpress-tests/trunk/tests/shortcode.php</a></li></ul>
+<!-- /wp:list -->
+
+<!-- wp:heading {"level":3} -->
+<h3>Function reference</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>The following Shortcode API functions are available:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">function add_shortcode( $tag, $func )</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p>Registers a new shortcode handler function. <code>$tag</code> is the shortcode string as written by the user (without braces), such as "myshortcode". $func is the handler function name.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Only one handler function may exist for a given shortcode. Calling <code>add_shortcode()</code> again with the same $tag name will overwrite the previous handler.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">function remove_shortcode( $tag )</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p>Deregisters an existing shortcode. <code>$tag</code> is the shortcode name as used in <code>add_shortcode()</code>.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">function remove_all_shortcodes()</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p>Deregisters all shortcodes.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">function shortcode_atts( $pairs, $atts )</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p>Process a raw array of attributes <code>$atts</code> against the set of defaults specified in <code>$pairs</code>. Returns an array. The result will contain every key from <code>$pairs</code>, merged with values from <code>$atts</code>. Any keys in <code>$atts</code> that do not exist in $pairs are ignored.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">function do_shortcode( $content )</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p>Parse any known shortcode macros in the <code>$content</code> string. Returns a string containing the original content with shortcode macros replaced by their handler functions output.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><a href="https://developer.wordpress.org/reference/functions/do_shortcode/">do_shortcode()</a>&nbsp;is registered as a default filter on 'the_content' with a priority of 11.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3>Limitations</h3>
+<!-- /wp:heading -->
+
+<!-- wp:heading {"level":4} -->
+<h4>Nested Shortcodes</h4>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>The shortcode parser correctly deals with nested shortcode macros, provided their handler functions support it by recursively calling&nbsp;<a href="https://developer.wordpress.org/reference/functions/do_shortcode/">do_shortcode()</a>:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">[tag-a]
+   [tag-b]
+      [tag-c]
+   [/tag-b]
+[/tag-a]</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p>However the parser will fail if a shortcode macro is used to enclose another macro of the same name:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">[tag-a]
+   [tag-a]
+   [/tag-a]
+[/tag-a]</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p>This is a limitation of the context-free regexp parser used by&nbsp;<code>do_shortcode()</code>&nbsp;- it is very fast but does not count levels of nesting, so it can't match each opening tag with its correct closing tag in these cases.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>In future versions of WordPress, it may be necessary for plugins having a nested shortcode syntax to ensure that the <code>wptexturize()</code> processor does not interfere with the inner codes. It is recommended that for such complex syntax, the&nbsp;<a href="https://developer.wordpress.org/reference/hooks/no_texturize_shortcodes/">no_texturize_shortcodes</a>&nbsp;filter should be used on the outer tags. In the examples used here, tag-a should be added to the list of shortcodes to not texturize. If the contents of tag-a or tag-b still need to be texturized, then you can call&nbsp;<code>wptexturize()</code>&nbsp;before calling&nbsp;<code>do_shortcode()</code>&nbsp;as described above.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":4} -->
+<h4>Unregistered Names</h4>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Some plugin authors have chosen a strategy of not registering shortcode names, for example to disable a nested shortcode until the parent shortcode's handler function is called. This may have unintended consequences, such as failure to parse shortcode attribute values. For example:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">[tag-a unit="north"]
+   [tag-b size="24"]
+      [tag-c color="red"]
+   [/tag-b]
+[/tag-a]</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p>Starting with version 4.0.1, if a plugin fails to register tag-b and tag-c as valid shortcodes, the <code>wptexturize()</code> processor will output the following text prior to any shortcode being parsed:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">[tag-a unit="north"]
+   [tag-b size=”24”]
+      [tag-c color=”red”]
+   [/tag-b]
+[/tag-a]</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p>Unregistered shortcodes should be considered normal plain text that have no special meaning, and the practice of using unregistered shortcodes is discouraged. If you must enclose raw code between shortcode tags, at least consider using the&nbsp;<a href="https://developer.wordpress.org/reference/hooks/no_texturize_shortcodes/">no_texturize_shortcodes</a> filter to prevent texturization of the contents of tag-a:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">add_shortcode( 'tag-a', 'wporg_tag_a_handler' );
+add_filter( 'no_texturize_shortcodes', 'wporg_ignore_tag_a' );
+
+function wporg_ignore_tag_a( $list ) {
+  $list[] = 'tag-a';
+  return $list;
+}</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:heading {"level":4} -->
+<h4>Unclosed Shortcodes</h4>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>In certain cases the shortcode parser cannot correctly deal with the use of both closed and unclosed shortcodes. For instance in this case the parser will only correctly identify the second instance of the shortcode:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">[tag]
+[tag]
+   CONTENT
+[/tag]</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p>However in this case the parser will identify both:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">[tag]
+   CONTENT
+[/tag]
+[tag]</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:heading {"level":4} -->
+<h4>Hyphens</h4>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Take caution when using hyphens in the name of your shortcodes. In the following instance WordPress may see the second opening shortcode as equivalent to the first (basically WordPress sees the first part before the hyphen):</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">[tag]
+[tag-a]</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p>It all depends on which shortcode is defined first. If you are going to use hyphens then define the shortest shortcode first.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>To avoid this, use an underscore or simply no separator:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">[tag]
+[tag_a]
+
+[tag]
+[taga]</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p>If the first part of the shortcode is different from one another, you can get away with using hyphens:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">[tag]
+[tagfoo-a]</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p><strong>Important:</strong>&nbsp;Using hyphens can have implications that you may not be aware of; such as if other installed shortcodes also are use hyphens, the use of generic words with hyphens may cause collisions (if shortcodes are used together within the same request):</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">// plugin-A
+[is-logged-in]
+
+// plugin-B
+[is-admin]</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:heading {"level":4} -->
+<h4>Square Brackets</h4>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>The shortcode parser does not accept square brackets within attributes. Thus the following will fail:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">[tag attribute="[Some value]"]</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p>Tags surrounded by cosmetic brackets are not yet fully supported by wptexturize() or its filters. These codes may give unexpected results:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">[I put random text near my captions. [caption]]</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p><strong>Note:</strong>&nbsp;these limitations may change in future versions of WordPress, you should test to be absolutely sure.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":4} -->
+<h4>HTML</h4>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Starting with version 3.9.3, use of HTML is limited inside shortcode attributes. For example, this shortcode will not work correctly because it contains a <code>&gt;</code> character:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">[tag value1="35" value2="25" compare="&gt;"]</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p>Version 4.0 is designed to allow validated HTML, so this will work:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">[tag description="&lt;b&gt;Greetings&lt;/b&gt;"]</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p>The suggested workaround for HTML limitations is to use HTML encoding for all user input, and then add HTML decoding in the custom shortcode handler. Extra API functions are planned.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Full usage of HTML in shortcode attributes was never officially supported, and this will not be expanded in future versions.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Starting with version 4.2.3, similar limitations were placed on use of shortcodes inside HTML. For example, this shortcode will not work correctly because it is nested inside a scripting attribute:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">&lt;a onclick="[tag]"&gt;</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p>The suggested workaround for dynamic attributes is to design a shortcode that outputs all needed HTML rather than just a single value. This will work better:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">[link onclick="tag"]</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p>Also notice the following shortcode is no longer allowed because of incorrect attribute quoting:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">&lt;a title="[tag attr="id"]"&gt;</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p>The only way to parse this as valid HTML is to use single quotes and double quotes in a nested manner:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">&lt;a title="[tag attr='id']"&gt;</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:heading {"level":4} -->
+<h4>Registration Count</h4>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>The API is known to become unstable when registering hundreds of shortcodes. Plugin authors should create solutions that rely on only a small number of shortcodes names. This limitation might change in future versions.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3>Formal Syntax</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>WordPress shortcodes do not use special characters in the same way as HTML. The square braces may seem magical at first glance, but they are not truly part of any language. For example:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">[gallery]</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p>The gallery shortcode is parsed by the API as a special symbol because it is a registered shortcode. On the other hand, square braces are simply ignored when a shortcode is not registered:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">[randomthing]</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p>The randomthing symbol and its square braces are ignored because they are not part of any registered shortcode.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>In a perfect world, any <code>[*]</code> symbol could be handled by the API, but we have to consider the following challenges: Square braces are allowed in HTML and are not always shortcodes, angle braces are allowed inside of shortcodes only in limited situations, and all of this code must run through multiple layers of customizeable filters and parsers before output. Because of these language compatibility issues, square braces can't be magical.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>The shortcode syntax uses these general parts:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">[name attributes close]</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">[name attributes]Any HTML or shortcode may go here.[/name]</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p>Escaped shortcodes are identical but have exactly two extra braces:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">[[name attributes close]]</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">[[name attributes]Any HTML or shortcode may go here.[/name]]</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p>Again, the shortcode name must be registered, otherwise all four examples would be ignored.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":4} -->
+<h4>Names</h4>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Shortcode names must never contain the following characters:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:list -->
+<ul><li>Square braces: <code>[ ]</code></li><li>Angle braces: <code>&lt; &gt;</code></li><li>Ampersand: <code>&amp;</code></li><li>Forward slash: <code>/</code></li><li>Whitespace: space linefeed tab</li><li>Non-printing characters: <code>\x00</code> - <code>\x20</code></li></ul>
+<!-- /wp:list -->
+
+<!-- wp:paragraph -->
+<p>It is recommended to also avoid quotes in the names of shortcodes.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":4} -->
+<h4>Attributes</h4>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Attributes are optional. A space is required between the shortcode name and the shortcode attributes. When more than one attribute is used, each attribute must be separated by at least one space.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Each attribute should conform to one of these formats:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">attribute_name = 'value'</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">attribute_name = "value"</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">attribute_name = value</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">"value"</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">value</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p>Attribute names are optional and should contain only the following characters for compatibility across all platforms:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:list -->
+<ul><li>Upper-case and lower-case letters: <code>A-Z</code> <code>a-z</code></li><li>Digits: <code>0-9</code></li><li>Underscore: <code>_</code></li><li>Hyphen: <code>-</code> </li></ul>
+<!-- /wp:list -->
+
+<!-- wp:paragraph -->
+<p>Spaces are not allowed in attribute names. Optional spaces may be used between the name and the <code>=</code> sign. Optional spaces may also be used between the <code>=</code> sign and the value.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>It should be noted that even though attributes can be used with mixed case in the editor, they will always be lowercase after parsing.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Attribute values must never contain the following characters:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:list -->
+<ul><li>Square braces: <code>[ ]</code></li><li>Quotes: <code>"</code>, <code>'</code></li></ul>
+<!-- /wp:list -->
+
+<!-- wp:paragraph -->
+<p>Unquoted values also must never contain spaces.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>HTML characters <code>&lt;</code> and <code>&gt;</code> have only limited support in attributes.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>The recommended method of escaping special characters in shortcode attributes is HTML encoding. Most importantly, any user input appearing in a shortcode attribute must be escaped or stripped of special characters.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Note that double quotes are allowed inside of single-quoted values and vice versa, however this is not recommended when dealing with user input.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>The following characters, if they are not escaped within an attribute value, will be automatically stripped and converted to spaces:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:list -->
+<ul><li>No-break space: <code>\xC2\xA0</code></li><li>Zero-width space: <code>\xE2\x80\x8B</code></li></ul>
+<!-- /wp:list -->
+
+<!-- wp:heading {"level":4} -->
+<h4>Self-Closing</h4>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>The self-closing marker, a single forward slash, is optional. Space before the marker is optional. Spaces are not allowed after the marker.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">[example /]</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p>The self-closing marker is purely cosmetic and has no effect except that it will force the shortcode parser to ignore any closing tag that follows it.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>The enclosing type shortcodes may not use a self-closing marker.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":4} -->
+<h4>Escaping</h4>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>WordPress attempts to insert curly quotes between the <code>[name]</code> and <code>[/name]</code> tags. It will process that content just like any other. As of 4.0.1, unregistered shortcodes are also "texturized" and this may give unexpected curly quotes:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">[randomthing param="test"]</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p>A better example would be:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">&lt;code&gt;[randomthing param="test"]&lt;/code&gt;</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p>The <code>&lt;code&gt;</code> element is always avoided for the sake of curly quotes.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Registered shortcodes are still processed inside of <code>&lt;code&gt;</code> elements. To escape a registered shortcode for display on your website, the syntax becomes:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">[[caption param="test"]]</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p>which will output:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">[caption param="test"]</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p>The <code>&lt;code&gt;</code> element is optional in that situation.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>For enclosing shortcodes, use the following syntax:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">[[caption]My Caption[/caption]]</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:heading -->
+<h2>External Resources</h2>
+<!-- /wp:heading -->
+
+<!-- wp:list -->
+<ul><li><a href="http://generatewp.com/shortcodes/">WordPress Shortcodes Generator</a></li><li><a href="https://www.nimbusthemes.com/add-shortcode-wordpress-snippet-generator/">Add Shortcode – WordPress Code Snippet Generator</a>&nbsp;- A snippet generator and full documentation about how to add the code to a WordPress website.</li><li><a href="http://ran.ge/2008/04/15/wordpress-25-shortcodes/">Shortcode summary by Aaron D. Campbell</a>&nbsp;- Explains shortcodes and gives examples including how to incorporate shortcodes into a meta box for sending them to the editor using js.</li><li><a href="http://wordpress.org/extend/plugins/iblocks/">Innovative WordPress Shortcodes In Action</a>&nbsp;- a WordPress plugin that shows you how to effectively use shortcodes to change your post content designs.</li><li><a href="http://planetozh.com/blog/2008/03/wordpress-25-shortcodes-api-overview/">WordPress Shortcode API Overview</a>&nbsp;- explanations on usage and example of plugin using shortcodes.</li><li><a href="http://wordpress.org/extend/plugins/bbcode/">Simple shortcode-powered BBCode plugin</a>&nbsp;- a simple plugin that adds support for BBCode via shortcode. A good way to see shortcodes in action.</li></ul>
+<!-- /wp:list -->
+
+<!-- wp:heading -->
+<h2>Default Shortcodes</h2>
+<!-- /wp:heading -->
+
+<!-- wp:list -->
+<ul><li><code><a href="https://developer.wordpress.org/reference/hooks/wp_audio_shortcode/">[ audio ]</a></code></li><li><code>[ wp_caption ]</code></li><li><code>[ caption ]</code></li><li><code><a href="https://developer.wordpress.org/reference/classes/wp_embed/shortcode/">[ embed ]</a></code></li><li><code><a href="https://developer.wordpress.org/reference/functions/gallery_shortcode/">[ gallery ]</a></code></li><li><code><a href="https://developer.wordpress.org/reference/hooks/wp_video_shortcode/">[ video ]</a></code></li><li><code><a href="https://developer.wordpress.org/reference/functions/wp_playlist_shortcode/">[ playlist ]</a></code></li></ul>
+<!-- /wp:list -->
+
+<!-- wp:heading -->
+<h2>Shortcode API functions list</h2>
+<!-- /wp:heading -->
+
+<!-- wp:list -->
+<ul><li>Function:&nbsp;<a href="https://developer.wordpress.org/reference/functions/do_shortcode/">do_shortcode()</a></li><li>Function:&nbsp;<a href="https://developer.wordpress.org/reference/functions/add_shortcode/">add_shortcode()</a></li><li>Function:&nbsp;<a href="https://developer.wordpress.org/reference/functions/remove_shortcode/">remove_shortcode()</a></li><li>Function:&nbsp;<a href="https://developer.wordpress.org/reference/functions/remove_all_shortcodes/">remove_all_shortcodes()</a></li><li>Function:&nbsp;<a href="https://developer.wordpress.org/reference/functions/shortcode_atts/">shortcode_atts()</a></li><li>Function:&nbsp;<a href="https://developer.wordpress.org/reference/functions/strip_shortcodes/">strip_shortcodes()</a></li><li>Function:&nbsp;<a href="https://developer.wordpress.org/reference/functions/shortcode_exists/">shortcode_exists()</a></li><li>Function:&nbsp;<a href="https://developer.wordpress.org/reference/functions/has_shortcode/">has_shortcode()</a></li><li>Function:&nbsp;<a href="https://developer.wordpress.org/reference/functions/get_shortcode_regex/">get_shortcode_regex()</a></li><li>Function:&nbsp;<a href="https://developer.wordpress.org/reference/functions/wp_audio_shortcode/">wp_audio_shortcode()</a></li><li>Function:&nbsp;<a href="https://developer.wordpress.org/reference/functions/wp_video_shortcode/">wp_video_shortcode()</a></li><li>Filter:&nbsp;<a href="https://developer.wordpress.org/reference/hooks/no_texturize_shortcodes/">no_texturize_shortcodes</a></li></ul>
+<!-- /wp:list -->

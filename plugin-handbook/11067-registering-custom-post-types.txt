@@ -1,0 +1,159 @@
+https://developer.wordpress.org/plugins/post-types/registering-custom-post-types/
+
+<!-- wp:paragraph -->
+<p>WordPress comes with five default post types: <code>post</code>, <code>page</code>, <code>attachment</code>, <code>revision</code>, and <code>menu</code>.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>While developing your plugin, you may need to create your own specific content type: for example, products for an e-commerce website, assignments for an e-learning website, or movies for a review website.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Using Custom Post Types, you can register your own post type. Once a custom post type is registered, it gets a new top-level administrative screen that can be used to manage and create posts of that type.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>To register a new post type, you use the register_post_type() function.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:shortcode -->
+[alert]
+We recommend that you put custom post types in a plugin rather than a theme. This ensures that user content remains portable even if the theme is changed.
+[/alert]
+<!-- /wp:shortcode -->
+
+<!-- wp:paragraph -->
+<p>The following minimal example registers a new post type, Products, which is identified in the database as <code>wporg_product</code>.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php","makeURLsClickable":false} -->
+<pre class="wp-block-syntaxhighlighter-code">function wporg_custom_post_type() {
+	register_post_type('wporg_product',
+		array(
+			'labels'      =&gt; array(
+				'name'          =&gt; __('Products', 'textdomain'),
+				'singular_name' =&gt; __('Product', 'textdomain'),
+			),
+				'public'      =&gt; true,
+				'has_archive' =&gt; true,
+		)
+	);
+}
+add_action('init', 'wporg_custom_post_type');
+</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p>Please visit the reference page for register_post_type() for the description of arguments.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:shortcode -->
+[warning]
+You must call <code>register_post_type()</code> before the <code><a href="http://developer.wordpress.org/reference/hooks/admin_init/">admin_init</a></code> hook and after the <code><a href="http://developer.wordpress.org/reference/hooks/after_setup_theme/">after_setup_theme</a></code> hook. A good hook to use is the <code><a href="http://developer.wordpress.org/reference/hooks/init/">init</a></code> action hook.
+[/warning]
+<!-- /wp:shortcode -->
+
+<!-- wp:heading -->
+<h2>Naming Best Practices</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>It is important that you prefix your post type functions and identifiers with a short prefix that corresponds to your plugin, theme, or website.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:shortcode -->
+[warning]
+<strong>Make sure your custom post type identifier does not exceed 20 characters</strong> as the <code>post_type</code> column in the database is currently a VARCHAR field of that length.
+[/warning]
+<!-- /wp:shortcode -->
+
+<!-- wp:shortcode -->
+[warning]
+<strong>To ensure forward compatibility</strong>, do not use <strong>wp_</strong> as your identifier — it is being used by WordPress core.
+[/warning]
+<!-- /wp:shortcode -->
+
+<!-- wp:shortcode -->
+[warning]
+If your identifier is too generic (for example: "<code>product</code>"), it may conflict with other plugins or themes that have chosen to use that same identifier.
+[/warning]
+<!-- /wp:shortcode -->
+
+<!-- wp:shortcode -->
+[info]
+<strong>Solving duplicate post type identifiers is not possible without disabling one of the conflicting post types.</strong>
+
+[/info]
+<!-- /wp:shortcode -->
+
+<!-- wp:heading -->
+<h2>URLs</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>A custom post type gets its own slug within the site URL structure.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>A post of type <code>wporg_product</code> will use the following URL structure by default: <code>http://example.com/wporg_product/%product_name%</code>.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><code>wporg_product</code> is the slug of your custom post type and <code>%product_name%</code> is the slug of your particular product.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>The final permalink would be: <code>http://example.com/wporg_product/wporg-is-awesome</code>.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>You can see the permalink on the edit screen for your custom post type, just like with default post types.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3>A Custom Slug for a Custom Post Type</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>To set a custom slug for the slug of your custom post type all you need to do is add a key =&gt; value pair to the <code>rewrite</code> key in the <code>register_post_type()</code> arguments array.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Example:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php","makeURLsClickable":false} -->
+<pre class="wp-block-syntaxhighlighter-code">function wporg_custom_post_type() {
+	register_post_type('wporg_product',
+		array(
+			'labels'      =&gt; array(
+				'name'          =&gt; __( 'Products', 'textdomain' ),
+				'singular_name' =&gt; __( 'Product', 'textdomain' ),
+			),
+			'public'      =&gt; true,
+			'has_archive' =&gt; true,
+			'rewrite'     =&gt; array( 'slug' =&gt; 'products' ), // my custom slug
+		)
+	);
+}
+add_action('init', 'wporg_custom_post_type');
+</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p>The above will result in the following URL structure: <code>http://example.com/products/%product_name%</code></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:shortcode -->
+[warning]
+Using a generic slug like <code>products</code> can potentially conflict with other plugins or themes, so try to use one that is more specific to your content.
+[/warning]
+<!-- /wp:shortcode -->
+
+<!-- wp:shortcode -->
+[info]
+Unlike the custom post type identifiers, the duplicate slug problem can be solved easily by changing the slug for one of the conflicting post types.
+
+If the plugin author included an <code>apply_filters()</code> call on the arguments, this can be done programmatically by overriding the arguments submitted via the <code>register_post_type()</code> function.
+[/info]
+<!-- /wp:shortcode -->

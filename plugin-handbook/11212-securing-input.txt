@@ -1,0 +1,62 @@
+https://developer.wordpress.org/plugins/security/securing-input/
+
+<!-- wp:paragraph -->
+<p>Securing input is the process of <em>sanitizing</em> (cleaning, filtering) input data.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>You use sanitizing when you don't know what to expect or you don't want to be strict with <a href="https://developer.wordpress.org/plugins/security/data-validation/">data validation</a>.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Any time you're accepting potentially unsafe data, it is important to validate or sanitize it.</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Remember: Even admins are users, and users will enter incorrect data on purpose or on accident. It's your job to protect them from themselves.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 id="sanitizing-the-data">Sanitizing the Data</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>The easiest way to sanitize data is with built-in WordPress functions.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>The <code>sanitize_*()</code> series of helper functions are super nice, as they ensure you're ending up with safe data, and they require minimal effort on your part:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:list -->
+<ul><li>sanitize_email()</li><li>sanitize_file_name()</li><li>sanitize_hex_color()</li><li>sanitize_hex_color_no_hash()</li><li>sanitize_html_class()</li><li>sanitize_key()</li><li>sanitize_meta()</li><li>sanitize_mime_type()</li><li>sanitize_option()</li><li>sanitize_sql_orderby()</li><li>sanitize_text_field()</li><li>sanitize_textarea_field()</li><li>sanitize_title()</li><li>sanitize_title_for_query()</li><li>sanitize_title_with_dashes()</li><li>sanitize_user()</li><li>sanitize_url()</li><li>wp_kses()</li><li>wp_kses_post()</li></ul>
+<!-- /wp:list -->
+
+<!-- wp:heading -->
+<h2 id="example">Example</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Let's say we have an input field named title.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"xml"} -->
+<pre class="wp-block-syntaxhighlighter-code">&lt;input id="title" type="text" name="title"&gt;</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p>You can sanitize the input data with the sanitize_text_field() function:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">$title = sanitize_text_field( $_POST['title'] );
+update_post_meta( $post-&gt;ID, 'title', $title );</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p>Behind the scenes, <code>sanitize_text_field()</code> does the following:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:list -->
+<ul><li>Checks for invalid UTF-8</li><li>Converts single less-than characters (&lt;) to entity</li><li>Strips all tags</li><li>Removes line breaks, tabs and extra white space</li><li>Strips octets</li></ul>
+<!-- /wp:list -->

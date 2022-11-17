@@ -1,0 +1,81 @@
+https://developer.wordpress.org/plugins/post-types/working-with-custom-post-types/
+
+<!-- wp:heading -->
+<h2>Custom Post Type Templates</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>You can create custom <a href="http://make.wordpress.org/docs/theme-developer-handbook/theme-basics/theme-files/">templates</a> for your custom post types. In the same way posts and their archives can be displayed using <code>single.php</code> and <code>archive.php</code>, you can create the templates:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:list -->
+<ul><li><code>single-{post_type}.php</code> - for single posts of a custom post type</li><li><code>archive-{post_type}.php</code> - for the archive</li></ul>
+<!-- /wp:list -->
+
+<!-- wp:paragraph -->
+<p>Where <code>{post_type}</code> is the post type identifier, used as the <code>$post_type</code> argument of the <code>register_post_type()</code> function.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Building upon what we've learned previously, you could create <code>single-wporg_product.php</code> and <code>archive-wporg_product.php</code> template files for single product posts and the archive.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Alternatively, you can use the is_post_type_archive() function in any template file to check if the query shows an archive page of a given post type, and the post_type_archive_title()&nbsp;function to display the post type title.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2>Querying by Post Type</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>You can query posts of a specific type by passing the <code>post_type</code> key in the arguments array of the <code>WP_Query</code> class constructor.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php","makeURLsClickable":false} -->
+<pre class="wp-block-syntaxhighlighter-code">&lt;?php
+$args = array(
+	'post_type'      =&gt; 'product',
+	'posts_per_page' =&gt; 10,
+);
+$loop = new WP_Query($args);
+while ( $loop-&gt;have_posts() ) {
+	$loop-&gt;the_post();
+	?&gt;
+	&lt;div class="entry-content"&gt;
+		&lt;?php the_title(); ?&gt;
+		&lt;?php the_content(); ?&gt;
+	&lt;/div&gt;
+	&lt;?php
+}</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p>This loops through the latest ten product posts and displays the title and content of them one by one.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2>Altering the Main Query</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Registering a custom post type does not mean it gets added to the main query automatically.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>If you want your custom post type posts to show up on standard archives or include them on your home page mixed up with other post types, use the <code><a href="http://developer.wordpress.org/reference/hooks/pre_get_posts/">pre_get_posts</a></code> action hook.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>The next example will show posts from <code>post</code>, <code>page</code> and <code>movie</code> post types on the home page:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">function wporg_add_custom_post_types($query) {
+	if ( is_home() &amp;&amp; $query-&gt;is_main_query() ) {
+		$query-&gt;set( 'post_type', array( 'post', 'page', 'movie' ) );
+	}
+	return $query;
+}
+add_action('pre_get_posts', 'wporg_add_custom_post_types');</pre>
+<!-- /wp:syntaxhighlighter/code -->

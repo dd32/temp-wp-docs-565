@@ -1,0 +1,98 @@
+https://developer.wordpress.org/plugins/wordpress-org/preventing-wordpress-from-updating-your-external-plugin/
+
+<!-- wp:shortcode -->
+[warning]The information on this page is meant for use only on plugins <strong>not</strong> hosted on WordPress.org. Do not attempt to use this on your code hosted in the directory.[/warning]
+<!-- /wp:shortcode -->
+
+<!-- wp:paragraph -->
+<p>If you host your plugin on WordPress.org, we handle all updates for you. As such, the steps in this document are <strong>prohibited</strong> in all plugins submitted to the directory. Any plugin hosted here that is found to include this plugin will be closed and the developer required to remove it in order for their plugin to be restored.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>We have chosen to document it here for the education of developers, as well as to ensure the global WordPress community can be safer.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 id="always-use-good-folder-names">Always Use Good Folder Names</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Before we get into the code, we must stress the absolute best way to ensure your plugin won't get overwritten by an update from WordPress.org is to use a good name. If you're making a plugin for your company, give it a folder name like <code>companyname-function-plugin</code> -- for example, if you work for FaceRange and you're making a status plugin, you could name it <code>facerange-status-plugin</code></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Not only would we not accept it for using the prohibited term 'plugin', the plugin team would validate that the plugin owner <strong>legally</strong> represents FaceRange.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 id="update-uri">Update URI</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>As of WordPress 5.8, we have added in a feature to how the WordPress.org API checks for updates, and allowed it to be blocked by the use of a new header: Update URI.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Let's say you have a plugin you made for your own site, and you gave it the folder name of <code>my-plugin</code>. That is a generic folder name, and has a high probability that someone else may use it. It's also not a name we would allow you to block in our system, due to it's generic nature.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>The Update URI header can be added to the plugin headers. Look in your main plugin file for this section:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php","lineNumbers":false} -->
+<pre class="wp-block-syntaxhighlighter-code">/**
+ * Plugin Name: My Cool Plugin
+ * Plugin URI: https://example.com/my-plugin/
+ * Description: My Plugin does cool things.
+ * Version: 1.0
+ * Author: the team
+ * Author URI: https://example.com/
+ * Text Domain: my-plugin
+ * License: GPLv2
+ * License URI: https://opensource.org/licenses/gpl-2.0.php
+ */</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p>To apply it, add a new header for <strong>Update URI</strong> and put a <strong>non</strong> WordPress.org URI in the value:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php","lineNumbers":false} -->
+<pre class="wp-block-syntaxhighlighter-code"> * Update URI: https://example.com/my-updater/</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p>You can also set it to <code>Update URI: false</code> if you want. As long as it does not include  <code>worpress.org/plugins</code> or <code>w.org/plugins</code> it will be protected.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 id="filtering-updates">Filtering Updates</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Another method, which is supported on older versions of WordPress, is to filter external API requests and discard any for your plugin.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>This code, which was written by <a href="https://markjaquith.wordpress.com/2009/12/14/excluding-your-plugin-or-theme-from-update-checks/">Mark Jaquith</a>, can be added to your own plugin:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php","lineNumbers":false} -->
+<pre class="wp-block-syntaxhighlighter-code">function example_hidden_plugin_12345( $r, $url ) {
+    if ( 0 !== strpos( $url, 'http://api.wordpress.org/plugins/update-check' ) )
+        return $r; // Not a plugin update request. Bail immediately.
+  
+    $plugins = unserialize( $r['body']['plugins'] );
+    unset( $plugins-&gt;plugins[ plugin_basename( __FILE__ ) ] );
+    unset( $plugins-&gt;active[ array_search( plugin_basename( __FILE__ ), $plugins-&gt;active ) ] );
+    $r['body']['plugins'] = serialize( $plugins );
+    return $r;
+}
+ 
+add_filter( 'http_request_args', 'example_hidden_plugin_12345', 5, 2 );</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p>What that does is check if the update request is from the WordPress.org api, and if it matches the plugin folder and file name of <em>this</em> plugin. If it does, the plugin is removed from the list of plugins to check for updates.</p>
+<!-- /wp:paragraph -->

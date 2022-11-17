@@ -1,0 +1,182 @@
+https://developer.wordpress.org/themes/basics/template-tags/
+
+<!-- wp:paragraph -->
+<p>Template tags are used within themes to <strong>retrieve content from your database</strong>. The content could be anything from a blog title to a complete sidebar. Template tags are the preferred method to pull content into your theme because:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:list -->
+<ul><li>they can print dynamic content;</li><li>they can be used in multiple theme files; and</li><li>they separate the theme into smaller, more understandable, sections.</li></ul>
+<!-- /wp:list -->
+
+<!-- wp:heading -->
+<h2>What is a Template Tag?</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>A template tag is simply a piece of code that tells WordPress to get something from the database. It is broken up into three components:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:list -->
+<ul><li>A PHP code tag</li><li>A WordPress function</li><li>Optional parameters</li></ul>
+<!-- /wp:list -->
+
+<!-- wp:paragraph -->
+<p>You can use a template tag to call another theme file or some information from the database.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>For example, the template tag <code><a href="http://developer.wordpress.org/reference/functions/get_header/">get_header()</a></code>&nbsp;tells WordPress to get the <code>header.php</code> file and include it in the current theme file. Similarly, <code><a href="http://developer.wordpress.org/reference/functions/get_footer/">get_footer()</a></code>&nbsp;tells WordPress to get the footer.php file.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>There are also other kinds of template tags:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:list -->
+<ul><li><code><a href="http://developer.wordpress.org/reference/functions/the_title/">the_title()</a></code> – tells WordPress to get the title of the page or post from the database and include it.</li><li><code><a href="http://developer.wordpress.org/reference/functions/bloginfo/">bloginfo( 'name' )</a></code> –&nbsp;tells WordPress to get the blog title out of the database and include it in the template file.</li></ul>
+<!-- /wp:list -->
+
+<!-- wp:paragraph -->
+<p>If you look closely at the last&nbsp;example, you will also see that there is a parameter between the parenthesis.&nbsp;Parameters let you do two things:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:list {"ordered":true} -->
+<ol><li>ask for specific pieces of information and</li><li>format the information in a certain way.</li></ol>
+<!-- /wp:list -->
+
+<!-- wp:paragraph -->
+<p><a href="#parameters">Parameters are covered extensively below</a>, but it's useful to be aware that you can send WordPress-specific instructions for how you want the data presented.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2>Why Use Template Tags</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>By encapsulating all of the code for a particular chunk of content, template tags make it very easy to include various pieces of a template in&nbsp;a theme file and also to maintain the theme.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>It is far easier to create one&nbsp;<code>header.php</code> file and have all of your theme templates like <code>single.php</code>, <code>page.php</code>, <code>front-page.php</code>, etc. reference that one theme file using <code><a href="http://developer.wordpress.org/reference/functions/get_header/">get_header()</a></code>&nbsp;than&nbsp;copying and pasting the code into each theme file. It also makes maintenance easier.&nbsp;Whenever you make a change in your <code>header.php</code> file, the change is automatically carried over into all of your other theme files.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Another reason to use template tags is to display&nbsp;dynamic data,&nbsp;i.e.&nbsp;data from the database. In your header, you could manually include the <code>title</code> tag, like so:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"xml"} -->
+<pre class="wp-block-syntaxhighlighter-code">&lt;title&gt;My Personal Website&lt;/title&gt;</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p>However, doing this means manually editing your theme any time you want to change the title of your website. Instead, it's easier to include the <code><a href="http://developer.wordpress.org/reference/functions/bloginfo/">bloginfo( 'name' )</a></code>&nbsp;template tag, which automatically fetch the site title&nbsp;from the database. Now, you can change the title of your site in WordPress, rather than having to hard code your theme templates.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2>How to Use Template Tags</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Using template tags is very simple. In any template file you can use a template tag by simply printing one line of php code to call the template tag. Printing the header.php file is as simple as:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">get_header();</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:heading {"level":3} -->
+<h3>Parameters</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Some template tags let you pass parameters. Parameters are extra pieces of information that determine what is retrieved from the database.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>For example, the&nbsp;<code><a title="bloginfo template tag" href="https://developer.wordpress.org/reference/functions/bloginfo/">bloginfo()</a></code>&nbsp;template tag allows you to give it a parameter telling WordPress the specific piece of information you want. To print the blog name, you just pass along the parameter "name," like so:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">bloginfo( 'name' );</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p>To print the version of WordPress that the blog is running on, you would pass a parameter of "version":</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">bloginfo( 'version' );</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p>For each template tag, the parameters differ. A list of the parameters and what they can do can be found on specific template tag pages&nbsp;located throughout the <a href="https://developer.wordpress.org/reference/">code reference</a>.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3>Using Template Tags Within the Loop</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Many template tags work within the <a href="http://developer.wordpress.org/themes/basics/the-loop/">WordPress Loop</a>. This means that they are included in the template files as part of the php "loop" that generates the pages users&nbsp;see based upon the instructions inside of the loop.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>The WordPress loop begins with:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">if ( have_posts() ) :
+	while ( have_posts() ) :
+		the_post();</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p>Template tags that work within the loop must be in the middle area, before the ending section of the loop below:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">	endwhile;
+else :
+	_e( 'Sorry, no posts matched your criteria.', 'devhub' );
+endif;</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p>Some of template tags that need to be inside of the loop include</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:list -->
+<ul><li>the_content()</li><li>the_excerpt()</li><li>next_post()</li><li>previous_post()</li></ul>
+<!-- /wp:list -->
+
+<!-- wp:paragraph -->
+<p>The main reason why some functions require the loop is because they require the global post object to be set.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>If the template tag you want to use doesn't have to be within the loop</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:list -->
+<ul><li>wp_list_cats()</li><li>wp_list_pages()</li></ul>
+<!-- /wp:list -->
+
+<!-- wp:paragraph -->
+<p>then you can put it in any file you'd like, for instance in the sidebar, header, or footer template files.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>These are functions that typically do not require the global post object.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2>See Also</h2>
+<!-- /wp:heading -->
+
+<!-- wp:list -->
+<ul><li><a href="http://developer.wordpress.org/themes/basics/conditional-tags/">Conditional Tags</a></li><li><a href="https://developer.wordpress.org/themes/references/list-of-template-tags/">Complete list of Template Tags</a></li><li><a href="_wp_link_placeholder" data-wplink-edit="true">Plugin API Hooks</a></li></ul>
+<!-- /wp:list -->
+
+<!-- wp:paragraph -->
+<p></p>
+<!-- /wp:paragraph -->

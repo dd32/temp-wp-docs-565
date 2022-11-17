@@ -1,0 +1,153 @@
+https://developer.wordpress.org/plugins/settings/using-settings-api/
+
+<!-- wp:heading -->
+<h2>Adding Settings</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>You must define a new setting using register_setting(), it will create an entry in the <code>{$wpdb-&gt;prefix}_options</code> table.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>You can add new sections on existing pages using add_settings_section().</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>You can add new fields to existing sections using add_settings_field().</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:shortcode -->
+[alert]
+register_setting() as well as the mentioned <code>add_settings_*()</code> functions should all be added to the <code>admin_init</code> action hook.
+[/alert]
+<!-- /wp:shortcode -->
+
+<!-- wp:heading {"level":3} -->
+<h3>Add a Setting</h3>
+<!-- /wp:heading -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">register_setting(
+    string $option_group,
+    string $option_name,
+    callable $sanitize_callback = ''
+);</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p>Please refer to the Function Reference about register_setting() for full explanation about the used parameters.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3>Add a Section</h3>
+<!-- /wp:heading -->
+
+<!-- wp:syntaxhighlighter/code -->
+<pre class="wp-block-syntaxhighlighter-code">add_settings_section(
+    string $id,
+    string $title,
+    callable $callback,
+    string $page
+);</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p>Sections are the groups of settings you see on WordPress settings pages with a shared heading. In your plugin you can add new sections to existing settings pages rather than creating a whole new page. This makes your plugin simpler to maintain and creates fewer new pages for users to learn.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Please refer to the Function Reference about add_settings_section() for full explanation about the used parameters.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3>Add a Field</h3>
+<!-- /wp:heading -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">add_settings_field(
+    string $id,
+    string $title,
+    callable $callback,
+    string $page,
+    string $section = 'default',
+    array $args = []
+);</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p>Please refer to the Function Reference about add_settings_field() for full explanation about the used parameters.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3>Example</h3>
+<!-- /wp:heading -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">function wporg_settings_init() {
+	// register a new setting for "reading" page
+	register_setting('reading', 'wporg_setting_name');
+
+	// register a new section in the "reading" page
+	add_settings_section(
+		'wporg_settings_section',
+		'WPOrg Settings Section', 'wporg_settings_section_callback',
+		'reading'
+	);
+
+	// register a new field in the "wporg_settings_section" section, inside the "reading" page
+	add_settings_field(
+		'wporg_settings_field',
+		'WPOrg Setting', 'wporg_settings_field_callback',
+		'reading',
+		'wporg_settings_section'
+	);
+}
+
+/**
+ * register wporg_settings_init to the admin_init action hook
+ */
+add_action('admin_init', 'wporg_settings_init');
+
+/**
+ * callback functions
+ */
+
+// section content cb
+function wporg_settings_section_callback() {
+	echo '&lt;p&gt;WPOrg Section Introduction.&lt;/p&gt;';
+}
+
+// field content cb
+function wporg_settings_field_callback() {
+	// get the value of the setting we've registered with register_setting()
+	$setting = get_option('wporg_setting_name');
+	// output the field
+	?&gt;
+	&lt;input type="text" name="wporg_setting_name" value="&lt;?php echo isset( $setting ) ? esc_attr( $setting ) : ''; ?&gt;"&gt;
+    &lt;?php
+}</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:heading -->
+<h2>Getting Settings</h2>
+<!-- /wp:heading -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">get_option(
+    string $option,
+    mixed $default = false
+);</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p>Getting settings is accomplished with the get_option() function.<br>The function accepts two parameters: the name of the option and an optional default value for that option.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3>Example</h3>
+<!-- /wp:heading -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">// Get the value of the setting we've registered with register_setting()
+$setting = get_option('wporg_setting_name');</pre>
+<!-- /wp:syntaxhighlighter/code -->

@@ -1,0 +1,128 @@
+https://developer.wordpress.org/apis/handbook/quicktags/
+
+<!-- wp:heading -->
+<h2>Description</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>The Quicktags API allows you to include additional buttons in the Text (HTML) mode of the WordPress Classic editor.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:image {"id":125756} -->
+<figure class="wp-block-image"><img src="https://developer.wordpress.org/files/2019/08/quicktags-editor.png" alt="" class="wp-image-125756" /></figure>
+<!-- /wp:image -->
+
+<!-- wp:heading -->
+<h2>History</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>This API was introduced in <a href="/support/wordpress-version/version-3-3">WordPress 3.3</a>.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2>Usage</h2>
+<!-- /wp:heading -->
+
+<!-- wp:syntaxhighlighter/code {"language":"jscript"} -->
+<pre class="wp-block-syntaxhighlighter-code">QTags.addButton( id, display, arg1, arg2, access_key, title, priority, instance );</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:heading -->
+<h2>Parameters</h2>
+<!-- /wp:heading -->
+
+<!-- wp:list -->
+<ul><li><code><strong>id</strong></code><strong> (</strong><em><strong>string</strong></em><strong>) (</strong><em><strong>required</strong></em><strong>):</strong> The html id for the button. Default: <em>None</em></li><li><code><strong>display</strong></code><strong> (</strong><em><strong>string</strong></em><strong>) (</strong><em><strong>required</strong></em><strong>):</strong> The html value for the button. Default: <em>None</em></li><li><code><strong>arg1</strong></code><strong> (</strong><em><strong>string</strong></em><strong>) (</strong><em><strong>required</strong></em><strong>): </strong>Either a starting tag to be inserted like "&lt;span&gt;" or a callback that is executed when the button is clicked. Default: <em>None</em></li><li><code><strong>arg2</strong></code><strong> (</strong><em><strong>string</strong></em><strong>) (</strong><em><strong>optional</strong></em><strong>):</strong> Ending tag like "&lt;/span&gt;". Leave empty if tag doesn't need to be closed (i.e. "&lt;hr /&gt;"). Default: <em>None</em></li><li><code><strong>access_key</strong></code><strong> (</strong><em><strong>string</strong></em><strong>) (</strong><em><strong>optional</strong></em><strong>):</strong> Shortcut access key for the button. Default: <em>None</em></li><li><code><strong>title</strong></code><strong> (</strong><em><strong>string</strong></em><strong>) (</strong><em><strong>optional</strong></em><strong>):</strong> The html title value for the button. Default: <em>None</em></li><li><code><strong>priority</strong></code><strong> (</strong><em><strong>int</strong></em><strong>) (</strong><em><strong>optional</strong></em><strong>):</strong> A number representing the desired position of the button in the toolbar. 1 - 9 = first, 11 - 19 = second, 21 - 29 = third, etc. Default: <em>None</em></li><li><code><strong>instance</strong></code><strong> (</strong><em><strong>string</strong></em><strong>) (</strong><em><strong>optional</strong></em><strong>):</strong> Limit the button to a specific instance of Quicktags, add to all instances if not present. Default: <em>None</em></li></ul>
+<!-- /wp:list -->
+
+<!-- wp:heading -->
+<h2>Return Values</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>(<em>mixed</em>) Null or the button object that is needed for back-compat.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2>Examples</h2>
+<!-- /wp:heading -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">// add more buttons to the html editor
+function wporg_add_quicktags() {
+    if ( wp_script_is( 'quicktags' ) ) {
+	?&gt;
+    &lt;script type="text/javascript"&gt;
+    QTags.addButton( 'wporg_paragraph', 'p', '&lt;p&gt;', '&lt;/p&gt;', 'p', 'Paragraph tag', 1 );
+    QTags.addButton( 'wporg_hr', 'hr', '&lt;hr /&gt;', '', 'h', 'Horizontal rule line', 201 );
+    QTags.addButton( 'wporg_pre', 'pre', '&lt;pre lang="php"&gt;', '&lt;/pre&gt;', 'q', 'Preformatted text tag', 111 );
+    &lt;/script&gt;
+	&lt;?php
+    }
+}
+add_action( 'admin_print_footer_scripts', 'wporg_add_quicktags' );</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p>(Note: to avoid a Reference Error we check to see whether or not the 'quicktags' script is in use.)</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>The above would add HTML buttons to the default Quicktags in the Text editor. For example, the "p" button HTML would be:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"xml"} -->
+<pre class="wp-block-syntaxhighlighter-code">&lt;input type="button" id="qt_content_wporg_paragraph" accesskey="p" class="wporg_button" title="Paragraph tag" value="p"&gt;</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p>(The ID value for each button is automatically prepended with the string <code>qt_content_</code>.)</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Here is a dump of the docblock from <code>quicktags.js</code>, it's pretty useful on it's own.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">/**
+ * Main API function for adding a button to Quicktags
+ *
+ * Adds qt.Button or qt.TagButton depending on the args. The first three args are always required.
+ * To be able to add button(s) to Quicktags, your script should be enqueued as dependent
+ * on "quicktags" and outputted in the footer. If you are echoing JS directly from PHP,
+ * use add_action( 'admin_print_footer_scripts', 'output_my_js', 100 ) or add_action( 'wp_footer', 'output_my_js', 100 )
+ *
+ * Minimum required to add a button that calls an external function:
+ *     QTags.addButton( 'my_id', 'my button', my_callback );
+ *     function my_callback() { alert('yeah!'); }
+ *
+ * Minimum required to add a button that inserts a tag:
+ *     QTags.addButton( 'my_id', 'my button', '&lt;span&gt;', '&lt;/span&gt;' );
+ *     QTags.addButton( 'my_id2', 'my button', '&lt;br /&gt;' );
+ */</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:heading -->
+<h2>Default Quicktags</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Here are the values of the default Quicktags added by WordPress to the Text editor (table sorted by access key value). Access key and ID must be unique. When adding your own buttons, do not use these values:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:table -->
+<table class="wp-block-table"><tbody><tr></tr><tr><th><strong>Accesskey</strong></th><th><strong>ID</strong></th><th><strong>Value</strong></th><th><strong>Tag Start</strong></th><th><strong>Tag End</strong></th></tr><tr><td>a</td><td>link</td><td>link</td><td>&lt;a href="' + URL + '"&gt;</td><td>&lt;/a&gt;</td></tr><tr><td>b</td><td>strong</td><td>b</td><td>&lt;strong&gt;</td><td>&lt;/strong&gt;</td></tr><tr><td>c</td><td>code</td><td>code</td><td>&lt;code&gt;</td><td>&lt;/code&gt;</td></tr><tr><td>d</td><td>del</td><td>del</td><td>&lt;del datetime="' + _datetime + '"&gt;</td><td>&lt;/del&gt;</td></tr><tr><td>f</td><td>fullscreen</td><td>fullscreen</td><td></td><td></td></tr><tr><td>i</td><td>em</td><td>i</td><td>&lt;em&gt;</td><td>&lt;/em&gt;</td></tr><tr><td>l</td><td>li</td><td>li</td><td>\t&lt;li&gt;</td><td>&lt;/li&gt;\n</td></tr><tr><td>m</td><td>img</td><td>img</td><td>&lt;img src="' + src + '" alt="' + alt + '" /&gt;</td><td></td></tr><tr><td>o</td><td>ol</td><td>ol</td><td>&lt;ol&gt;\n</td><td>&lt;/ol&gt;\n\n</td></tr><tr><td>q</td><td>block</td><td>b-quote</td><td>\n\n&lt;blockquote&gt;</td><td>&lt;/blockquote&gt;\n\n</td></tr><tr><td>s</td><td>ins</td><td>ins</td><td>&lt;ins datetime="' + _datetime + '"&gt;</td><td>&lt;/ins&gt;</td></tr><tr><td>t</td><td>more</td><td>more</td><td>&lt;!--more--&gt;</td><td></td></tr><tr><td>u</td><td>ul</td><td>ul</td><td>&lt;ul&gt;\n</td><td>&lt;/ul&gt;\n\n</td></tr><tr><td></td><td>spell</td><td>lookup</td><td></td><td></td></tr><tr><td></td><td>close</td><td>close</td><td></td></tr></tbody></table>
+<!-- /wp:table -->
+
+<!-- wp:paragraph -->
+<p>Some tag values above use variables, such as URL and <code>_datetime</code>, passed from functions.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2>Source File</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>qt.addButton() source is located in <code><a href="https://core.trac.wordpress.org/browser/tags/5.2.1/src/js/_enqueues/lib/quicktags.js#L0">js/_enqueues/lib/quicktags.js</a></code>, during build it's output in <code>wp-incudes/js/quicktags.js</code> and <code>wp-includes/js/quicktags.min.js</code>.</p>
+<!-- /wp:paragraph -->

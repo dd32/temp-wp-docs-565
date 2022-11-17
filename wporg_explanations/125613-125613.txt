@@ -1,0 +1,36 @@
+https://developer.wordpress.org/?post_type=wporg_explanations&p=125613
+
+get_query_var() only retrieves <strong>public query variables</strong> that are recognized by WP_Query. This means that if you create your own custom URLs with their own query variables, get_query_var() <strong>will not retrieve them</strong> without some further work (see below).
+<h3>Custom Query Vars</h3>
+In order to be able to add and work with your own custom query vars that you append to URLs (eg: "http://mysite.com/some_page/?my_var=foo" - for example using <a href="https://developer.wordpress.org/reference/functions/add_query_arg/">add_query_arg()</a>) you need to add them to the <strong>public query variables</strong> available to WP_Query. These are built up when WP_Query instantiates, but fortunately are passed through a filter '<a href="https://developer.wordpress.org/reference/hooks/query_vars/">query_vars</a>' before they are actually used to populate the $query_vars property of WP_Query.
+
+So, to expose your new, custom query variable to WP_Query hook into the '<a href="https://developer.wordpress.org/reference/hooks/query_vars/">query_vars</a>' filter, add your query variable to the $vars array that is passed by the filter, and remember to return the array as the output of your filter function. See below:
+
+[php]
+
+function themeslug_query_vars( $qvars ) {
+	$qvars[] = 'custom_query_var';
+	return $qvars;
+}
+add_filter( 'query_vars', 'themeslug_query_vars' );
+
+[/php]
+
+<h3>Examples</h3>
+Getting current page pagination number
+
+[php]
+$paged = get_query_var( 'paged', 1 );
+echo 'Currently Browsing Page ', $paged;
+[/php]
+
+To get the current pagination number on a <a href="https://wordpress.org/support/article/creating-a-static-front-page/">static front page</a> (Page template) you have to use the 'page' query variable:
+
+[php]
+$paged = get_query_var( 'page', 1 );
+echo 'Currently Browsing Page ', $paged, ' on a static front page';
+[/php]
+
+Note: The query variable 'page' holds the pagenumber for a single paginated Post or Page that includes the <!--nextpage--> Quicktag in the post content.
+
+&nbsp;

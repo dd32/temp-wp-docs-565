@@ -1,0 +1,55 @@
+https://developer.wordpress.org/plugins/shortcodes/basic-shortcodes/
+
+<!-- wp:heading -->
+<h2>Add a Shortcode</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>It is possible to add your own shortcodes by using the Shortcode API. The process involves registering a callback <code>$func</code> to a shortcode <code>$tag</code> using <code>add_shortcode()</code>.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">add_shortcode(
+    string $tag,
+    callable $func
+);</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p><code>[wporg]</code> is your new shortcode. The use of the shortcode will trigger the <code>wporg_shortcode</code> callback function.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">add_shortcode('wporg', 'wporg_shortcode');
+function wporg_shortcode( $atts = [], $content = null) {
+    // do something to $content
+    // always return
+    return $content;
+}</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:heading -->
+<h2>Remove a Shortcode</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>It is possible to remove shortcodes by using the Shortcode API. The process involves removing a registered <code>$tag</code> using remove_shortcode().</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">remove_shortcode(
+    string $tag
+);</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p>Make sure that the shortcode have been registered before attempting to remove. Specify a higher priority number for add_action() or hook into an action hook that is run later.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2>Check if a Shortcode Exists</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>To check whether a shortcode has been registered use <code>shortcode_exists()</code>.</p>
+<!-- /wp:paragraph -->

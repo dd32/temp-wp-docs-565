@@ -1,0 +1,160 @@
+https://developer.wordpress.org/apis/handbook/internationalization/
+
+<!-- wp:heading -->
+<h2>What is internationalization?</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Internationalization is the process of developing your application in a way it can easily be translated into other languages. Internationalization is often abbreviated as <code>i18n</code> (because there are 18 letters between the letters i and n).</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2>Why is internationalization important?</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>WordPress is used all over the world, by people who speak many different languages. The strings in WordPress need to be coded in a special way so that they can be easily translated into other languages. As a developer, you may not be able to provide localization for all your users; however, a translator can successfully localize your code without needing to modify the source code itself. </p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>While making your code translatable is called Internationalization, the act of translating it and adapting the strings to a specific location is called <a href="https://developer.wordpress.org/apis/handbook/internationalization/localization/">Localization</a>. Read more about <a href="https://developer.wordpress.org/apis/handbook/internationalization/localization/">Localization in WordPress</a>.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2>The basics</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>In order to make a string translatable, you have to wrap the original strings in a call to one of the <a href="https://developer.wordpress.org/apis/handbook/internationalization/internationalization-functions/">WordPress i18n functions</a>.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>For example, the PHP function _e() echoes a translatable string:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>[php] _e('Edit post'); [/php]</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>You will find code like this all over WordPress core files. However, if you are internationalizing a theme or a plugin, there is another argument that all i18n functions take called Text Domain.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Text Domains set the domain your plugin or theme translations belong. This assures there is no conflict between strings in plugins, themes, and the WordPress core.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>With a text-domain, the most basic call to a i18n function that will output a string would be like:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>[php] _e('Edit movie', 'my-plugin'); [/php]</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2>Setting up your plugin and theme to i18n</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Setting up i18n is slightly different for Plugins and Themes, therefore this information is detailed in each respective Handbook:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:list -->
+<ul><li><a href="https://developer.wordpress.org/themes/functionality/internationalization/">How to internationalize you theme</a></li><li><a href="https://developer.wordpress.org/plugins/internationalization/how-to-internationalize-your-plugin/">How to internationalize your plugin</a></li></ul>
+<!-- /wp:list -->
+
+<!-- wp:heading {"level":3} -->
+<h3>Internationalizing javascript</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Since WordPress 5.0 it's possible to internationalize javascript files using the same set of i18n functions used in PHP. </p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>In order to be able to use i18n functions in your javascript code, you have to declare <code>wp-i18n</code> as a dependency on your script when registering or enqueueing it. For example:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">wp_register_script(
+     'my-script',
+     plugins_url( 'js/my-script.js', FILE ),
+     array( 'wp-i18n' ),
+     '0.0.1'
+ );</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p>Now that you have added the dependency to your script, you can use i18n functions in it, however you still have to tell WordPress to load the translations. </p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>You do this by calling <code>wp_set_script_translations()</code>. This function takes three arguments: the registered/enqueued script handle, the text domain, and optionally a path to the directory containing translation files. The latter is only needed if your plugin or theme is not hosted on WordPress.org, which provides these translation files automatically.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">wp_set_script_translations('my-script', 'my-plugin');</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:shortcode -->
+[info]For better performance, always make sure to enqueue your scripts and load their translations only when they are really used.[/info]
+<!-- /wp:shortcode -->
+
+<!-- wp:paragraph -->
+<p>In your javascript code you will use i18n functions pretty much the same way you do in your PHP code:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"jscript"} -->
+<pre class="wp-block-syntaxhighlighter-code">const { __, _x, _n, sprintf } = wp.i18n;
+
+// simple string
+__( 'Hello World', 'my-plugin' );
+
+// string with context
+_x( 'My Gutenberg block name', 'block name', 'my-plugin' );</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p>The available i18n for you to use in your JS code are (See internationalization functions for more details):</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:list -->
+<ul><li>__()</li><li> _x()</li><li> _n()</li><li> _nx()</li><li> sprintf()</li></ul>
+<!-- /wp:list -->
+
+<!-- wp:paragraph -->
+<p>Notice that the wp-i18n package also includes the <code>sprintf</code> function. This is very useful to internationalize strings that have variables in it. </p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Now refer to the Internationalization Guidelines to learn how to use all these functions and the best practices on writing your strings.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>[info] If you are not hosting your plugin or theme on WordPress.org, you will need to create your translation files yourself. Check <a href="https://pascalbirchler.com/internationalization-in-wordpress-5-0/">this post</a> out to learn how to do this.[/info]</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":4} -->
+<h4>Internationalizing javascript before WP 5.0</h4>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Another way to internationalize your javascript files is to use the wp_localize_script() function.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>With this function you can register translatable strings and have them available in your javascript to be used.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Please refer to the <a href="https://developer.wordpress.org/reference/functions/wp_localize_script/"><code>wp_localize_script</code>() reference</a> to learn how to use it.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2>Internationalization Guidelines</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Now that you are ready to internationalize your application, read through the <a href="https://developer.wordpress.org/apis/handbook/internationalization/internationalization-guidelines/">Internationalization Guidelines</a> and learn what each i18n function is for, how to use them, and the best practices when writing your strings.</p>
+<!-- /wp:paragraph -->

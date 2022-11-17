@@ -1,0 +1,377 @@
+https://developer.wordpress.org/apis/handbook/internationalization/internationalization-guidelines/
+
+<!-- wp:paragraph -->
+<p>In this article, you will learn when and how to use all available i18n functions and the best practices for writing your strings.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>The recommendations in this article applies both for your PHP and your javascript code. You can see all the available functions for each language in the <a href="https://developer.wordpress.org/apis/handbook/internationalization/internationalization-functions/">I18n functions</a> page. The functions available for javascript will also be highlighted.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2>Basic strings</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>The most commonly used function is <code><a href="https://developer.wordpress.org/reference/functions/__/">__()</a></code>. It returns the translation of its argument:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:shortcode -->
+[php]__( 'Blog Options', 'my-theme' );[/php]
+<!-- /wp:shortcode -->
+
+<!-- wp:paragraph -->
+<p>Another simple one is <code><a href="https://developer.wordpress.org/reference/functions/_e/">_e()</a></code>, which outputs the translation of its argument. Instead of writing:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:shortcode -->
+[php]echo __( 'WordPress is the best!', 'my-theme' );[/php]
+<!-- /wp:shortcode -->
+
+<!-- wp:paragraph -->
+<p>you can use the shorter:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:shortcode -->
+[php]_e( 'WordPress is the best!', 'my-theme' );[/php]
+<!-- /wp:shortcode -->
+
+<!-- wp:paragraph -->
+<p>[info]<code>__()</code>is also available for javascript[/info]</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2>Variables</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>If you are using variables in strings, similar to the example below, you need to use placeholders.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:shortcode -->
+[php]echo 'Your city is $city.'[/php]
+<!-- /wp:shortcode -->
+
+<!-- wp:paragraph -->
+<p>Use the <code>printf</code> family of functions. Especially helpful are <code><a href="http://php.net/printf">printf</a></code> and <code><a href="http://php.net/sprintf">sprintf</a></code>. For example:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:shortcode -->
+[php]
+printf(
+    /* translators: %s: Name of a city */
+    __( 'Your city is %s.', 'my-theme' ),
+    $city
+);
+[/php]
+<!-- /wp:shortcode -->
+
+<!-- wp:paragraph -->
+<p>Notice that the string for translation is the template <code>"Your city is %s."</code>, which is the same in both the source and at run-time.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>If you have more than one placeholder in a string, it is recommended that you use <a href="http://www.php.net/manual/en/function.sprintf.php#example-4829">argument swapping</a>. In this case, single quotes <code>(')</code> are mandatory : double quotes <code>(")</code> tell php to interpret the <code>$s</code> as the <code>s</code> variable, which is not what we want.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:shortcode -->
+[php]
+printf(
+    /* translators: 1: Name of a city 2: ZIP code */
+    __( 'Your city is %1$s, and your zip code is %2$s.', 'my-theme' ),
+    $city,
+    $zipcode
+);
+[/php]
+<!-- /wp:shortcode -->
+
+<!-- wp:paragraph -->
+<p>Here the zip code is displayed after the city name. In some languages, displaying the zip code and city in opposite order is more appropriate. Using <var>%s</var> prefix, as in the above example, allows for this. A translation can be written:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:shortcode -->
+[php]
+printf(
+    /* translators: 1:ZIP code 2:Name of a city */
+    __( 'Your zip code is %2$s, and your city is %1$s.', 'my-theme' ),
+    $city,
+    $zipcode
+);
+[/php]
+<!-- /wp:shortcode -->
+
+<!-- wp:paragraph -->
+<p><code>sprintf</code> is also available for javascript translations:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code -->
+<pre class="wp-block-syntaxhighlighter-code">const zipCodeMessage = sprintf(
+    /* translators: 1:ZIP code 2:Name of a city */
+    __( 'Your zip code is %2$s, and your city is %1$s.', 'my-theme'),
+    city,
+    zipcode
+);</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p>The following example tells you what not to do<br>[warning]This is incorrect.[/warning]</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:shortcode -->
+[php]
+// This is incorrect do not use.
+_e( "Your city is $city.", 'my-theme' );
+[/php]
+<!-- /wp:shortcode -->
+
+<!-- wp:paragraph -->
+<p>The strings for translation are extracted from the source without executing the PHP associated with it. For example: The variable <code>$city</code> may be Vancouver, so your string will read <code>"Your city is Vancouver"</code> when the template is run but gettext won’t know what is inside the PHP variable in advance.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>As the value of the variable is unknown when your string is translated, it would require the translator to know every case for the variable <code>$country</code>. This is not ideal, and it is best to remove dynamic content and allow translators to focus on static content.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2>Plurals</h2>
+<!-- /wp:heading -->
+
+<!-- wp:heading {"level":3} -->
+<h3>Basic Pluralization</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>If you have a string that changes when the number of items changes. In English you have <code>"One comment"</code> and <code>"Two comments"</code>. In other languages, you can have multiple plural forms. To handle this in WordPress, you can use the <code><a href="https://developer.wordpress.org/reference/functions/_n/">_n()</a></code> function.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:shortcode -->
+[php]
+printf(
+    _n(
+        '%s comment',
+        '%s comments',
+        get_comments_number(),
+        'my-theme'
+    ),
+    number_format_i18n( get_comments_number() )
+);
+[/php]
+<!-- /wp:shortcode -->
+
+<!-- wp:paragraph -->
+<p><code>_n()</code> accepts 4 arguments:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:list -->
+<ul><li>singular - the singular form of the string&nbsp;(note that it can be used for numbers other than one in some languages, so <code>'%s item'</code> should be used instead of <code>'One item'</code>)</li><li>plural - the plural form of the string</li><li>count - the number of objects, which will determine whether the singular or the plural form should be returned (there are languages, which have far more than 2 forms)</li><li>text domain - the theme's text domain</li></ul>
+<!-- /wp:list -->
+
+<!-- wp:paragraph -->
+<p>The return value of the functions is the correct translated form, corresponding to the given count.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>[info]`_n() is also available for javascript[/info]</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3>Pluralization done later</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>You first set the plural strings with <code><a href="https://developer.wordpress.org/reference/functions/_n_noop/">_n_noop()</a></code> or <code><a href="https://developer.wordpress.org/reference/functions/_nx_noop/">_nx_noop()</a></code>.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:shortcode -->
+[php]
+$comments_plural = _n_noop(
+    '%s comment.',
+    '%s comments.'
+);
+[/php]
+<!-- /wp:shortcode -->
+
+<!-- wp:paragraph -->
+<p>At a later point in the code, you can use <code><a href="https://developer.wordpress.org/reference/functions/translate_nooped_plural/">translate_nooped_plural()</a></code> to load the strings.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:shortcode -->
+[php]
+printf(
+    translate_nooped_plural(
+        $comments_plural,
+        get_comments_number(),
+        'my-theme'
+    ),
+    number_format_i18n( get_comments_number() )
+);
+[/php]
+<!-- /wp:shortcode -->
+
+<!-- wp:heading -->
+<h2>Disambiguation by context</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Sometimes a term is used in more than one context and must be translated separately in other languages, even though the same word is used for each context in English. For example, the word <code>Post</code> can be used both as a verb <code>"Click here to post your comment"</code> and as a noun <code>"Edit this Post"</code>. In such cases the <code><a href="https://developer.wordpress.org/reference/functions/_x/">_x()</a></code> or <code><a href="https://developer.wordpress.org/reference/functions/_ex/">_ex</a>()</code> function should be used. It is similar to <code>__()</code> and <code>_e()</code>, but it has an additional argument -- the context:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:shortcode -->
+[php]
+_x( 'Post', 'noun', 'my-theme' );
+_x( 'post', 'verb', 'my-theme' );
+[/php]
+<!-- /wp:shortcode -->
+
+<!-- wp:paragraph -->
+<p>Using this method in both cases, we get the string Comment for the original version. However, translators will see two Comment strings for translation, each in a different context.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Taking an example from the German version of WordPress as an illustration: Post is Beiträge. The corresponding verb form in German is beitragen.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Note that similar to <code>__()</code>, <code>_x()</code> has an <code>echo</code> version: <code>_ex()</code>. The previous example could be written as:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:shortcode -->
+[php]
+_ex( 'Post', 'noun', 'my-theme' );
+_ex( 'post', 'verb', 'my-theme' );
+[/php]
+<!-- /wp:shortcode -->
+
+<!-- wp:paragraph -->
+<p>Use the one you feel enhances legibility and ease of coding.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>[info]<code>_x() and _nx()</code>are also available for javascript[/info]</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2>Descriptions</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>You can add a clarifying comment in the source code, so translators know how to translate a string like <code>__( 'g:i:s a' )</code> . It must start with the word <code>translators:</code>,&nbsp;in all lowercase, and be the last PHP comment before the gettext call. Here is an example:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:shortcode -->
+[php]
+/* translators: draft saved date format, see http://php.net/date */
+$saved_date_format = __( 'g:i:s a' );
+[/php]
+<!-- /wp:shortcode -->
+
+<!-- wp:paragraph -->
+<p>Multi-line example:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:shortcode -->
+[php]
+/* 
+ * translators: Replace with a city related to your locale.
+ * Test that it matches the expected location and has upcoming
+ * events before including it. If no cities related to your
+ * locale have events, then use a city related to your locale
+ * that would be recognizable to most users.
+ */
+?&gt;
+&lt;input placeholder="&lt;?php esc_attr_e( 'Cincinnati' ); ?&gt;" id="location" type="text" name="location" /&gt;
+[/php]
+<!-- /wp:shortcode -->
+
+<!-- wp:heading -->
+<h2>Newline characters</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Gettext doesn't like <code>\r</code> (ASCII code: 13) in translatable strings, so avoid it and use <code>\n</code> instead.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2>Empty strings</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>The empty string is reserved for internal Gettext usage, and you must not try to internationalize the empty string. It also doesn't make any sense because translators won't have context.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>If you have a valid use-case to internationalize an empty string, add context to both help translators and be in peace with the Gettext system.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2>Escaping strings</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>It is good to escape all of your strings, preventing translators from running malicious code. There are a few escape functions that are integrated with internationalization functions.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">&lt;a title="&lt;?php esc_attr_e( 'Skip to content', 'my-theme' ); ?&gt;" class="screen-reader-text skip-link" href="#content" &gt;
+  &lt;?php _e( 'Skip to content', 'my-theme' ); ?&gt;
+&lt;/a&gt;</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">&lt;label for="nav-menu"&gt;
+  &lt;?php esc_html_e( 'Select Menu:', 'my-theme' ); ?&gt;
+&lt;/label&gt;</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:heading -->
+<h2>Best Practices for writing strings</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Here are the best practices for writing strings</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:list -->
+<ul><li>Use decent English style - minimize slang and abbreviations.</li><li>Use entire sentences - in most languages, word order is different than English.</li><li>Split at paragraphs - merge related sentences, but do not include a whole page of text in one string.</li><li>Do not leave leading or trailing whitespace in a translatable phrase.</li><li>Assume strings can double in length when translated.</li><li>Avoid unusual markup and unusual control characters - do not include tags that surround your text.</li><li>Do not put unnecessary HTML markup into the translated string.</li><li>Do not leave URLs for translation, unless they could have a version in another language.</li><li>Add the variables as placeholders to the string as in some languages the placeholders change position.</li></ul>
+<!-- /wp:list -->
+
+<!-- wp:shortcode -->
+[php]
+printf(
+    __( 'Search results for: %s', 'my-theme' ),
+    get_search_query()
+);
+[/php]
+<!-- /wp:shortcode -->
+
+<!-- wp:list -->
+<ul><li>Use format strings instead of string concatenation - translate phrases and not words - </li></ul>
+<!-- /wp:list -->
+
+<!-- wp:shortcode -->
+[php] 
+printf( 
+    __( 'Your city is %1$s, and your zip code is %2$s.', 'my-theme' ), 
+    $city, 
+    $zipcode 
+); 
+[/php]
+<!-- /wp:shortcode -->
+
+<!-- wp:paragraph -->
+<p>is always better than</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:shortcode -->
+[php] 
+__( 'Your city is ', 'my-theme' ) . $city . __( ', and your zip code is ', 'my-theme' ) . $zipcode; 
+[/php]
+<!-- /wp:shortcode -->
+
+<!-- wp:list -->
+<ul><li>Try to use the same words and symbols to prevent translating multiple similar strings (e.g. don't do the following) </li></ul>
+<!-- /wp:list -->
+
+<!-- wp:shortcode -->
+[php]__( 'Posts:', 'my-theme' ); and __( 'Posts', 'my-theme' );[/php]
+<!-- /wp:shortcode -->

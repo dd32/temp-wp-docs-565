@@ -1,0 +1,72 @@
+https://developer.wordpress.org/plugins/javascript/jquery/
+
+<!-- wp:heading -->
+<h2>Using jQuery</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Your jQuery script runs on the user's browser after your WordPress webpage is received. A basic jQuery statement has two parts: a selector that determines which HTML elements the code applies to, and an action or event, which determines what the code does or what it reacts to. The basic event statement looks like this:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:preformatted -->
+<pre class="wp-block-preformatted">[js]jQuery.(selector).event(function);[/js]</pre>
+<!-- /wp:preformatted -->
+
+<!-- wp:paragraph -->
+<p>When an event, such as a mouse click, occurs in an HTML element selected by the selector, the function that is defined inside the final set of parentheses is executed.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>All the following code examples are based on this HTML page content. Assume it appears on your plugin's admin settings screen, defined by the file <code>myplugin_settings.php</code>. It is a simple table with radio buttons next to each title.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"xml"} -->
+<pre class="wp-block-syntaxhighlighter-code">&lt;form id="radioform"&gt;
+	&lt;table&gt;
+		&lt;tbody&gt;
+		&lt;tr&gt;
+			&lt;td&gt;&lt;input class="pref" checked="checked" name="book" type="radio" value="Sycamore Row" /&gt;Sycamore Row&lt;/td&gt;
+			&lt;td&gt;John Grisham&lt;/td&gt;
+		&lt;/tr&gt;
+		&lt;tr&gt;
+			&lt;td&gt;&lt;input class="pref" name="book" type="radio" value="Dark Witch" /&gt;Dark Witch&lt;/td&gt;
+			&lt;td&gt;Nora Roberts&lt;/td&gt;
+		&lt;/tr&gt;
+		&lt;/tbody&gt;
+	&lt;/table&gt;
+&lt;/form&gt;</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p>The output could look something like this on your settings page.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:image {"align":"left","id":2914} -->
+<div class="wp-block-image"><figure class="alignleft"><img src="http://make.wordpress.org/docs/files/2013/11/pdh-ajax-example.png" alt="sample table" class="wp-image-2914" /></figure></div>
+<!-- /wp:image -->
+
+<!-- wp:paragraph -->
+<p>In the <a title="AJAX" href="http://developer.wordpress.org/plugin/javascript/ajax/">article on AJAX</a>, we will build an AJAX exchange that saves the user selection in usermeta and adds the number of posts tagged with the selected title. Not a very practical application, but it illustrates all the important steps. jQuery code can either reside in an external file or be output to the page inside a <tt>&lt;script&gt;</tt> block. We will focus on the external file variation because passing values from PHP requires special attention. The same code can be output to the page if that seems more expedient to you.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":4} -->
+<h4>Selector and Event</h4>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>The selector is the same form as CSS selectors: <tt>".class"</tt> or <tt>"#id"</tt>. There's many <a title="jQuery Reference" href="http://api.jquery.com/category/selectors/">more forms</a>, but these are the two you will frequently use. In our example, we will use class <tt>".pref"</tt>. There's also a slew of possible <a title="jQuery Reference" href="http://api.jquery.com/category/events/">events</a>, one you will likely use a lot is <em>'click'</em>. In our example we will use <em>'change'</em> to capture a radio button selection. Be aware that jQuery events are often named somewhat differently than those with JavaScript. So far, after we add in an empty anonymous function, our example statement looks like this:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:preformatted -->
+<pre class="wp-block-preformatted">[js]$.(".pref").change(function(){
+	/*do stuff*/
+});[/js]</pre>
+<!-- /wp:preformatted -->
+
+<!-- wp:paragraph -->
+<p>This code will "do stuff" when any element of the "pref" class changes.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<div style="border: 1px solid #CCC;background: #F1F1F1;padding: 0.7em 1em"><strong>Note:</strong> This code snippet, and all examples on this page, are for illustrating the use of AJAX. The code is not suitable for production environments because related operations such as <a title="Handbook Chapter" href="../../plugin-security/securing-input/">sanitization</a>, <a title="Handbook Chapter" href="../../plugin-security/user-capabilities-nonces/#nonces">security</a>, <a title="External Site" href="http://www.sitepoint.com/error-handling-in-php/">error handling</a>, and <a title="Handbook Chapter" href="../internationalization/">internationalization</a> have been intentionally omitted. Be sure to always address these important operations in your production code.</div>
+<!-- /wp:html -->

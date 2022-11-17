@@ -1,0 +1,123 @@
+https://developer.wordpress.org/plugins/security/nonces/
+
+<!-- wp:paragraph -->
+<p>"Nonce" is a portmanteau of “<em>N</em>umber used <em>ONCE</em>”. It is essentially a unique hexadecimal serial number used to verify the origin and intent of requests for security purposes. As the name suggests, each nonce can only be used once.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>If your plugin allows users to submit data; be it on the Admin or the Public side; you have to make sure that the user is who they say they are and that they <a href="https://developer.wordpress.org/plugins/security/checking-user-capabilities/">have the necessary capability</a> to perform the action. Doing both in tandem means that data is only changing when the user <em>expects</em> it to be changing.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 id="using-nonces">Using Nonces</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Following our <a href="https://developer.wordpress.org/plugins/security/checking-user-capabilities/#restricted-to-a-specific-capability">checking user capabilities example</a>, the next step in user data submission security is using nonces.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>The&nbsp;capability check&nbsp;ensures that only users who have permission to delete a post are able to delete a post. But what if someone were to trick you into clicking that link? You have the necessary capability, so you could unwittingly delete a post.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Nonces can be used to check that the current user actually&nbsp;intends to perform the action.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>When you generate the delete link, you'll want to use wp_create_nonce() function to add a nonce to the link, the argument passed to the function ensures that the nonce being created is unique to that particular action.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Then, when you're processing a request to delete a link, you can check that the nonce is what you expect it to be.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>For more information, Mark Jaquith's <a href="http://markjaquith.wordpress.com/2006/06/02/wordpress-203-nonces/">post on WordPress nonces</a> is a great resource.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 id="complete-example">Complete Example</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Complete example using capability checks, data validation, secure input, secure output and nonces:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php","highlightLines":"32,34"} -->
+<pre class="wp-block-syntaxhighlighter-code">/**
+ * Generate a Delete link based on the homepage url.
+ *
+ * @param string $content   Existing content.
+ *
+ * @return string|null
+ */
+function wporg_generate_delete_link( $content ) {
+	// Run only for single post page.
+	if ( is_single() &amp;&amp; in_the_loop() &amp;&amp; is_main_query() ) {
+		// Add query arguments: action, post, nonce
+		$url = add_query_arg(
+			[
+				'action' =&gt; 'wporg_frontend_delete',
+				'post'   =&gt; get_the_ID(),
+				'nonce'  =&gt; wp_create_nonce( 'wporg_frontend_delete' ),
+			], home_url()
+		);
+
+		return $content . ' &lt;a href="' . esc_url( $url ) . '"&gt;' . esc_html__( 'Delete Post', 'wporg' ) . '&lt;/a&gt;';
+	}
+
+	return null;
+}
+
+
+/**
+ * Request handler
+ */
+function wporg_delete_post() {
+	if ( isset( $_GET['action'] )
+         &amp;&amp; isset( $_GET['nonce'] )
+         &amp;&amp; 'wporg_frontend_delete' === $_GET['action']
+         &amp;&amp; wp_verify_nonce( $_GET['nonce'], 'wporg_frontend_delete' ) ) {
+
+		// Verify we have a post id.
+		$post_id = ( isset( $_GET['post'] ) ) ? ( $_GET['post'] ) : ( null );
+
+		// Verify there is a post with such a number.
+		$post = get_post( (int) $post_id );
+		if ( empty( $post ) ) {
+			return;
+		}
+
+		// Delete the post.
+		wp_trash_post( $post_id );
+
+		// Redirect to admin page.
+		$redirect = admin_url( 'edit.php' );
+		wp_safe_redirect( $redirect );
+
+		// We are done.
+		die;
+	}
+}
+
+
+/**
+ * Add delete post ability
+ */
+add_action('plugins_loaded', 'wporg_add_delete_post_ability');
+ 
+function wporg_add_delete_post_ability() {    
+    if ( current_user_can( 'edit_others_posts' ) ) {
+        /**
+         * Add the delete link to the end of the post content.
+         */
+        add_filter( 'the_content', 'wporg_generate_delete_link' );
+      
+        /**
+         * Register our request handler with the init hook.
+         */
+        add_action( 'init', 'wporg_delete_post' );
+    }
+}</pre>
+<!-- /wp:syntaxhighlighter/code -->

@@ -1,0 +1,543 @@
+https://developer.wordpress.org/plugins/internationalization/how-to-internationalize-your-plugin/
+
+<!-- wp:paragraph -->
+<p>In order to make a string translatable in your application you have to wrap the original string in a call to one of a set of special functions. These functions collectively are known as "gettext." </p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2>Introduction to Gettext </h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>WordPress uses the <a href="http://www.gnu.org/software/gettext/">gettext</a> libraries and tools for i18n, but not directly: there are a set of special functions created just for the purpose of enabling string translation. These functions are listed below. These are the functions you should use within your plugin.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:shortcode -->
+[info]For a deeper dive into gettext, read the <a href="http://www.gnu.org/software/gettext/manual/html_node/">gettext online manual</a>[/info]
+<!-- /wp:shortcode -->
+
+<!-- wp:heading -->
+<h2>Text Domains </h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Use a <em>text domain</em> to denote all text belonging to your plugin. The text domain is a unique identifier to ensure WordPress can distinguish between all loaded translations. This increases portability and plays better with already existing WordPress tools. </p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>The text domain must match the <code>slug</code> of the plugin. If your plugin is a single file called <code>my-plugin.php</code> or it is contained in a folder called <code>my-plugin</code> the domain name must be <code>my-plugin</code>. If your plugin is hosted on wordpress.org it must be the slug portion of your plugin URL (<code>wordpress.org/plugins/</code><strong><code>&lt;slug&gt;</code></strong>).</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>The text domain name must use dashes and not underscores, be lower case, and have no spaces.  </p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>The text domain also needs to be added to the plugin header. WordPress uses it to internationalize your plugin metadata even when the plugin is disabled. The text domain should be same as the one used when <a href="#loading-text-domain">loading the text domain</a>. </p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>
+	<strong>Header example:</strong>
+</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">/* 
+ * Plugin Name: My Plugin
+ * Author: Plugin Author
+ * Text Domain: my-plugin
+ */</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:shortcode -->
+[info]Again, change "my-plugin" to the slug of your plugin.[/info]
+<!-- /wp:shortcode -->
+
+<!-- wp:shortcode -->
+[info]Since WordPress 4.6 the <code>Text Domain</code> header is optional because it must be the same as the plugin slug. There is no harm in including it, but it is not required.[/info]
+<!-- /wp:shortcode -->
+
+<!-- wp:heading -->
+<h2>Domain Path </h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>The domain path defines the location for a plugin's translation. This has a few uses, notably so that WordPress knows where to find the translation even when the plugin is disabled. This defaults to the folder in which your plugin is found.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>For example, if the translation is located in a folder called <code>languages</code> within your plugin, then the Domain Path is <code>/languages</code> and must be written with the first slash:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>
+	<strong>Header example:</strong>
+</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">/*
+ * Plugin Name: My Plugin
+ * Author: Plugin Author
+ * Text Domain: my-plugin
+ * Domain Path: /languages
+ */</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:shortcode -->
+[info] The <code>Domain Path</code> header can be omitted if the plugin is in the official WordPress Plugin Directory. [/info]
+<!-- /wp:shortcode -->
+
+<!-- wp:heading -->
+<h2>Basic strings </h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>For basic strings (meaning strings without placeholders or plurals) use <code><a href="https://developer.wordpress.org/reference/functions/__/">__()</a></code>. It returns the translation of its argument: </p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">__( 'Blog Options', 'my-plugin' );</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:shortcode -->
+[warning]Do not use variable names or constants for the text domain portion of a gettext function. For example: Do not do this as a shortcut: <pre>__( 'Translate me.' , $text_domain );
+</pre>
+[/warning]
+<!-- /wp:shortcode -->
+
+<!-- wp:paragraph -->
+<p>To echo a retrieved tranlsation, use <code><a href="https://developer.wordpress.org/reference/functions/_e/">_e()</a></code>. So instead of writing: </p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">echo __( 'WordPress is the best!', 'my-plugin' );</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p>you can use:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">_e( 'WordPress is the best!', 'my-plugin' );</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:heading -->
+<h2>Variables </h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>What if you have a string like the following: </p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code -->
+<pre class="wp-block-syntaxhighlighter-code">echo 'Your city is $city.'</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p>In this case, the <code>$city</code> is a variable and should not be part of the translation. The solution is to use placeholders for the variable, along with the <code>printf</code> family of functions. Especially helpful are <code><a href="http://php.net/printf">printf</a></code> and <code><a href="http://php.net/sprintf">sprintf</a></code>. Here is what the right solution looks like: </p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">printf(
+	/* translators: %s: Name of a city */
+	__( 'Your city is %s.', 'my-plugin' ),
+	$city
+);</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p>Notice that here the string for translation is just the template <code>"Your city is %s."</code>, which is the same both in the source and at run-time. </p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Also note that there is a hint for translators so that they know the context of the placeholder.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>If you have more than one placeholder in a string, it is recommended that you use <a href="http://www.php.net/manual/en/function.sprintf.php#example-4829">argument swapping</a>. In this case, single quotes <code>(')</code> around the string are mandatory because double quotes <code>(")</code> will tell php to interpret the <code>$s</code> as the <code>s</code> variable, which is not what we want. </p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">printf(
+	/* translators: 1: Name of a city 2: ZIP code */
+	__( 'Your city is %1$s, and your zip code is %2$s.', 'my-plugin' ),
+	$city,
+	$zipcode
+);</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p>Here the zip code is being displayed after the city name. In some languages displaying the zip code and city in opposite order would be more appropriate. Using <var>%s</var> prefix in the above example, allows for such a case. A translation can thereby be written: </p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">printf(
+	/* translators: 1: Name of a city 2: ZIP code */
+	__( 'Your zip code is %2$s, and your city is %1$s.', 'my-plugin' ),
+	$city,
+	$zipcode
+);</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p><strong>Important!</strong> The following code is incorrect: </p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">// This is incorrect do not use.
+_e( "Your city is $city.", 'my-plugin' );</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p>The strings for translation are extracted from the sources, so the translators will get this phrase to translate: <code>"Your city is $city."</code>. </p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>However in the application <code>_e</code> will be called with an argument like <code>"Your city is London."</code> and <code>gettext</code> won't find a suitable translation of this one and will return its argument: <code>"Your city is London."</code>. Unfortunately, it isn't translated correctly. </p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2>Plurals </h2>
+<!-- /wp:heading -->
+
+<!-- wp:heading {"level":3} -->
+<h3>Basic Pluralization </h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>If you have string that changes when the number of items changes, you'll need a way to reflect this in your translations. For example, in English you have <code>"One comment"</code> and <code>"Two comments"</code>. In other languages you can have multiple plural forms. To handle this in WordPress use the <code><a href="https://developer.wordpress.org/reference/functions/_n/">_n()</a></code> function. </p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code -->
+<pre class="wp-block-syntaxhighlighter-code">printf(
+	_n(
+		'%s comment',
+		'%s comments',
+		get_comments_number(),
+		'my-plugin'
+	),
+	number_format_i18n( get_comments_number() )
+);</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p>
+	<code>_n()</code> accepts 4 arguments:
+</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:list -->
+<ul><li>singular - the singular form of the string (note that it can be used for numbers other than one in some languages, so <code>'%s item'</code> should be used instead of <code>'One item'</code>)</li><li>plural - the plural form of the string</li><li>count - the number of objects, which will determine whether the singular or the plural form should be returned (there are languages, which have far more than 2 forms)</li><li>text domain - the plugins text domain</li></ul>
+<!-- /wp:list -->
+
+<!-- wp:paragraph -->
+<p>The return value of the functions is the correct translated form, corresponding to the given count. </p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Note that some languages use the singular form for other numbers (e.g. 21, 31 and so on, much like '21st', '31st' in English). If you would like to special case the singular, check for it specifically:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code -->
+<pre class="wp-block-syntaxhighlighter-code">if ( 1 === $count ) {
+	printf( esc_html__( 'Last thing!', 'my-text-domain' ), $count );
+} else {
+	printf( esc_html( _n( '%d thing.', '%d things.', $count, 'my-text-domain' ) ), $count );
+}</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p>Also note that the <code>$count</code> parameter is often used twice. First <code>$count</code> is passed to <code>_n()</code> to determine which translated string to use, and then <code>$count</code> is passed to <code>printf()</code> to substitute the number into the translated string.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3>Pluralization done later </h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>You first set the plural strings with <code><a href="https://developer.wordpress.org/reference/functions/_n_noop/">_n_noop()</a></code> or <code><a href="https://developer.wordpress.org/reference/functions/_nx_noop/">_nx_noop()</a></code>. </p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">$comments_plural = _n_noop(
+	'%s comment.',
+	'%s comments.'
+);</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p>Then at a later point in the code you can use <code><a href="https://developer.wordpress.org/reference/functions/translate_nooped_plural/">translate_nooped_plural()</a></code> to load the strings. </p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code -->
+<pre class="wp-block-syntaxhighlighter-code">printf(
+	translate_nooped_plural(
+		$comments_plural,
+		get_comments_number(),
+		'my-plugin'
+	),
+	number_format_i18n( get_comments_number() )
+);</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:heading -->
+<h2>Disambiguation by context </h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Sometimes one term is used in several contexts and although it is one and the same word in English it has to be translated differently in other languages. For example the word <code>Post</code> can be used both as a verb <code>"Click here to post your comment"</code> and as a noun <code>"Edit this post"</code>. In such cases the <code>_x()</code> or <code>_ex()</code> function should be used. It is similar to <code>__()</code> and <code>_e()</code>, but it has an additional argument -- the context: </p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code -->
+<pre class="wp-block-syntaxhighlighter-code">_x( 'Post', 'noun', 'my-plugin' );
+_x( 'Post', 'verb', 'my-plugin' );</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p>Using this method in both cases we will get the string Comment for the original version, but the translators will see two Comment strings for translation, each in the different contexts. </p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Note that similarly to <code>__()</code>, <code>_x()</code> has an <code>echo</code> version: <code>_ex()</code>. The previous example could be written as: </p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code -->
+<pre class="wp-block-syntaxhighlighter-code">_ex( 'Post', 'noun', 'my-plugin' );
+_ex( 'Post', 'verb', 'my-plugin' );</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p>
+	Use whichever you feel enhances legibility and ease-of-coding.
+</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2>Descriptions </h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>So that translators know how to translate a string like <code>__( 'g:i:s a' )</code> you can add a clarifying comment in the source code. It has to start with the words <code>translators:</code> and to be the last PHP comment before the gettext call. Here is an example: </p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code -->
+<pre class="wp-block-syntaxhighlighter-code">/* translators: draft saved date format, see http://php.net/date */
+$saved_date_format = __( 'g:i:s a' );</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p>It's also used to explain placeholders in a string like <code>_n_noop( '&lt;strong&gt;Version %1$s&lt;/strong&gt; addressed %2$s bug.','&lt;strong&gt;Version %1$s&lt;/strong&gt; addressed %2$s bugs.' )</code>. </p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code -->
+<pre class="wp-block-syntaxhighlighter-code">/* translators: 1: WordPress version number, 2: plural number of bugs. */
+_n_noop( '&lt;strong&gt;Version %1$s&lt;/strong&gt; addressed %2$s bug.','&lt;strong&gt;Version %1$s&lt;/strong&gt;strong&gt; addressed %2$s bugs.' );</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:heading -->
+<h2>Newline characters </h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Gettext doesn't like <code>\r</code> (ASCII code: 13) in translatable strings, so please avoid it and use <code>\n</code> instead. </p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2>Empty strings </h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>The empty string is reserved for internal Gettext usage and you must not try to internationalize the empty string. It also doesn't make any sense, because the translators won't see any context. </p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>
+	If you have a valid use-case to internationalize an empty string, add context to both help translators and be in peace with the Gettext system.
+</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2>Escaping strings </h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>It is good to escape all of your strings, this way the translators cannot run malicious code. There are a few escape functions that are integrated with internationalization functions. </p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2>Localization functions </h2>
+<!-- /wp:heading -->
+
+<!-- wp:heading {"level":3} -->
+<h3>Basic functions </h3>
+<!-- /wp:heading -->
+
+<!-- wp:list -->
+<ul><li><a href="https://developer.wordpress.org/reference/functions/__/">__()</a></li><li><a href="https://developer.wordpress.org/reference/functions/_e/">_e()</a></li><li><a href="https://developer.wordpress.org/reference/functions/_x/">_x()</a></li><li><a href="https://developer.wordpress.org/reference/functions/_ex/">_ex()</a></li><li><a href="https://developer.wordpress.org/reference/functions/_n/">_n()</a></li><li><a href="https://developer.wordpress.org/reference/functions/_nx/">_nx()</a></li><li><a href="https://developer.wordpress.org/reference/functions/_n_noop/">_n_noop()</a></li><li><a href="https://developer.wordpress.org/reference/functions/_nx_noop/">_nx_noop()</a></li><li><a href="https://developer.wordpress.org/reference/functions/translate_nooped_plural()/">translate_nooped_plural()</a></li></ul>
+<!-- /wp:list -->
+
+<!-- wp:heading {"level":3} -->
+<h3>Translate &amp; Escape functions </h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Strings that require translation and is used in attributes of html tags must be escaped. </p>
+<!-- /wp:paragraph -->
+
+<!-- wp:list -->
+<ul><li><a href="https://developer.wordpress.org/reference/functions/esc_html__/">esc_html__()</a></li><li><a href="https://developer.wordpress.org/reference/functions/esc_html_e/">esc_html_e()</a></li><li><a href="https://developer.wordpress.org/reference/functions/esc_html_x/">esc_html_x()</a></li><li><a href="https://developer.wordpress.org/reference/functions/esc_attr__/">esc_attr__()</a></li><li><a href="https://developer.wordpress.org/reference/functions/esc_attr_e/">esc_attr_e()</a></li><li><a href="https://developer.wordpress.org/reference/functions/esc_attr_x/">esc_attr_x()</a></li></ul>
+<!-- /wp:list -->
+
+<!-- wp:heading {"level":3} -->
+<h3>Date and number functions </h3>
+<!-- /wp:heading -->
+
+<!-- wp:list -->
+<ul><li><a href="https://developer.wordpress.org/reference/functions/number_format_i18n">number_format_i18n()</a></li><li><a href="https://developer.wordpress.org/reference/functions/date_i18n">date_i18n()</a></li></ul>
+<!-- /wp:list -->
+
+<!-- wp:heading -->
+<h2>Best Practices for writing strings </h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Here are the best practices for writing strings </p>
+<!-- /wp:paragraph -->
+
+<!-- wp:list -->
+<ul><li>Use decent English style - minimize slang and abbreviations.</li><li>Use entire sentences - in most languages word order is different than that in English.</li><li>Split at paragraphs - merge related sentences, but do not include a whole page of text in one string.</li><li>Do not leave leading or trailing whitespace in a translatable phrase.</li><li>Assume strings can double in length when translated</li><li>Avoid unusual markup and unusual control characters - do not include tags that surround your text</li><li>Do not put unnecessary HTML markup into the translated string</li><li>Do not leave URLs for translation, unless they could have a version in another language.</li><li>Add the variables as placeholders to the string as in some languages the placeholders change position.</li></ul>
+<!-- /wp:list -->
+
+<!-- wp:syntaxhighlighter/code -->
+<pre class="wp-block-syntaxhighlighter-code">printf(
+	__( 'Search results for: %s', 'my-plugin' ),
+	get_search_query()
+);</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:list -->
+<ul><li>Use format strings instead of string concatenation - translate phrases and not words - <code>printf( __( 'Your city is %1$s, and your zip code is %2$s.', 'my-plugin' ), $city, $zipcode ); </code> is always better than: <code> __( 'Your city is ', 'my-plugin' ) . $city . __( ', and your zip code is ', 'my-plugin' ) . $zipcode; </code></li><li>Try to use the same words and same symbols so not multiple strings needs to be translated e.g.<code>__( 'Posts:', 'my-plugin' );</code> and <code>__( 'Posts', 'my-plugin' );</code></li></ul>
+<!-- /wp:list -->
+
+<!-- wp:heading {"level":3} -->
+<h3>Add Text Domain to strings </h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>
+	You must add your Text domain as an argument to every <code>__()</code>, <code>_e()</code> and <code>__n()</code> gettext call, or your translations won't work.
+</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Examples: </p>
+<!-- /wp:paragraph -->
+
+<!-- wp:list -->
+<ul><li><code>__( 'Post' )</code> should become <code>__( 'Post', 'my-theme' )</code></li><li><code>_e( 'Post' )</code> should become <code>_e( 'Post', 'my-theme' )</code></li><li><code>_n( '%s post', '%s posts', $count )</code> should become <code>_n( '%s post', '%s posts', $count, 'my-theme' )</code></li></ul>
+<!-- /wp:list -->
+
+<!-- wp:paragraph -->
+<p>If there are strings in your plugin that are also used in WordPress core (e.g. 'Settings'), you should still add your own text domain to them, otherwise they'll become untranslated if the core string changes (which happens). </p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Adding the text domain by hand can be a burden if not done continuously when writing code and that's why you can do it automatically: </p>
+<!-- /wp:paragraph -->
+
+<!-- wp:list -->
+<ul><li>Download the <code><a href="https://develop.svn.wordpress.org/branches/5.2/tools/i18n/add-textdomain.php">add-textdomain.php</a></code> script to the folder where the file is you want to add the text domain</li><li>In command line move to the directory where the file is</li><li>Run this command to create a new file with the text domain added:</li></ul>
+<!-- /wp:list -->
+
+<!-- wp:syntaxhighlighter/code {"language":"bash"} -->
+<pre class="wp-block-syntaxhighlighter-code">php add-textdomain.php my-plugin my-plugin.php &gt; new-my-plugin.php</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p>If you wish to have the <code>add-textdomain.php</code> in a different folder you just need to define the location in the command. </p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"bash"} -->
+<pre class="wp-block-syntaxhighlighter-code">php /path/to/add-textdomain.php my-plugin my-plugin.php &gt; new-my-plugin.php</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p>Use this command if you don't want a new file outputted: </p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code -->
+<pre class="wp-block-syntaxhighlighter-code">php add-textdomain.php -i my-plugin my-plugin.php</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p>If you want to change multiple files in a directory you can also pass a directory to the script: </p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code -->
+<pre class="wp-block-syntaxhighlighter-code">php add-textdomain.php -i my-plugin my-plugin-directory</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:paragraph -->
+<p>After it's done, the text domain will be added to the end of all gettext calls in the file. If there is an existing text domain it will not be replaced. </p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2>Loading Text Domain</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Translations can be loaded using <code>load_plugin_textdomain</code>, for example:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">add_action( 'init', 'wpdocs_load_textdomain' );
+
+function wpdocs_load_textdomain() {
+	load_plugin_textdomain( 'wpdocs_textdomain', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' ); 
+}</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:heading {"level":3} -->
+<h3>Plugins on WordPress.org</h3>
+<!-- /wp:heading -->
+
+<!-- wp:shortcode -->
+[info]Since WordPress 4.6 translations now take <a href="https://translate.wordpress.org/">translate.wordpress.org</a> as priority and so plugins that are translated via translate.wordpress.org do not necessary require <code>load_plugin_textdomain()</code> anymore. If you don't want to add a <code>load_plugin_textdomain()</code> call to your plugin you have to set the <code>Requires at least:</code> field in your readme.txt to 4.6 or more. [/info]
+<!-- /wp:shortcode -->
+
+<!-- wp:paragraph -->
+<p>If you still want to load your own translations and not the ones from translate, you will have to use a hook filter named <code>load_textdomain_mofile</code>. <br><strong>Example</strong> with a .mo file in the <code>/languages/</code> directory of your plugin, with this code inserted in the main plugin file:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code -->
+<pre class="wp-block-syntaxhighlighter-code">function my_plugin_load_my_own_textdomain( $mofile, $domain ) {
+	if ( 'my-domain' === $domain &amp;&amp; false !== strpos( $mofile, WP_LANG_DIR . '/plugins/' ) ) {
+		$locale = apply_filters( 'plugin_locale', determine_locale(), $domain );
+		$mofile = WP_PLUGIN_DIR . '/' . dirname( plugin_basename( __FILE__ ) ) . '/languages/' . $domain . '-' . $locale . '.mo';
+	}
+	return $mofile;
+}
+add_filter( 'load_textdomain_mofile', 'my_plugin_load_my_own_textdomain', 10, 2 );</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:heading -->
+<h2>Handling JavaScript files </h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Check the <a href="https://developer.wordpress.org/apis/handbook/internationalization/#internationalizing-javascript">Internationalizing javascript</a> section of the <a href="https://developer.wordpress.org/apis/">Common APIs Handbook</a> to see how to properly load your translation files. There is also the <a href="https://github.com/WordPress/gutenberg/blob/master/docs/designers-developers/developers/internationalization.md" target="_blank" rel="noreferrer noopener">Gutenburg plugin docs page</a>.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2>Language Packs </h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>If you're interested in language packs and how the import to <a href="http://translate.wordpress.org">translate.wordpress.org</a> is working, please read the <a href="https://make.wordpress.org/meta/handbook/documentation/translations/">Meta Handbook page about Translations</a>. </p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Also refer <a href="https://make.wordpress.org/polyglots/handbook/plugin-theme-authors-guide/">Plugin/Theme Authors Guide in Polyglots Handbooks</a> for getting your project translated. </p>
+<!-- /wp:paragraph -->

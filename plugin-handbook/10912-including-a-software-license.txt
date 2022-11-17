@@ -1,0 +1,30 @@
+https://developer.wordpress.org/plugins/plugin-basics/including-a-software-license/
+
+<!-- wp:paragraph -->
+<p>Most WordPress plugins are released under the <a rel="noopener noreferrer" href="http://www.gnu.org/licenses/gpl.html" target="_blank">GPL</a>, which is the same license that <a rel="noreferrer noopener" href="https://wordpress.org/about/license/" target="_blank">WordPress itself uses</a>. However, there are other compatible options available. It is always best to clearly indicate the license your plugin uses.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>In the <a href="https://developer.wordpress.org/plugins/the-basics/header-requirements/">Header Requirements</a> section, we briefly mentioned how you can indicate your&nbsp;plugin's license within the plugin header comment. Another common, and encouraged, practice is to place a license block comment near the top of your main plugin file (the same one that has the plugin header comment).</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>This license block comment usually looks something like this:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">/*
+{Plugin Name} is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 2 of the License, or
+any later version.
+
+{Plugin Name} is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with {Plugin Name}. If not, see {URI to Plugin License}.
+*/</pre>
+<!-- /wp:syntaxhighlighter/code -->

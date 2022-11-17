@@ -1,0 +1,159 @@
+https://developer.wordpress.org/apis/handbook/options/
+
+<!-- wp:heading -->
+<h2>Overview</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>The&nbsp;<strong>Options API</strong>&nbsp;is a simple and standardized way of storing data in the database. The API makes it easy to create, access, update, and delete options. All the data is stored in the&nbsp;<a href="https://developer.wordpress.org/apis/handbook/database/">wp_options table</a>&nbsp;under a given custom name. </p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>This page contains the technical documentation needed to use the Options API. A list of default options can be found in the&nbsp;<a href="https://codex.wordpress.org/Option_Reference">Option Reference</a> (link to Codex version, waiting for content migration to HelpHub).</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Note that the&nbsp;<code>_site_</code>&nbsp;functions are essentially the same as their counterparts. The only differences occur for WP Multisite, when the options apply network-wide and the data is stored in the&nbsp;<a href="https://developer.wordpress.org/apis/handbook/database/">wp_sitemeta</a>&nbsp;table under the given custom name.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2>Function Reference</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p><strong>Add/Delete Option</strong>:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:list -->
+<ul><li><a href="https://developer.wordpress.org/reference/functions/add_option/">add_option()</a></li><li><a href="https://developer.wordpress.org/reference/functions/delete_option/">delete_option()</a></li><li><a href="https://developer.wordpress.org/reference/functions/add_site_option/">add_site_option()</a></li><li><a href="https://developer.wordpress.org/reference/functions/delete_site_option/">delete_site_option()</a></li></ul>
+<!-- /wp:list -->
+
+<!-- wp:paragraph -->
+<p><strong>Get/Update Option:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:list -->
+<ul><li><a href="https://developer.wordpress.org/reference/functions/get_option/">get_option()</a></li><li><a href="https://developer.wordpress.org/reference/functions/update_option/">update_option()</a></li><li><a href="https://developer.wordpress.org/reference/functions/get_site_option/">get_site_option()</a></li><li><a href="https://developer.wordpress.org/reference/functions/update_site_option/">update_site_option()</a></li></ul>
+<!-- /wp:list -->
+
+<!-- wp:heading -->
+<h2>Examples</h2>
+<!-- /wp:heading -->
+
+<!-- wp:syntaxhighlighter/code {"language":"php"} -->
+<pre class="wp-block-syntaxhighlighter-code">// Create an option to the database
+add_option( $option, $value = , $deprecated = , $autoload = 'yes' );
+
+// Removes option by name.
+delete_option( $option );
+
+// Fetch a saved option
+get_option( $option, $default = false );
+
+// Update the value of an option that was already added.
+update_option( $option, $newvalue );</pre>
+<!-- /wp:syntaxhighlighter/code -->
+
+<!-- wp:heading -->
+<h2>Available options by category</h2>
+<!-- /wp:heading -->
+
+<!-- wp:heading {"level":3} -->
+<h3>Discussion</h3>
+<!-- /wp:heading -->
+
+<!-- wp:list -->
+<ul><li><code>blacklist_keys</code>: When a comment contains any of these words in its content, name, URL, e-mail, or IP, it will be marked as spam. One word or IP per line. It will match inside words, so "press" will match "WordPress."<br>Default: NULL<br><em>Data type:</em><strong>String (possibly multi-line)</strong></li><li><code>comment_max_links</code>:&nbsp;Hold a comment in the queue if it contains the value of this option or more.<br>Default: 2<br><em>Data type:</em><strong>Integer</strong></li><li><code>comment_moderation</code>:&nbsp;Before a comment appears, an administrator must always approve the comment.<br><strong>1</strong>&nbsp;:&nbsp;<em>Yes</em><br><strong>0</strong>&nbsp;:&nbsp;<em>False</em>&nbsp;(default)<br><em>Data type:</em><strong>Integer</strong></li><li><code>comments_notify</code>:&nbsp;E-mail me when anyone posts a comment.<br><strong>1</strong>&nbsp;:&nbsp;<em>Yes</em>&nbsp;(default)<br><strong>0</strong>&nbsp;:&nbsp;<em>No</em><br><em>Data type:</em><strong>Integer</strong></li><li><code>default_comment_status</code>:&nbsp;Allow comments (can be overridden with individual posts)<br><strong>open</strong>&nbsp;:&nbsp;<em>Allow comments</em>&nbsp;(default)<br><strong>closed</strong>&nbsp;:&nbsp;<em>Disallow comments</em><br><em>Data type:</em><strong>String</strong></li><li><code>default_ping_status</code>:&nbsp;Allow link notifications from other blogs (pingbacks and trackbacks).<br><strong>open</strong>&nbsp;:&nbsp;<em>Allow pingbacks and trackbacks from other blogs</em>&nbsp;(default)<br><strong>closed</strong>&nbsp;:&nbsp;<em>Disallow pingbacks and trackbacks from other blogs</em><br><em>Data type:</em><strong>String</strong></li><li><code>default_pingback_flag</code>:&nbsp;Attempt to notify any blogs linked to from the article (slows down posting).<br><strong>1</strong>&nbsp;:&nbsp;<em>Yes</em>&nbsp;(default)<br><strong>0</strong>&nbsp;:&nbsp;<em>No</em><br><em>Data type:</em><strong>Integer</strong></li><li><code>moderation_keys</code>:&nbsp;When a comment contains any of these words in its content, name, URL, e-mail, or IP, it will be held in the moderation queue. One word or IP per line. It will match inside words, so "press" will match "WordPress."<br>Default: NULL<br><em>Data type:</em><strong>String (possibly multi-line)</strong></li><li><code>moderation_notify</code>:&nbsp;E-mail me when a comment is held for moderation.<br><strong>1</strong>&nbsp;:&nbsp;<em>Yes</em>&nbsp;(default)<br><strong>0</strong>&nbsp;:&nbsp;<em>No</em><br><em>Data type:</em><strong>Integer</strong></li><li><code>require_name_email</code>: Before a comment appears, the comment author must fill out his/her name and email.<br><strong>1</strong>&nbsp;:&nbsp;<em>Yes</em>&nbsp;(default)<br><strong>0</strong>&nbsp;:&nbsp;<em>No</em><br><em>Data type:</em><strong>Integer</strong></li><li><code>thread_comments</code>:&nbsp;Enable WP-native threaded (nested) comments.<br><strong>1</strong>&nbsp;:&nbsp;<em>Yes</em><br><strong>0</strong>&nbsp;:&nbsp;<em>No</em>&nbsp;(default)<br><em>Data type:</em><strong>Integer</strong></li><li><code>thread_comments_depth</code>:&nbsp;Set the number of threading levels for comments.<br><strong>1</strong>&nbsp;thru&nbsp;<br><strong>10</strong>&nbsp;: levels<br>Default: 5<br><em>Data type:</em><strong>Integer</strong></li><li><code>show_avatars</code>: Avatar Display<br><strong>1</strong>&nbsp;: (default)&nbsp;<em>Show Avatars</em><br><strong>0</strong>&nbsp;:&nbsp;<em>Do not show Avatars</em><br><em>Data type:</em><strong>Integer</strong></li><li><code>avatar_rating</code>: Maximum Rating<br><strong>G</strong>&nbsp;: (default)&nbsp;<em>Suitable for all audiences</em><br><strong>PG</strong>&nbsp;:&nbsp;<em>Possibly offensive, usually for audiences 13 and above</em><br><strong>R</strong>&nbsp;:&nbsp;<em>Intended for adult audiences above 17</em><br><strong>X</strong>&nbsp;:&nbsp;<em>Even more mature than above</em><br><em>Data type:</em><strong>String</strong></li><li><code>avatar_default</code>: Default Avatar<br><strong>mystery</strong>&nbsp;: (default)&nbsp;<em>Mystery Man</em><br><strong>blank</strong>&nbsp;:&nbsp;<em>Blank</em><br><strong>gravatar_default</strong>&nbsp;:&nbsp;<em>Gravatar Logo</em><br><strong>identicon</strong>&nbsp;:&nbsp;<em>Identicon (Generated)</em><br><strong>wavatar</strong>&nbsp;:&nbsp;<em>Wavatar (Generated)</em><br><strong>monsterid</strong>&nbsp;:&nbsp;<em>MonsterID (Generated)</em><br><strong>retro</strong>&nbsp;:&nbsp;<em>Retro (Generated)</em><br><em>Data type:</em><strong>String</strong></li><li><code>close_comments_for_old_posts</code>: Automatically close comments on old articles<br><strong>1</strong>&nbsp;:&nbsp;<em>Yes</em><br><strong>0</strong>&nbsp;:&nbsp;<em>No</em>&nbsp;(default)<br><em>Data type:</em><strong>Integer</strong></li><li><code>close_comments_days_old</code>: Automatically close comments on articles older than x days<br>Default: 14<br><em>Data type:</em><strong>Integer</strong></li><li><code>show_comments_cookies_opt_in</code>: Show the cookies opt-in checkbox on the comment form and enable comment cookies<br><strong>1</strong>&nbsp;:&nbsp;<em>Yes</em>&nbsp;(default as of 4.9.8)<br><strong>0</strong>&nbsp;:&nbsp;<em>No</em><br><em>Data type:</em><strong>Integer</strong></li><li><code>page_comments</code>: Break comments into pages<br><strong>1</strong>&nbsp;:&nbsp;<em>Yes</em>&nbsp;(default)<br><strong>0</strong>&nbsp;:&nbsp;<em>No</em><br><em>Data type:</em><strong>Integer</strong></li><li><code>comments_per_page</code>:<br>Default: 50<br><em>Data type:</em><strong>Integer</strong></li><li><code>default_comments_page</code>:<br>Default: 'newest'<br><em>Data type:</em><strong>String</strong></li><li><code>comment_order</code>:<br><strong>asc</strong>&nbsp;: (default)<br><strong>desc</strong>&nbsp;:<br><em>Data type:</em><strong>String</strong></li><li><code>comment_whitelist</code>: Comment author must have a previously approved comment<br><strong>1</strong>&nbsp;:&nbsp;<em>Yes</em>&nbsp;(default)<br><strong>0</strong>&nbsp;:&nbsp;<em>No</em><br><em>Data type:</em></li></ul>
+<!-- /wp:list -->
+
+<!-- wp:heading {"level":3} -->
+<h3>General</h3>
+<!-- /wp:heading -->
+
+<!-- wp:list -->
+<ul><li><code>admin_email</code>:&nbsp;Administrator email<br>Default: 'you@example.com'<br><em>Data type:</em><strong>String</strong></li><li><code>blogdescription</code>:&nbsp;Blog tagline<br>Default: '__('Just another WordPress weblog')'<br><em>Data type:</em><strong>String</strong></li><li><code>blogname</code>:&nbsp;Blog title<br>Default: '__('My Blog')'<br><em>Data type:</em><strong>String</strong></li><li><code>comment_registration</code>:&nbsp;Users must be registered and logged in to comment<br><strong>1</strong>&nbsp;:&nbsp;<em>Yes</em><br><strong>0</strong>&nbsp;:&nbsp;<em>No</em>&nbsp;(default)<br><em>Data type:</em><strong>Integer</strong></li><li><code>date_format</code>:&nbsp;Default date format<br>Default: '__('F j, Y')'<br><em>Data type:</em><strong>String</strong></li><li><code>default_role</code>: The default&nbsp;role of users&nbsp;who register at the blog.<br><strong>subscriber</strong>&nbsp;(default)<br><strong>administrator</strong><br><strong>editor</strong><br><strong>author</strong><br><strong>contributor</strong><br><em>Data type:</em><strong>String</strong></li><li><code>gmt_offset</code>:&nbsp;Times in the blog should differ by this value.<br><strong>-6</strong>&nbsp;:&nbsp;<em>GMT -6 (aka Central Time, USA)</em><br><strong>0</strong>&nbsp;:&nbsp;<em>GMT (aka Greenwich Mean Time)</em><br>Default:&nbsp;<a href="http://www.php.net/manual/en/function.date.php">date</a>('Z') / 3600<br><em>Data type:</em><strong>Integer</strong></li><li><code>home</code>:&nbsp;Blog address (URL)<br>Default: wp_guess_url()<br><em>Data type:</em><strong>String (URI)</strong></li><li><code>siteurl</code>:&nbsp;WordPress address (URL)<br>Default <code>wp_guess_url()</code><br><em>Data type:</em><strong>String (URI)</strong></li><li><code>start_of_week</code>:&nbsp;The starting day of the week.<br><strong>0</strong>&nbsp;:&nbsp;<em>Sunday</em><br><strong>1</strong>&nbsp;:&nbsp;<em>Monday</em>&nbsp;(default)<br><strong>2</strong>&nbsp;:&nbsp;<em>Tuesday</em><br><strong>3</strong>&nbsp;:&nbsp;<em>Wednesday</em><br><strong>4</strong>&nbsp;:&nbsp;<em>Thursday</em><br><strong>5</strong>&nbsp;:&nbsp;<em>Friday</em><br><strong>6</strong>&nbsp;:&nbsp;<em>Saturday</em><br><em>Data type:</em><strong>Integer</strong></li><li><code>time_format</code>:&nbsp;Default time format<br>Default: '__('g:i a')'<br><em>Data type:</em><strong>String</strong></li><li><code>timezone_string</code>: Timezone<br>Default: NULL<br><em>Data type:</em><strong>String</strong></li><li><code>users_can_register</code>:&nbsp;Anyone can register<br><strong>1</strong>&nbsp;:&nbsp;<em>Yes</em><br><strong>0</strong>&nbsp;:&nbsp;<em>No</em>&nbsp;(default)<br><em>Data type:</em><strong>Integer</strong></li></ul>
+<!-- /wp:list -->
+
+<!-- wp:heading {"level":3} -->
+<h3>Links</h3>
+<!-- /wp:heading -->
+
+<!-- wp:list -->
+<ul><li><code>links_updated_date_format</code>:<br>Default <code>__('F j, Y g:i a')</code><br><em>Data type:</em><strong>String</strong></li><li><code>links_recently_updated_prepend</code>:<br>Default empty<br><em>Data type:&nbsp;<strong>String</strong></em></li><li><code>links_recently_updated_append</code><br><em>Default</em> empty<br><em>Data type:</em><strong>String</strong></li><li><code>links_recently_updated_time</code><br>Default: 120<br><em>Data type:</em><strong>Integer</strong></li></ul>
+<!-- /wp:list -->
+
+<!-- wp:heading {"level":3} -->
+<h3>Media</h3>
+<!-- /wp:heading -->
+
+<!-- wp:list -->
+<ul><li><code>thumbnail_size_w</code>:<br>Default: 150<br><em>Data type:</em><strong>Integer</strong></li><li><code>thumbnail_size_h</code>:<br>Default: 150<br><em>Data type:</em><strong>Integer</strong></li><li><code>thumbnail_crop</code>: Crop thumbnail to exact dimensions (normally thumbnails are proportional)<br><strong>1</strong>&nbsp;:&nbsp;<em>Yes</em>&nbsp;(default)<br><strong>0</strong>&nbsp;:&nbsp;<em>No</em><br><em>Data type:</em><strong>Integer</strong></li><li><code>medium_size_w</code>: <br>Default: 300<br><em>Data type:</em><strong>Integer</strong></li><li><code>medium_size_h</code><br>Default: 300<br><em>Data type:</em><strong>Integer</strong></li><li><code>large_size_w</code><br>Default: 1024<br><em>Data type:</em><strong>Integer</strong></li><li><code>large_size_h</code><br>Default: 1024<br><em>Data type:</em><strong>Integer</strong></li><li><code>embed_autourls</code>: Attempt to automatically embed all plain text URLs<br>Default: 1<br><em>Data type:</em><strong>Integer</strong></li><li><code>embed_size_w</code><br>Default: NULL<br><em>Data type:</em><strong>Integer</strong></li><li><code>embed_size_h</code><br>Default: 600<br><em>Data type:</em><strong>Integer</strong></li></ul>
+<!-- /wp:list -->
+
+<!-- wp:heading {"level":3} -->
+<h3>Miscellaneous</h3>
+<!-- /wp:heading -->
+
+<!-- wp:list -->
+<ul><li><code>hack_file</code>:&nbsp;Use legacy&nbsp;<code>my-hacks.php</code>&nbsp;file support<br><strong>1</strong>&nbsp;:&nbsp;<em>Yes</em><br><strong>0</strong>&nbsp;:&nbsp;<em>No</em>&nbsp;(default)<br><em>Data type:</em><strong>Integer</strong></li><li><code>html_type</code>:&nbsp;Default MIME type for blog pages (text/html,&nbsp;text/xml+html, etc.)<br>Default: 'text/html'<br><em>Data type:</em><strong>String (MIME type)</strong></li><li><code>secret</code>:&nbsp;Secret value created during installation used with salting, etc.<br>Default: wp_generate_password(64)<br><em>Data type:</em><strong>String (MD5)</strong></li><li><code>upload_path</code>:&nbsp;Store uploads in this folder (relative to the WordPress root)<br>Default: NULL<br><em>Data type:</em><strong>String (relative path)</strong></li><li><code>upload_url_path</code>:&nbsp;URL path to upload folder (will be blank by default - Editable in&nbsp;"All Settings" Screen.<br><em>Data type:</em><strong>String (URL path)</strong></li><li><code>uploads_use_yearmonth_folders</code>:&nbsp;Organize my uploads into month- and year-based folders<br><strong>1</strong>&nbsp;:&nbsp;<em>Yes</em>&nbsp;(default)<br><strong>0</strong>&nbsp;:&nbsp;<em>No</em>&nbsp;(default for safe mode)<br><em>Data type:</em><strong>Integer</strong></li><li><code>use_linksupdate</code>:&nbsp;Track links' update times<br><strong>1</strong>&nbsp;:&nbsp;<em>Yes</em><br><strong>0</strong>&nbsp;:&nbsp;<em>No</em>&nbsp;(default)<br><em>Data type:</em><strong>Integer</strong></li></ul>
+<!-- /wp:list -->
+
+<!-- wp:heading {"level":3} -->
+<h3>Permalinks</h3>
+<!-- /wp:heading -->
+
+<!-- wp:list -->
+<ul><li><code>permalink_structure</code>:&nbsp;The desired structure of your blog's permalinks. Some examples:<br><code>/%year%/%monthnum%/%day%/%postname%/</code>: Date and name based<br><code>/archives/%post_id%/</code>: Numeric<br><code>/%postname%/</code>: Post name-based<br>Default: NULL<br><em>Data type:</em><strong>String</strong></li><li><code>category_base</code>: The default category base of your blog categories permalink.<br>Default: NULL<br><em>Data type:</em><strong>String</strong></li><li><code>tag_base</code>: The default tag base for your blog tags permalink.<br>Default: NULL<br><em>Data type:</em><strong>String</strong></li></ul>
+<!-- /wp:list -->
+
+<!-- wp:heading {"level":3} -->
+<h3>Privacy</h3>
+<!-- /wp:heading -->
+
+<!-- wp:list -->
+<ul><li><code>blog_public</code>:<br><strong>1</strong>&nbsp;:&nbsp;<em>I would like my blog to be visible to everyone, including search engines (like Google, Sphere, Technorati) and archivers.</em>&nbsp;(default)<br><strong>0</strong>&nbsp;:&nbsp;<em>I would like to block search engines, but allow normal visitors.</em><br><em>Data type:</em><strong>Integer</strong></li></ul>
+<!-- /wp:list -->
+
+<!-- wp:heading {"level":3} -->
+<h3>Reading</h3>
+<!-- /wp:heading -->
+
+<!-- wp:list -->
+<ul><li><code>blog_charset</code>:&nbsp;Encoding for pages and feeds. The character encoding you write your blog in (UTF-8 is recommended).<br>Default: <code>UTF-8</code><br><em>Data type:</em><strong>String</strong></li><li><code>gzipcompression</code>:&nbsp;WordPress should compress articles (with gzip) if browsers ask for them.<br><strong>1</strong>&nbsp;:&nbsp;<em>Yes</em><br><strong>0</strong>&nbsp;:&nbsp;<em>No</em>&nbsp;(default)<br><em>Data type:</em><strong>Integer</strong></li><li><code>page_on_front</code>:&nbsp;The ID of the page that should be displayed on the front page. Requires&nbsp;<code>show_on_front</code>'s value to be&nbsp;<strong>page</strong>.<br><em>Data type:</em><strong>Integer</strong></li><li><code>page_for_posts</code>:&nbsp;The ID of the page that displays posts. Useful when&nbsp;<code>show_on_front</code>'s value is&nbsp;<strong>page</strong>.<br><em>Data type:</em><strong>Integer</strong></li><li><code>posts_per_page</code>:&nbsp;Show at most&nbsp;<strong>x</strong>&nbsp;many posts on blog pages.<br>Default: 10<br><em>Data type:</em><strong>Integer</strong></li><li><code>posts_per_rss</code>:&nbsp;Show at most&nbsp;<strong>x</strong>&nbsp;many posts in RSS feeds.<br>Default: 10<br><em>Data type:</em><strong>Integer</strong></li><li><code>rss_language</code>:&nbsp;Language for RSS feeds (metadata purposes only)<br>Default: <code>en</code><br><em>Data type:</em><strong>String (ISO two-letter language code)</strong></li><li><code>rss_use_excerpt</code>:&nbsp;Show an excerpt instead of the full text of a post in RSS feeds<br><strong>1</strong>&nbsp;:&nbsp;<em>Yes</em><br><strong>0</strong>&nbsp;:&nbsp;<em>No</em>&nbsp;(default)<br><em>Data type:</em><strong>Integer</strong></li><li><code>show_on_front</code>:&nbsp;What to show on the front page<br><strong>posts</strong>&nbsp;:&nbsp;<em>Your latest posts</em>&nbsp;(default)<br><strong>page</strong>&nbsp;:&nbsp;<em>A static page (see page_on_front)</em><br><em>Data type:</em><strong>String</strong></li></ul>
+<!-- /wp:list -->
+
+<!-- wp:heading {"level":3} -->
+<h3>Themes</h3>
+<!-- /wp:heading -->
+
+<!-- wp:list -->
+<ul><li><code>template</code>:&nbsp;The slug of the currently activated theme (how it is accessed by path, ex.&nbsp;<code>/wp-content/themes/my-theme</code> (<code>my-theme</code> would be the value of this option).<br>Default: 'default'<br><em>Data type:</em><strong>String</strong></li><li><code>stylesheet</code>:&nbsp;The slug of the currently activated stylesheet (style.css) (how it is accessed by path, ex.&nbsp;<code>/wp-content/themes/my-style</code> (my-style would be the value of this option)<br>Default: 'default'<br><em>Data type:</em><strong>String</strong></li></ul>
+<!-- /wp:list -->
+
+<!-- wp:heading {"level":3} -->
+<h3>Writing</h3>
+<!-- /wp:heading -->
+
+<!-- wp:list -->
+<ul><li><code>default_category</code>:&nbsp;ID of the category that posts will be put in by default<br>Default: 1<br><em>Data type:</em><strong>Integer</strong></li><li><code>default_email_category</code>:&nbsp;ID of the category that posts will be put in by default when written via e-mail<br>Default: 1<br><em>Data type:</em><strong>Integer</strong></li><li><code>default_link_category</code>:&nbsp;ID of the category that links will be put in by default<br>Default: 2<br><em>Data type:</em><strong>Integer</strong></li><li><code>default_post_edit_rows</code>:&nbsp;Size of the post box (in lines)<br>Default: 10<br><em>Data type:</em><strong>Integer</strong></li><li><code>mailserver_login</code>:&nbsp;Mail server username for posting to WordPress by e-mail<br>Default: 'login@example.com'<br><em>Data type:</em><strong>String</strong></li><li><code>mailserver_pass</code>:&nbsp;Mail server password for posting to WordPress by e-mail<br>Default: 'password'<br><em>Data type:</em><strong>String</strong></li><li><code>mailserver_port</code>:&nbsp;Mail server port for posting to WordPress by e-mail<br>Default: 110<br><em>Data type:</em><strong>Integer</strong></li><li><code>mailserver_url</code>:&nbsp;Mail server for posting to WordPress by e-mail<br>Default: 'mail.example.com'<br><em>Data type:</em><strong>String</strong></li><li><code>ping_sites</code>:&nbsp;When you publish a new post, WordPress automatically notifies the following site update services. For more about this, see&nbsp;<a href="https://codex.wordpress.org/Update_Services">Update Services</a>. Separate multiple service URLs with line breaks. Requires&nbsp;<code>blog_public</code>&nbsp;to have a value of&nbsp;<strong>1</strong>.<br>Default: '<a href="http://rpc.pingomatic.com/'">http://rpc.pingomatic.com/'</a><br><em>Data type:</em><strong>String (possibly multi-line)</strong></li><li><code>use_balanceTags</code>:&nbsp;Correct invalidly-nested XHTML automatically<br><strong>1</strong>&nbsp;:&nbsp;<em>Yes</em><br><strong>0</strong>&nbsp;:&nbsp;<em>No</em>&nbsp;(default)<br><em>Data type:</em><strong>Integer</strong></li><li><code>use_smilies</code>:&nbsp;Convert emoticons like&nbsp;<code>:-)</code>&nbsp;and&nbsp;<code>:P</code>&nbsp;to graphics when displayed<br><strong>1</strong>&nbsp;:&nbsp;<em>Yes</em>&nbsp;(default)<br><strong>0</strong>&nbsp;:&nbsp;<em>No</em><br><em>Data type:</em><strong>Integer</strong></li><li><code>use_trackback</code>:&nbsp;Enable sending and receiving of trackbacks<br><strong>1</strong>&nbsp;:&nbsp;<em>Yes</em><br><strong>0</strong>&nbsp;:&nbsp;<em>No</em>&nbsp;(default)</li><li><code>enable_app</code>: Enable the Atom Publishing Protocol<br><strong>1</strong>&nbsp;:&nbsp;<em>Yes</em><br><strong>0</strong>&nbsp;:&nbsp;<em>No</em>&nbsp;(default)<br><em>Data type:</em><strong>Integer</strong></li><li><code>enable_xmlrpc</code>: Enable the WordPress, Movable Type, MetaWeblog and Blogger XML-RPC publishing protocols<br><strong>1</strong>&nbsp;:&nbsp;<em>Yes</em><br><strong>0</strong>&nbsp;:&nbsp;<em>No</em>&nbsp;(default)<br><em>Data type:</em><strong>Integer</strong></li></ul>
+<!-- /wp:list -->
+
+<!-- wp:heading {"level":3} -->
+<h3>Uncategorized</h3>
+<!-- /wp:heading -->
+
+<!-- wp:list -->
+<ul><li><code>active_plugins</code>:&nbsp;Returns an array of strings containing the path of the&nbsp;<em>main</em>&nbsp;php file of the plugin. The path is relative to the&nbsp;<em>plugins</em>&nbsp;folder. An example of path in the array&nbsp;: <code>/mainpage.php</code>.<br>Default: array()<br><em>Data type:</em><strong>Array</strong></li><li><code>advanced_edit</code>: <br>Default: 0<br><em>Data type:</em><strong>Integer</strong></li><li><code>recently_edited</code>: <br>Default: NULL<br><em>Data type:</em></li><li><code>image_default_link_type</code>: <br>Default: 'file'<br><em>Data type:</em>&nbsp;'file', 'none'</li><li><code>image_default_size</code>: <br>Default: NULL<br><em>Data type:</em>&nbsp;'thumbnail', 'medium', 'large' or Custom size</li><li><code>image_default_align</code>: <br>Default: NULL<br><em>Data type:</em>&nbsp;'left', 'right', 'center', 'none'</li><li><code>sidebars_widgets</code>:&nbsp;Returns array of sidebar states (list of active and inactive widgets).<br>Default:<br><em>Data type:</em><strong>Array</strong></li><li><code>sticky_posts</code>: <br>Default: array()<br><em>Data type:</em></li><li><code>widget_categories</code>:<br>Default: array()<br><em>Data type:</em></li><li><code>widget_text</code>:<br>Default: array()<br><em>Data type:</em></li><li><code>widget_rss</code>:<br>Default: array()<br><em>Data type:</em></li></ul>
+<!-- /wp:list -->
+
+<!-- wp:heading -->
+<h2>All Settings Screen</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p><a href="/support/wordpress-version/version-3-0/">WordPress 3.0</a>&nbsp;removed Settings &gt; Miscellaneous screen and some of options cannot be reached (ex.&nbsp;upload_url_path). You may use All Settings Screen to view and change almost all options listed in above.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:image {"id":125728} -->
+<figure class="wp-block-image"><img src="https://developer.wordpress.org/files/2019/08/all-settings-screen-1024x640.png" alt="" class="wp-image-125728" /></figure>
+<!-- /wp:image -->

@@ -1,0 +1,432 @@
+https://developer.wordpress.org/themes/basics/the-loop/
+
+<!-- wp:paragraph -->
+<p>The Loop is the default mechanism WordPress uses for outputting posts through a theme's <a href="https://developer.wordpress.org/themes/basics/template-files/">template files</a>. How many posts are retrieved is determined by the number of posts to show per page defined in the Reading settings. Within the Loop, WordPress retrieves each post to be displayed on the current page and formats it according to your theme's instructions.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>The Loop extracts the data for each post from the WordPress database and inserts the appropriate information in place of each <a href="https://developer.wordpress.org/themes/basics/template-tags/">template tag</a>. Any HTML or PHP code in The Loop will be processed <strong>for each post</strong>.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>To put it simply, the Loop is true to its name: it loops through each post retrieved for the current page one at a time and performs the action specified in your theme.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>You can use the Loop for a number of different things, for example to:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:list -->
+<ul><li>display post titles and excerpts on your blog's homepage;</li><li>display the content and comments on a single post;</li><li>display the content on an individual page using template tags; and</li><li>display data from <a href="https://developer.wordpress.org/themes/functionality/pages-posts-custom-post-types/">Custom Post Types</a> and Custom Fields.</li></ul>
+<!-- /wp:list -->
+
+<!-- wp:paragraph -->
+<p>You can customize the Loop across your template files to display and manipulate different content.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2>The Loop in Detail</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>The basic loop is:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:shortcode -->
+[php]&lt;?php 
+if ( have_posts() ) : 
+    while ( have_posts() ) : the_post(); 
+        // Display post content
+    endwhile; 
+endif; 
+?&gt;
+[/php]
+<!-- /wp:shortcode -->
+
+<!-- wp:paragraph -->
+<p>This loop says that when there are posts, loop through and display the posts. Broken down into more detail:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:list -->
+<ul><li>The <code><a href="http://developer.wordpress.org/reference/functions/have_posts/">have_posts()</a></code> function checks whether there are any posts.</li><li>If there are posts, a <strong><code>while</code></strong> loop continues to execute as long as the condition in the parenthesis is logically true. As long as <code>have_posts()</code> continues to be true, the loop will continue.</li></ul>
+<!-- /wp:list -->
+
+<!-- wp:heading {"level":3} -->
+<h3>Using The Loop</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>The Loop should be placed in <code>index.php</code>, and in any other templates which are used to display post information. Because you do not want to duplicate your header over and over, the loop should always be placed after the call to <code><a href="http://developer.wordpress.org/reference/functions/get_header/">get_header()</a></code>. For example:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:shortcode -->
+[php]&lt;?php 
+get_header();
+if ( have_posts() ) : 
+    while ( have_posts() ) : the_post(); 
+        // Display post content
+    endwhile; 
+endif; 
+?&gt;
+[/php]
+<!-- /wp:shortcode -->
+
+<!-- wp:paragraph -->
+<p>In the above example, the end of the Loop is shown with an <code>endwhile</code> and <code>endif</code>. The Loop must always begin with the same <code>if</code> and <code>while</code> statements, as mentioned above and must end with the same end statements.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Any <a href="http://developer.wordpress.org/themes/basics/template-tags/">template tags</a> that you wish to apply to all posts must exist between the beginning and ending statements.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:shortcode -->
+[tip] You can include a custom 404 "not found" message that will be displayed if no posts matching the specified criteria are available. The message must be placed between the <code>endwhile</code> and <code>endif</code> statements, as seen in examples below.[/tip]
+<!-- /wp:shortcode -->
+
+<!-- wp:paragraph -->
+<p>An extremely simple <code>index.php</code> file would look like:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:shortcode -->
+[php]&lt;?php
+get_header();
+
+if ( have_posts() ) : 
+    while ( have_posts() ) : the_post();
+        the_content();
+    endwhile;
+else :
+    _e( 'Sorry, no posts matched your criteria.', 'textdomain' );
+endif;
+
+get_sidebar();
+get_footer();
+?&gt;
+[/php]
+<!-- /wp:shortcode -->
+
+<!-- wp:heading -->
+<h2>What the Loop Can Display</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>The Loop can display a number of different elements for each post. For example, some common <a title="Template Tags" href="https://developer.wordpress.org/themes/basics/template-tags/">template tags</a> used in many themes are:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:list -->
+<ul><li><code><a href="http://developer.wordpress.org/reference/functions/next_post_link/">next_post_link()</a></code> – a link to the post published chronologically <em>after</em> the current post</li><li><code><a href="http://developer.wordpress.org/reference/functions/previous_post_link/">previous_post_link()</a></code> – a link to the post published chronologically <em>before</em> the current post</li><li><code><a href="http://developer.wordpress.org/reference/functions/the_category/">the_category()</a></code> – the category or categories associated with the post or page being viewed</li><li><code><a href="http://developer.wordpress.org/reference/functions/the_author/">the_author()</a></code> – the author of the post or page</li><li><code><a href="http://developer.wordpress.org/reference/functions/the_content/">the_content()</a></code> – the main content for a post or page</li><li><code><a href="http://developer.wordpress.org/reference/functions/the_excerpt/">the_excerpt()</a></code> – the first 55 words of a post’s main content followed by an ellipsis (...) or read more link that goes to the full post. You may also use the "Excerpt" field of a post to customize the length of a particular excerpt.</li><li><code><a href="http://developer.wordpress.org/reference/functions/the_id/">the_ID()</a></code> – the ID for the post or page</li><li><code><a href="http://developer.wordpress.org/reference/functions/the_meta/">the_meta()</a></code> – the custom fields associated with the post or page</li><li><code><a href="http://developer.wordpress.org/reference/functions/the_shortlink/">the_shortlink()</a></code> – a link to the page or post using the url of the site and the ID of the post or page</li><li><code><a href="http://developer.wordpress.org/reference/functions/the_tags/">the_tags()</a></code> – the tag or tags associated with the post</li><li><code><a href="http://developer.wordpress.org/reference/functions/the_title/">the_title()</a></code> – the title of the post or page</li><li><code><a href="http://developer.wordpress.org/reference/functions/the_time/">the_time()</a></code> – the time or date for the post or page. This can be customized using standard php date function formatting.</li></ul>
+<!-- /wp:list -->
+
+<!-- wp:paragraph -->
+<p>You can also use <a href="https://developer.wordpress.org/themes/basics/conditional-tags/">conditional tags</a>, such as:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:list -->
+<ul><li><code><a href="http://developer.wordpress.org/reference/functions/is_home/">is_home()</a></code> – Returns true if the current page is the homepage</li><li><code><a href="http://developer.wordpress.org/reference/functions/is_admin/">is_admin()</a></code> – Returns true if inside Administration Screen, false otherwise</li><li><code><a href="http://developer.wordpress.org/reference/functions/is_single/">is_single()</a></code> – Returns true if the page is currently displaying a single post</li><li><code><a href="http://developer.wordpress.org/reference/functions/is_page/">is_page()</a></code> – Returns true if the page is currently displaying a single page</li><li><code><a href="http://developer.wordpress.org/reference/functions/is_page_template/">is_page_template()</a></code> – Can be used to determine if a page is using a specific template, for example: <code>is_page_template('about-page.php')</code></li><li><code><a href="http://developer.wordpress.org/reference/functions/is_category/">is_category()</a></code> – Returns true if page or post has the specified category, for example: <code>is_category('news')</code></li><li><code><a href="http://developer.wordpress.org/reference/functions/is_tag/">is_tag()</a></code> – Returns true if a page or post has the specified tag</li><li><code><a href="http://developer.wordpress.org/reference/functions/is_author/">is_author()</a></code> – Returns true if inside author's archive page</li><li><code><a href="http://developer.wordpress.org/reference/functions/is_search/">is_search()</a></code> – Returns true if the current page is a search results page</li><li><code><a href="http://developer.wordpress.org/reference/functions/is_404/">is_404()</a></code> – Returns true if the current page does not exist</li><li><code><a href="http://developer.wordpress.org/reference/functions/has_excerpt/">has_excerpt()</a></code> – Returns true if the post or page has an excerpt</li></ul>
+<!-- /wp:list -->
+
+<!-- wp:heading -->
+<h2>Examples</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Let's take a look at some examples of the Loop in action:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3>Basic Examples</h3>
+<!-- /wp:heading -->
+
+<!-- wp:heading {"level":4} -->
+<h4>Blog Archive</h4>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Most blogs have a blog archive page, which can show a number of things including the post title, thumbnail, and excerpt. The example below shows a simple loop that checks to see if there are any posts and, if there are, outputs each post's title, thumbnail, and excerpt. If no posts exists, it displays the message in parentheses.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:shortcode -->
+[php]&lt;?php 
+if ( have_posts() ) : 
+    while ( have_posts() ) : the_post(); 
+        the_title( '&lt;h2&gt;', '&lt;/h2&gt;' ); 
+        the_post_thumbnail(); 
+        the_excerpt();
+    endwhile; 
+else: 
+    _e( 'Sorry, no posts matched your criteria.', 'textdomain' ); 
+endif; 
+?&gt;
+[/php]
+<!-- /wp:shortcode -->
+
+<!-- wp:heading {"level":4} -->
+<h4>Individual Post</h4>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>In WordPress, each post has its own page, which displays the relevant information for that post. Template tags allow you to customize which information you want to display.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>In the example below, the loop outputs the post's title and content. You could use this example in a post or page template file to display the most basic information about the post. You could also customize this template to add more data to the post, for example the category.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:shortcode -->
+[php]&lt;?php 
+if ( have_posts() ) : 
+    while ( have_posts() ) : the_post(); 
+        the_title( '&lt;h1&gt;', '&lt;/h1&gt;' ); 
+        the_content();
+    endwhile; 
+else: 
+    _e( 'Sorry, no pages matched your criteria.', 'textdomain' ); 
+endif; 
+?&gt;
+[/php]
+<!-- /wp:shortcode -->
+
+<!-- wp:heading {"level":3} -->
+<h3>Intermediate Examples</h3>
+<!-- /wp:heading -->
+
+<!-- wp:heading {"level":4} -->
+<h4>Style Posts from Some Categories Differently</h4>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>The example below does a couple of things:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:list -->
+<ul><li>First, it displays each post with its title, time, author, content, and category, similar to the individual post example above.</li><li>Next, it makes it possible for posts with the category ID of "3" to be styled differently, utilizing the <code><a href="http://developer.wordpress.org/reference/functions/in_category/">in_category()</a></code> template tag.</li></ul>
+<!-- /wp:list -->
+
+<!-- wp:paragraph -->
+<p>Code comments in this example provide details throughout each stage of the loop:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:shortcode -->
+[php]&lt;?php
+// Start the Loop.
+if ( have_posts() ) : 
+    while ( have_posts() ) : the_post();
+        /* * See if the current post is in category 3.
+          * If it is, the div is given the CSS class "post-category-three".
+          * Otherwise, the div is given the CSS class "post".
+        */
+        if ( in_category( 3 ) ) : ?&gt;
+        &lt;div class="post-category-three"&gt;
+        &lt;?php else : ?&gt;
+        &lt;div class="post"&gt;
+        &lt;?php endif; 
+
+            // Display the post's title.
+            the_title( '&lt;h2&gt;', ';&lt;/h2&gt;' ); 
+
+            // Display a link to other posts by this posts author.
+            printf( __( 'Posted by %s', 'textdomain' ), get_the_author_posts_link() );
+
+            // Display the post's content in a div.
+            ?&gt;
+            &lt;div class="entry"&gt;
+                &lt;?php the_content() ?&gt;
+             &lt;/div&gt;
+    
+            &lt;?php
+            // Display a comma separated list of the post's categories.
+            _e( 'Posted in ', 'textdomain' ); the_category( ', ' ); 
+
+        // closes the first div box with the class of "post" or "post-cat-three"
+       ?&gt;
+       &lt;/div&gt;
+
+    &lt;?php 
+    // Stop the Loop, but allow for a "if not posts" situation
+    endwhile; 
+
+else :
+    /*
+      * The very first "if" tested to see if there were any posts to
+      * display. This "else" part tells what do if there weren't any.
+     */
+     _e( 'Sorry, no posts matched your criteria.', 'textdomain' );
+ 
+// Completely stop the Loop.
+ endif;
+?&gt;
+[/php]
+<!-- /wp:shortcode -->
+
+<!-- wp:heading -->
+<h2>Multiple Loops</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>In some situations, you may need to use more than one loop. For example you may want to display the titles of the posts in a table of content list at the top of the page and then display the content further down the page. Since the query isn't being changed we simply need to rewind the loop when we need to loop through the posts for a second time. For that we will use the function rewind_posts().</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3>Using rewind_posts</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>You can use <code><a href="http://developer.wordpress.org/reference/functions/rewind_posts/">rewind_posts()</a></code> to loop through the <em>same</em> query a second time. This is useful if you want to display the same query twice in different locations on a page.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Here is an example of <code>rewind_posts()</code> in use:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:shortcode -->
+[php]&lt;?php
+// Start the main loop
+if ( have_posts() ) : 
+    while ( have_posts() ) : the_post();
+        the_title();
+    endwhile;
+endif;
+
+// Use rewind_posts() to use the query a second time.
+rewind_posts();
+
+// Start a new loop
+while ( have_posts() ) : the_post();
+    the_content();
+endwhile;
+?&gt;
+[/php]
+<!-- /wp:shortcode -->
+
+<!-- wp:heading {"level":3} -->
+<h3>Creating secondary queries and loops</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Using two loops with the same query was relatively easy but not always what you will need. Instead, you will often want to create a secondary query to display different content on the template. For example, you might want to display two groups of posts on the same page, but do different things to each group. A common example of this, as shown below, is displaying a single post with a list of posts from the same category below the single post.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:shortcode -->
+[php]&lt;?php
+// The main query.
+if ( have_posts() ) : 
+    while ( have_posts() ) : the_post();
+        the_title();
+        the_content();
+    endwhile;
+else :
+    // When no posts are found, output this text.
+    _e( 'Sorry, no posts matched your criteria.' );
+endif;
+wp_reset_postdata();                                                        
+
+/*
+ * The secondary query. Note that you can use any category name here. In our example,
+ * we use "example-category".
+ */
+$secondary_query = new WP_Query( 'category_name=example-category' );        
+
+// The second loop. 
+if ( $secondary_query-&gt;have_posts() )
+    echo '&lt;ul&gt;';
+    while ( $secondary_query-&gt;have_posts() ) : $secondary_query-&gt;the_post();
+        the_title( '&lt;li&gt;', '&lt;/li&gt;' );
+     endwhile;
+     echo '&lt;/ul&gt;';
+endif;
+wp_reset_postdata();
+?&gt;
+[/php]
+<!-- /wp:shortcode -->
+
+<!-- wp:paragraph -->
+<p>As you can see in the example above, we first display a regular loop. Then we define a new variable that uses <code><a href="https://developer.wordpress.org/reference/classes/wp_query/">WP_Query</a></code> to query a specific category; in our case, we chose the <code>example-category</code> slug.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Note that the regular loop in the example above has one difference: it calls <code><a href="https://developer.wordpress.org/reference/functions/wp_reset_postdata/">wp_reset_postdata()</a></code> to reset the post data. Before you can use a second loop, you need to reset the post data. There are two ways to do this:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:list {"ordered":true} -->
+<ol><li>By using the <code><a href="http://developer.wordpress.org/reference/functions/rewind_posts/">rewind_posts()</a></code> function; or</li><li>By creating new query objects.</li></ol>
+<!-- /wp:list -->
+
+<!-- wp:heading {"level":3} -->
+<h3>Resetting multiple loops</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>It's important when using multiple loops in a template that you reset them. Not doing so can lead to unexpected results due to how data is stored and used within the <code></code>global <code>$post</code> variable. There are three main ways to reset the loop depending on the way they are called.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:list -->
+<ul><li><code></code><code><a href="http://developer.wordpress.org/reference/functions/wp_reset_postdata/">wp_reset_postdata()</a></code></li><li><code><a href="http://developer.wordpress.org/reference/functions/wp_reset_query/">wp_reset_query()</a></code></li><li><code><a href="http://developer.wordpress.org/reference/functions/rewind_posts/">rewind_posts()</a></code></li></ul>
+<!-- /wp:list -->
+
+<!-- wp:heading {"level":3} -->
+<h3>Using wp_reset_postdata</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Use <code><a href="http://developer.wordpress.org/reference/functions/wp_reset_postdata/">wp_reset_postdata()</a></code> when you are running custom or multiple loops with <code>WP_Query</code>. This function restores the global <code>$post</code> variable to the current post in the main query. If you're following best practices, this is the most common function you will use to reset loops.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>To properly use this function, place the following code after any loops with <code>WP_Query</code>:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:shortcode -->
+[php]
+&lt;?php wp_reset_postdata(); ?&gt;
+[/php]
+<!-- /wp:shortcode -->
+
+<!-- wp:paragraph -->
+<p>Here is an example of a loop using <code>WP_Query</code> that is reset with <code><a href="http://developer.wordpress.org/reference/functions/wp_reset_postdata/">wp_reset_postdata()</a></code>.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:shortcode -->
+[php] &lt;?php 
+// Example argument that defines three posts per page. 
+$args = array( 'posts_per_page' =&gt; 3 ); 
+
+// Variable to call WP_Query. 
+$the_query = new WP_Query( $args ); 
+
+if ( $the_query-&gt;have_posts() ) : 
+    // Start the Loop 
+    while ( $the_query-&gt;have_posts() ) : $the_query-&gt;the_post(); 
+        the_title(); 
+        the_excerpt(); 
+    // End the Loop 
+    endwhile; 
+else: 
+// If no posts match this query, output this text. 
+    _e( 'Sorry, no posts matched your criteria.', 'textdomain' ); 
+endif; 
+
+wp_reset_postdata(); 
+?&gt; [/php]
+<!-- /wp:shortcode -->
+
+<!-- wp:heading {"level":3} -->
+<h3>Using wp_reset_query</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Using <code><a href="http://developer.wordpress.org/reference/functions/wp_reset_query/">wp_reset_query()</a></code> restores the WP_Query and global <code>$post</code> data to the original main query. You <strong>MUST</strong> use this function to reset your loop if you use <code><a href="http://developer.wordpress.org/reference/functions/query_posts/">query_posts()</a></code> within your loop. You can use it after custom loops with WP_Query because it actually calls <code><a href="http://developer.wordpress.org/reference/functions/wp_reset_postdata/">wp_reset_postdata()</a></code> when it runs. However, it's best practice to use <code><a href="http://developer.wordpress.org/reference/functions/wp_reset_postdata/">wp_reset_postdata()</a></code> with any custom loops involving <code>WP_Query</code>.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:shortcode -->
+[alert] <code><a href="http://developer.wordpress.org/reference/functions/query_posts/">query_posts()</a></code> is <em>not best practice</em> and should be avoided if at all possible. Therefore, you shouldn't have much use for <code><a href="http://developer.wordpress.org/reference/functions/wp_reset_query/">wp_reset_query()</a></code>.[/alert]
+<!-- /wp:shortcode -->
+
+<!-- wp:paragraph -->
+<p>To properly use this function, place the following code after any loops with <code><a href="http://developer.wordpress.org/reference/functions/query_posts/">query_posts()</a></code>.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:shortcode -->
+[php]
+&lt;?php wp_reset_query(); ?&gt;
+[/php]
+<!-- /wp:shortcode -->
