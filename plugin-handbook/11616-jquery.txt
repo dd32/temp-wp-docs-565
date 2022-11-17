@@ -8,7 +8,7 @@ https://developer.wordpress.org/plugins/javascript/jquery/
 <p>Your jQuery script runs on the user's browser after your WordPress webpage is received. A basic jQuery statement has two parts: a selector that determines which HTML elements the code applies to, and an action or event, which determines what the code does or what it reacts to. The basic event statement looks like this:</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:code -->
+<!-- wp:code {"language":"js"} -->
 <pre class="wp-block-code"><code lang="js" class="language-js">jQuery.(selector).event(function);</code></pre>
 <!-- /wp:code -->
 
@@ -57,7 +57,7 @@ https://developer.wordpress.org/plugins/javascript/jquery/
 <p>The selector is the same form as CSS selectors: <tt>".class"</tt> or <tt>"#id"</tt>. There's many <a title="jQuery Reference" href="http://api.jquery.com/category/selectors/">more forms</a>, but these are the two you will frequently use. In our example, we will use class <tt>".pref"</tt>. There's also a slew of possible <a title="jQuery Reference" href="http://api.jquery.com/category/events/">events</a>, one you will likely use a lot is <em>'click'</em>. In our example we will use <em>'change'</em> to capture a radio button selection. Be aware that jQuery events are often named somewhat differently than those with JavaScript. So far, after we add in an empty anonymous function, our example statement looks like this:</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:code -->
+<!-- wp:code {"language":"js"} -->
 <pre class="wp-block-code"><code lang="js" class="language-js">$.(".pref").change(function(){
 	/*do stuff*/
 });</code></pre>
