@@ -37,7 +37,7 @@ https://developer.wordpress.org/plugins/hooks/filters/
 <!-- /wp:paragraph -->
 
 <!-- wp:code -->
-<pre class="wp-block-code"><code>function wporg_filter_title( $title ) {
+<pre class="wp-block-code"><code lang="php" class="language-php">function wporg_filter_title( $title ) {
 	return 'The ' . $title . ' was filtered';
 }
 add_filter( 'the_title', 'wporg_filter_title' );</code></pre>
@@ -76,7 +76,7 @@ add_filter( 'the_title', 'wporg_filter_title' );</code></pre>
 <!-- /wp:paragraph -->
 
 <!-- wp:code -->
-<pre class="wp-block-code"><code>function wporg_css_body_class( $classes ) {
+<pre class="wp-block-code"><code lang="php" class="language-php">function wporg_css_body_class( $classes ) {
 	if ( ! is_admin() ) {
 		$classes[] = 'wporg-is-awesome';
 	}

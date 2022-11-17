@@ -85,7 +85,7 @@ https://developer.wordpress.org/plugins/taxonomies/working-with-custom-taxonomie
 <!-- /wp:paragraph -->
 
 <!-- wp:code -->
-<pre class="wp-block-code"><code>/*
+<pre class="wp-block-code"><code lang="php" class="language-php">/*
 * Plugin Name: Course Taxonomy
 * Description: A short example showing how to add a taxonomy called Course.
 * Version: 1.0

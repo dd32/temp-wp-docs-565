@@ -142,7 +142,7 @@ add_action( 'init', 'wporg_delete_post' );</code></pre>
 <!-- /wp:paragraph -->
 
 <!-- wp:code {"highlightLines":"54,64"} -->
-<pre class="wp-block-code"><code>/**
+<pre class="wp-block-code"><code lang="php" class="language-php">/**
  * Generate a Delete link based on the homepage url.
  *
  * @param string $content   Existing content.

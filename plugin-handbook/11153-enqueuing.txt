@@ -95,7 +95,7 @@ function my_enqueue( $hook ) {
 <!-- /wp:paragraph -->
 
 <!-- wp:code -->
-<pre class="wp-block-code"><code>wp_localize_script(
+<pre class="wp-block-code"><code lang="php" class="language-php">wp_localize_script(
 	'ajax-script',
 	'my_ajax_obj',
 	array(
@@ -110,7 +110,7 @@ function my_enqueue( $hook ) {
 <!-- /wp:paragraph -->
 
 <!-- wp:code -->
-<pre class="wp-block-code"><code>add_action( 'admin_enqueue_scripts', 'my_enqueue' );
+<pre class="wp-block-code"><code lang="php" class="language-php">add_action( 'admin_enqueue_scripts', 'my_enqueue' );
 
 /**
  * Enqueue my scripts and assets.
@@ -163,7 +163,7 @@ You've probably used one or more of the PHP super globals such as <code>$_GET</c
 <!-- /wp:paragraph -->
 
 <!-- wp:code -->
-<pre class="wp-block-code"><code>add_action( 'wp_ajax_my_tag_count', 'my_ajax_handler' );
+<pre class="wp-block-code"><code lang="php" class="language-php">add_action( 'wp_ajax_my_tag_count', 'my_ajax_handler' );
 
 /**
  * Handles my AJAX request.
@@ -180,7 +180,7 @@ function my_ajax_handler() {
 <!-- /wp:paragraph -->
 
 <!-- wp:code -->
-<pre class="wp-block-code"><code>check_ajax_referer( 'title_example' );</code></pre>
+<pre class="wp-block-code"><code lang="php" class="language-php">check_ajax_referer( 'title_example' );</code></pre>
 <!-- /wp:code -->
 
 <!-- wp:paragraph -->
@@ -204,7 +204,7 @@ function my_ajax_handler() {
 <!-- /wp:paragraph -->
 
 <!-- wp:code -->
-<pre class="wp-block-code"><code>$args      = array(
+<pre class="wp-block-code"><code lang="php" class="language-php">$args      = array(
 	'tag' =&gt; $_POST['title'],
 );
 $the_query = new WP_Query( $args );</code></pre>
@@ -239,7 +239,7 @@ $the_query = new WP_Query( $args );</code></pre>
 <!-- /wp:paragraph -->
 
 <!-- wp:code -->
-<pre class="wp-block-code"><code>echo esc_html( $_POST['title'] ) . ' (' . $the_query-&gt;post_count . ') ';</code></pre>
+<pre class="wp-block-code"><code lang="php" class="language-php">echo esc_html( $_POST['title'] ) . ' (' . $the_query-&gt;post_count . ') ';</code></pre>
 <!-- /wp:code -->
 
 <!-- wp:paragraph -->

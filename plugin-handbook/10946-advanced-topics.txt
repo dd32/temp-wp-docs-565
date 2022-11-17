@@ -35,7 +35,7 @@ To successfully remove a callback function you must&nbsp;perform the removal aft
 <!-- /wp:paragraph -->
 
 <!-- wp:code -->
-<pre class="wp-block-code"><code>function wporg_setup_slider() {
+<pre class="wp-block-code"><code lang="php" class="language-php">function wporg_setup_slider() {
 	// ...
 }
 add_action( 'template_redirect', 'wporg_setup_slider', 9 );</code></pre>
@@ -50,7 +50,7 @@ add_action( 'template_redirect', 'wporg_setup_slider', 9 );</code></pre>
 <!-- /wp:paragraph -->
 
 <!-- wp:code -->
-<pre class="wp-block-code"><code>function wporg_disable_slider() {
+<pre class="wp-block-code"><code lang="php" class="language-php">function wporg_disable_slider() {
 	// Make sure all parameters match the add_action() call exactly.
 	remove_action( 'template_redirect', 'wporg_setup_slider', 9 );
 }
@@ -79,7 +79,7 @@ add_action( 'after_setup_theme', 'wporg_disable_slider' );</code></pre>
 <!-- /wp:paragraph -->
 
 <!-- wp:code -->
-<pre class="wp-block-code"><code>function wporg_modify_content( $content ) {
+<pre class="wp-block-code"><code lang="php" class="language-php">function wporg_modify_content( $content ) {
 	switch ( current_filter() ) {
 		case 'the_content':
 			// Do something.

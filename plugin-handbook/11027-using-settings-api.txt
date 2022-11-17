@@ -43,7 +43,7 @@ register_setting() as well as the mentioned <code>add_settings_*()</code> functi
 <!-- /wp:heading -->
 
 <!-- wp:code -->
-<pre class="wp-block-code"><code>add_settings_section(
+<pre class="wp-block-code"><code lang="php" class="language-php">add_settings_section(
     string $id,
     string $title,
     callable $callback,

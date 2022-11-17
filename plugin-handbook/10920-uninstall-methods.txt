@@ -63,7 +63,7 @@ The constant is <strong>NOT</strong> defined when uninstall is performed by regi
 <!-- /wp:paragraph -->
 
 <!-- wp:code -->
-<pre class="wp-block-code"><code>// if uninstall.php is not called by WordPress, die
+<pre class="wp-block-code"><code lang="php" class="language-php">// if uninstall.php is not called by WordPress, die
 if (!defined('WP_UNINSTALL_PLUGIN')) {
     die;
 }

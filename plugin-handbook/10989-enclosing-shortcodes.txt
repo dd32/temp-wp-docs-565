@@ -78,7 +78,7 @@ It is the responsibility of the handler function to <a href="https://developer.w
 <!-- /wp:paragraph -->
 
 <!-- wp:code -->
-<pre class="wp-block-code"><code>[wporg]another [shortcode] is included[/wporg]</code></pre>
+<pre class="wp-block-code"><code lang="php" class="language-php">[wporg]another [shortcode] is included[/wporg]</code></pre>
 <!-- /wp:code -->
 
 <!-- wp:paragraph -->
@@ -106,7 +106,7 @@ add_shortcode( 'wporg', 'wporg_shortcode' );</pre>
 <!-- /wp:paragraph -->
 
 <!-- wp:code -->
-<pre class="wp-block-code"><code>[wporg] non-enclosed content [wporg]enclosed content[/wporg]</code></pre>
+<pre class="wp-block-code"><code lang="php" class="language-php">[wporg] non-enclosed content [wporg]enclosed content[/wporg]</code></pre>
 <!-- /wp:code -->
 
 <!-- wp:paragraph -->

@@ -134,7 +134,7 @@ function wporg_export_user_data_by_email( $email_address, $page = 1 ) {
 <!-- /wp:paragraph -->
 
 <!-- wp:code -->
-<pre class="wp-block-code"><code>/**
+<pre class="wp-block-code"><code lang="php" class="language-php">/**
  * Registers all data exporters.
  *
  * @param array $exporters

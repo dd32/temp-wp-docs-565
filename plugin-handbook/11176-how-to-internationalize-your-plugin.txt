@@ -132,7 +132,7 @@ https://developer.wordpress.org/plugins/internationalization/how-to-internationa
 <!-- /wp:paragraph -->
 
 <!-- wp:code -->
-<pre class="wp-block-code"><code>echo 'Your city is $city.'</code></pre>
+<pre class="wp-block-code"><code lang="php" class="language-php">echo 'Your city is $city.'</code></pre>
 <!-- /wp:code -->
 
 <!-- wp:paragraph -->
@@ -211,7 +211,7 @@ _e( "Your city is $city.", 'my-plugin' );</code></pre>
 <!-- /wp:paragraph -->
 
 <!-- wp:code -->
-<pre class="wp-block-code"><code>printf(
+<pre class="wp-block-code"><code lang="php" class="language-php">printf(
 	_n(
 		'%s comment',
 		'%s comments',
@@ -241,7 +241,7 @@ _e( "Your city is $city.", 'my-plugin' );</code></pre>
 <!-- /wp:paragraph -->
 
 <!-- wp:code -->
-<pre class="wp-block-code"><code>if ( 1 === $count ) {
+<pre class="wp-block-code"><code lang="php" class="language-php">if ( 1 === $count ) {
 	printf( esc_html__( 'Last thing!', 'my-text-domain' ), $count );
 } else {
 	printf( esc_html( _n( '%d thing.', '%d things.', $count, 'my-text-domain' ) ), $count );
@@ -272,7 +272,7 @@ _e( "Your city is $city.", 'my-plugin' );</code></pre>
 <!-- /wp:paragraph -->
 
 <!-- wp:code -->
-<pre class="wp-block-code"><code>printf(
+<pre class="wp-block-code"><code lang="php" class="language-php">printf(
 	translate_nooped_plural(
 		$comments_plural,
 		get_comments_number(),
@@ -291,7 +291,7 @@ _e( "Your city is $city.", 'my-plugin' );</code></pre>
 <!-- /wp:paragraph -->
 
 <!-- wp:code -->
-<pre class="wp-block-code"><code>_x( 'Post', 'noun', 'my-plugin' );
+<pre class="wp-block-code"><code lang="php" class="language-php">_x( 'Post', 'noun', 'my-plugin' );
 _x( 'Post', 'verb', 'my-plugin' );</code></pre>
 <!-- /wp:code -->
 
@@ -304,7 +304,7 @@ _x( 'Post', 'verb', 'my-plugin' );</code></pre>
 <!-- /wp:paragraph -->
 
 <!-- wp:code -->
-<pre class="wp-block-code"><code>_ex( 'Post', 'noun', 'my-plugin' );
+<pre class="wp-block-code"><code lang="php" class="language-php">_ex( 'Post', 'noun', 'my-plugin' );
 _ex( 'Post', 'verb', 'my-plugin' );</code></pre>
 <!-- /wp:code -->
 
@@ -323,7 +323,7 @@ _ex( 'Post', 'verb', 'my-plugin' );</code></pre>
 <!-- /wp:paragraph -->
 
 <!-- wp:code -->
-<pre class="wp-block-code"><code>/* translators: draft saved date format, see http://php.net/date */
+<pre class="wp-block-code"><code lang="php" class="language-php">/* translators: draft saved date format, see http://php.net/date */
 $saved_date_format = __( 'g:i:s a' );</code></pre>
 <!-- /wp:code -->
 
@@ -332,7 +332,7 @@ $saved_date_format = __( 'g:i:s a' );</code></pre>
 <!-- /wp:paragraph -->
 
 <!-- wp:code -->
-<pre class="wp-block-code"><code>/* translators: 1: WordPress version number, 2: plural number of bugs. */
+<pre class="wp-block-code"><code lang="php" class="language-php">/* translators: 1: WordPress version number, 2: plural number of bugs. */
 _n_noop( '&lt;strong&gt;Version %1$s&lt;/strong&gt; addressed %2$s bug.','&lt;strong&gt;Version %1$s&lt;/strong&gt;strong&gt; addressed %2$s bugs.' );</code></pre>
 <!-- /wp:code -->
 
@@ -411,7 +411,7 @@ _n_noop( '&lt;strong&gt;Version %1$s&lt;/strong&gt; addressed %2$s bug.','&lt;st
 <!-- /wp:list -->
 
 <!-- wp:code -->
-<pre class="wp-block-code"><code>printf(
+<pre class="wp-block-code"><code lang="php" class="language-php">printf(
 	__( 'Search results for: %s', 'my-plugin' ),
 	get_search_query()
 );</code></pre>
@@ -468,7 +468,7 @@ _n_noop( '&lt;strong&gt;Version %1$s&lt;/strong&gt; addressed %2$s bug.','&lt;st
 <!-- /wp:paragraph -->
 
 <!-- wp:code -->
-<pre class="wp-block-code"><code>php add-textdomain.php -i my-plugin my-plugin.php</code></pre>
+<pre class="wp-block-code"><code lang="php" class="language-php">php add-textdomain.php -i my-plugin my-plugin.php</code></pre>
 <!-- /wp:code -->
 
 <!-- wp:paragraph -->
@@ -476,7 +476,7 @@ _n_noop( '&lt;strong&gt;Version %1$s&lt;/strong&gt; addressed %2$s bug.','&lt;st
 <!-- /wp:paragraph -->
 
 <!-- wp:code -->
-<pre class="wp-block-code"><code>php add-textdomain.php -i my-plugin my-plugin-directory</code></pre>
+<pre class="wp-block-code"><code lang="php" class="language-php">php add-textdomain.php -i my-plugin my-plugin-directory</code></pre>
 <!-- /wp:code -->
 
 <!-- wp:paragraph -->
@@ -512,7 +512,7 @@ function wpdocs_load_textdomain() {
 <!-- /wp:paragraph -->
 
 <!-- wp:code -->
-<pre class="wp-block-code"><code>function my_plugin_load_my_own_textdomain( $mofile, $domain ) {
+<pre class="wp-block-code"><code lang="php" class="language-php">function my_plugin_load_my_own_textdomain( $mofile, $domain ) {
 	if ( 'my-domain' === $domain &amp;&amp; false !== strpos( $mofile, WP_LANG_DIR . '/plugins/' ) ) {
 		$locale = apply_filters( 'plugin_locale', determine_locale(), $domain );
 		$mofile = WP_PLUGIN_DIR . '/' . dirname( plugin_basename( __FILE__ ) ) . '/languages/' . $domain . '-' . $locale . '.mo';

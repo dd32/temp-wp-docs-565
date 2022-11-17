@@ -97,7 +97,7 @@ https://developer.wordpress.org/plugins/internationalization/localization/
 <!-- /wp:paragraph -->
 
 <!-- wp:code -->
-<pre class="wp-block-code"><code>#: plugin-name.php:123
+<pre class="wp-block-code"><code lang="php" class="language-php">#: plugin-name.php:123
 msgid "Page Title"
 msgstr ""</code></pre>
 <!-- /wp:code -->
@@ -107,7 +107,7 @@ msgstr ""</code></pre>
 <!-- /wp:paragraph -->
 
 <!-- wp:code -->
-<pre class="wp-block-code"><code>#: plugin-name.php:123
+<pre class="wp-block-code"><code lang="php" class="language-php">#: plugin-name.php:123
 msgid "Page Title"
 msgstr "Seitentitel"</code></pre>
 <!-- /wp:code -->

@@ -45,7 +45,7 @@ https://developer.wordpress.org/apis/handbook/dashboard-widgets/
 <!-- /wp:paragraph -->
 
 <!-- wp:code -->
-<pre class="wp-block-code"><code>/**
+<pre class="wp-block-code"><code lang="php" class="language-php">/**
  * Add a widget to the dashboard.
  *
  * This function is hooked into the 'wp_dashboard_setup' action below.
@@ -61,7 +61,7 @@ add_action( 'wp_dashboard_setup', 'wporg_add_dashboard_widgets' );</code></pre>
 <!-- /wp:paragraph -->
 
 <!-- wp:code -->
-<pre class="wp-block-code"><code>/**
+<pre class="wp-block-code"><code lang="php" class="language-php">/**
  * Add a widget to the network dashboard.
  *
  * This function is hooked into the 'wp_network_dashboard_setup' action below.
@@ -205,7 +205,7 @@ add_action( 'wp_dashboard_setup', 'wporg_remove_dashboard_widget' );</code></pre
 <!-- /wp:paragraph -->
 
 <!-- wp:code -->
-<pre class="wp-block-code"><code>function wporg_remove_all_dashboard_metaboxes() {
+<pre class="wp-block-code"><code lang="php" class="language-php">function wporg_remove_all_dashboard_metaboxes() {
 	// Remove Welcome panel
 	remove_action( 'welcome_panel', 'wp_welcome_panel' );
 	// Remove the rest of the dashboard widgets

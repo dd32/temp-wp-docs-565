@@ -21,7 +21,7 @@ https://developer.wordpress.org/apis/handbook/making-http-requests/advanced/
 <!-- /wp:paragraph -->
 
 <!-- wp:code -->
-<pre class="wp-block-code"><code>$args     = array(
+<pre class="wp-block-code"><code lang="php" class="language-php">$args     = array(
 	'method' =&gt; 'DELETE',
 );
 $response = wp_remote_request( 'http://some-api.com/object/to/delete', $args );</code></pre>

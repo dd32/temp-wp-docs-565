@@ -179,7 +179,7 @@ https://developer.wordpress.org/plugins/http-api/
 <!-- /wp:paragraph -->
 
 <!-- wp:code -->
-<pre class="wp-block-code"><code>Array(
+<pre class="wp-block-code"><code lang="php" class="language-php">Array(
 	[headers] =&gt; Array(
 		[server] =&gt; nginx
 		[date] =&gt; Fri, 05 Oct 2012 04:43:50 GMT
@@ -228,7 +228,7 @@ $body     = wp_remote_retrieve_body( $response );</code></pre>
 <!-- /wp:paragraph -->
 
 <!-- wp:code -->
-<pre class="wp-block-code"><code>{"type":"User","login":"blobaugh","public_repos":31,"gravatar_id":"f25f324a47a1efdf7a745e0b2e3c878f","followers":22,"avatar_url":"https://secure.gravatar.com/avatar/f25f324a47a1efdf7a745e0b2e3c878f?d=https://a248.e.akamai.net/assets.github.com%2Fimages%2Fgravatars%2Fgravatar-user-420.png","public_gists":1,"created_at":"2011-05-23T21:38:50Z","email":"ben@lobaugh.net","following":30,"name":"Ben Lobaugh","company":null,"hireable":true,"id":806179,"html_url":"https://github.com/blobaugh","blog":"http://ben.lobaugh.net","location":null,"bio":null,"url":"https://api.github.com/users/blobaugh"}</code></pre>
+<pre class="wp-block-code"><code lang="php" class="language-php">{"type":"User","login":"blobaugh","public_repos":31,"gravatar_id":"f25f324a47a1efdf7a745e0b2e3c878f","followers":22,"avatar_url":"https://secure.gravatar.com/avatar/f25f324a47a1efdf7a745e0b2e3c878f?d=https://a248.e.akamai.net/assets.github.com%2Fimages%2Fgravatars%2Fgravatar-user-420.png","public_gists":1,"created_at":"2011-05-23T21:38:50Z","email":"ben@lobaugh.net","following":30,"name":"Ben Lobaugh","company":null,"hireable":true,"id":806179,"html_url":"https://github.com/blobaugh","blog":"http://ben.lobaugh.net","location":null,"bio":null,"url":"https://api.github.com/users/blobaugh"}</code></pre>
 <!-- /wp:code -->
 
 <!-- wp:paragraph -->
@@ -236,7 +236,7 @@ $body     = wp_remote_retrieve_body( $response );</code></pre>
 <!-- /wp:paragraph -->
 
 <!-- wp:code -->
-<pre class="wp-block-code"><code>$body = wp_remote_retrieve_body( wp_remote_get( 'https://api.github.com/users/blobaugh' ) );</code></pre>
+<pre class="wp-block-code"><code lang="php" class="language-php">$body = wp_remote_retrieve_body( wp_remote_get( 'https://api.github.com/users/blobaugh' ) );</code></pre>
 <!-- /wp:code -->
 
 <!-- wp:paragraph -->
@@ -346,7 +346,7 @@ wp_remote_get( $url, $args );</code></pre>
 <!-- /wp:paragraph -->
 
 <!-- wp:code -->
-<pre class="wp-block-code"><code>$args = array(
+<pre class="wp-block-code"><code lang="php" class="language-php">$args = array(
 	'body'        =&gt; $body,
 	'timeout'     =&gt; '5',
 	'redirection' =&gt; '5',
@@ -416,7 +416,7 @@ wp_remote_get( $url, $args );</code></pre>
 <!-- /wp:paragraph -->
 
 <!-- wp:code -->
-<pre class="wp-block-code"><code>Array(
+<pre class="wp-block-code"><code lang="php" class="language-php">Array(
 	[headers] =&gt; Array
 		(
 		[server] =&gt; nginx
@@ -463,7 +463,7 @@ wp_remote_get( $url, $args );</code></pre>
 <!-- /wp:paragraph -->
 
 <!-- wp:code -->
-<pre class="wp-block-code"><code>$args     = array(
+<pre class="wp-block-code"><code lang="php" class="language-php">$args     = array(
 	'method' =&gt; 'DELETE',
 );
 $response = wp_remote_request( 'http://some-api.com/object/to/delete', $args );</code></pre>

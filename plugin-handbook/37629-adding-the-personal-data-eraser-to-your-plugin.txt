@@ -41,7 +41,7 @@ https://developer.wordpress.org/plugins/privacy/adding-the-personal-data-eraser-
 <!-- /wp:paragraph -->
 
 <!-- wp:code -->
-<pre class="wp-block-code"><code>/**
+<pre class="wp-block-code"><code lang="php" class="language-php">/**
  * Removes any stored location data from a user's comment meta for the supplied email address.
  *
  * @param string $email_address   email address to manipulate
@@ -100,7 +100,7 @@ function wporg_remove_location_meta_from_comments_for_email( $email_address, $pa
 <!-- /wp:paragraph -->
 
 <!-- wp:code -->
-<pre class="wp-block-code"><code>/**
+<pre class="wp-block-code"><code lang="php" class="language-php">/**
  * Registers all data erasers.
  *
  * @param array $exporters

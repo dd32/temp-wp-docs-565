@@ -41,7 +41,7 @@ https://developer.wordpress.org/plugins/users/roles-and-capabilities/
 <!-- /wp:paragraph -->
 
 <!-- wp:code -->
-<pre class="wp-block-code"><code>function wporg_simple_role() {
+<pre class="wp-block-code"><code lang="php" class="language-php">function wporg_simple_role() {
 	add_role(
 		'simple_role',
 		'Simple Role',

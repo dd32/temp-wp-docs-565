@@ -118,7 +118,7 @@ add_shortcode( 'bartag', 'bartag_func' );</code></pre>
 <!-- /wp:paragraph -->
 
 <!-- wp:code -->
-<pre class="wp-block-code"><code>array( 'foo' =&gt; 'bar', 'bar' =&gt; 'bing' )</code></pre>
+<pre class="wp-block-code"><code lang="php" class="language-php">array( 'foo' =&gt; 'bar', 'bar' =&gt; 'bing' )</code></pre>
 <!-- /wp:code -->
 
 <!-- wp:paragraph -->
@@ -169,7 +169,7 @@ add_shortcode( 'bartag', 'bartag_func' );</code></pre>
 <!-- /wp:paragraph -->
 
 <!-- wp:code -->
-<pre class="wp-block-code"><code>function wporg_shortcode_handler( $atts, $content = null ) {
+<pre class="wp-block-code"><code lang="php" class="language-php">function wporg_shortcode_handler( $atts, $content = null ) {
 	$a = shortcode_atts( array(
 		'attr_1' =&gt; 'attribute 1 default',
 		'attr_2' =&gt; 'attribute 2 default',
@@ -231,7 +231,7 @@ add_shortcode( 'bartag', 'bartag_func' );</code></pre>
 <!-- /wp:paragraph -->
 
 <!-- wp:code -->
-<pre class="wp-block-code"><code>function wporg_shortcode() {
+<pre class="wp-block-code"><code lang="php" class="language-php">function wporg_shortcode() {
 	ob_start();
 	?&gt; &lt;HTML&gt; &lt;here&gt; ... &lt;?php
 	return ob_get_clean();
@@ -267,7 +267,7 @@ add_shortcode( 'bartag', 'bartag_func' );</code></pre>
 <!-- /wp:paragraph -->
 
 <!-- wp:code -->
-<pre class="wp-block-code"><code>function wporg_caption_shortcode( $atts, $content = null ) {
+<pre class="wp-block-code"><code lang="php" class="language-php">function wporg_caption_shortcode( $atts, $content = null ) {
 	return '&lt;span class="caption"&gt;' . $content . '&lt;/span&gt;';
 }
 add_shortcode( 'caption', 'wporg_caption_shortcode' );</code></pre>

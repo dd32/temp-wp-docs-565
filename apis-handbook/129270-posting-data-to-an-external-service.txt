@@ -42,7 +42,7 @@ https://developer.wordpress.org/apis/handbook/making-http-requests/posting-data-
 <!-- /wp:paragraph -->
 
 <!-- wp:code -->
-<pre class="wp-block-code"><code>$args = array(
+<pre class="wp-block-code"><code lang="php" class="language-php">$args = array(
 	'body'        =&gt; $body,
 );</code></pre>
 <!-- /wp:code -->

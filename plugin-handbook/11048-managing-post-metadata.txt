@@ -71,7 +71,7 @@ $broken, after stripslashes(), ends up unparsable:
 <!-- /wp:paragraph -->
 
 <!-- wp:code -->
-<pre class="wp-block-code"><code>$escaped_json = '{"key":"value with \"escaped quotes\""}';
+<pre class="wp-block-code"><code lang="php" class="language-php">$escaped_json = '{"key":"value with \"escaped quotes\""}';
 update_post_meta( $id, 'double_escaped_json', wp_slash( $escaped_json ) );
 $fixed = get_post_meta( $id, 'double_escaped_json', true );
 /*

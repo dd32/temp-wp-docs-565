@@ -85,7 +85,7 @@ register_activation_hook( __FILE__, 'pluginprefix_activate' );</code></pre>
 <!-- /wp:paragraph -->
 
 <!-- wp:code -->
-<pre class="wp-block-code"><code>/**
+<pre class="wp-block-code"><code lang="php" class="language-php">/**
  * Deactivation hook.
  */
 function pluginprefix_deactivate() {

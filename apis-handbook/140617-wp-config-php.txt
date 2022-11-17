@@ -459,7 +459,7 @@ define( 'NONCE_SALT',       'a|#h{c5|P &amp;xWs4IZ20c2&amp;%4!c(/uG}W:mAvy&lt;I4
 <!-- /wp:paragraph -->
 
 <!-- wp:code -->
-<pre class="wp-block-code"><code>define( 'AUTOSAVE_INTERVAL', 160 ); // Seconds</code></pre>
+<pre class="wp-block-code"><code lang="php" class="language-php">define( 'AUTOSAVE_INTERVAL', 160 ); // Seconds</code></pre>
 <!-- /wp:code -->
 
 <!-- wp:heading {"level":3} -->
@@ -800,7 +800,7 @@ define( 'WP_DEBUG_DISPLAY', false );</code></pre>
 <!-- /wp:paragraph -->
 
 <!-- wp:code -->
-<pre class="wp-block-code"><code>define( 'WP_MEMORY_LIMIT', '96M' );</code></pre>
+<pre class="wp-block-code"><code lang="php" class="language-php">define( 'WP_MEMORY_LIMIT', '96M' );</code></pre>
 <!-- /wp:code -->
 
 <!-- wp:paragraph -->

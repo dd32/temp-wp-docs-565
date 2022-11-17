@@ -9,7 +9,7 @@ https://developer.wordpress.org/plugins/shortcodes/shortcodes-with-parameters/
 <!-- /wp:paragraph -->
 
 <!-- wp:code {"highlightLines":"1"} -->
-<pre class="wp-block-code"><code>[wporg title="WordPress.org"]
+<pre class="wp-block-code"><code lang="php" class="language-php">[wporg title="WordPress.org"]
 Having fun with WordPress.org shortcodes.
 [/wporg]</code></pre>
 <!-- /wp:code -->
@@ -23,7 +23,7 @@ Having fun with WordPress.org shortcodes.
 <!-- /wp:list -->
 
 <!-- wp:code -->
-<pre class="wp-block-code"><code>function wporg_shortcode( $atts = array(), $content = null, $tag = '' ) {}</code></pre>
+<pre class="wp-block-code"><code lang="php" class="language-php">function wporg_shortcode( $atts = array(), $content = null, $tag = '' ) {}</code></pre>
 <!-- /wp:code -->
 
 <!-- wp:heading -->
