@@ -24,8 +24,8 @@ https://developer.wordpress.org/apis/handbook/quicktags/
 <h2>Usage</h2>
 <!-- /wp:heading -->
 
-<!-- wp:code {"language":"jscript"} -->
-<pre class="wp-block-code"><code lang="jscript" class="language-jscript">QTags.addButton( id, display, arg1, arg2, access_key, title, priority, instance );</code></pre>
+<!-- wp:code {"language":"js"} -->
+<pre class="wp-block-code"><code lang="js" class="language-js">QTags.addButton( id, display, arg1, arg2, access_key, title, priority, instance );</code></pre>
 <!-- /wp:code -->
 
 <!-- wp:heading -->

@@ -40,8 +40,8 @@ https://developer.wordpress.org/plugins/javascript/heartbeat-api/
 <p>When Heartbeat sends data to the server, you can include custom data. This can be any data you want to send to the server, or a simple true value to indicate you are expecting data.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:code {"language":"jscript"} -->
-<pre class="wp-block-code"><code lang="jscript" class="language-jscript">jQuery( document ).on( 'heartbeat-send', function ( event, data ) {
+<!-- wp:code {"language":"js"} -->
+<pre class="wp-block-code"><code lang="js" class="language-js">jQuery( document ).on( 'heartbeat-send', function ( event, data ) {
 	// Add additional data to Heartbeat data.
 	data.myplugin_customfield = 'some_data';
 });</code></pre>
@@ -89,8 +89,8 @@ add_filter( 'heartbeat_received', 'myplugin_receive_heartbeat', 10, 2 );</code><
 <p>Back on the frontend, you can then handle receiving this data back.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:code {"language":"jscript"} -->
-<pre class="wp-block-code"><code lang="jscript" class="language-jscript">jQuery( document ).on( 'heartbeat-tick', function ( event, data ) {
+<!-- wp:code {"language":"js"} -->
+<pre class="wp-block-code"><code lang="js" class="language-js">jQuery( document ).on( 'heartbeat-tick', function ( event, data ) {
 	// Check for our data, and use it.
 	if ( ! data.myplugin_customfield_hashed ) {
 		return;

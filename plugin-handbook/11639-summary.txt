@@ -28,8 +28,8 @@ https://developer.wordpress.org/plugins/javascript/summary/
 <p></p>
 <!-- /wp:paragraph -->
 
-<!-- wp:code {"language":"jscript"} -->
-<pre class="wp-block-code"><code lang="jscript" class="language-jscript">jQuery(document).ready(function($) { 	   //wrapper
+<!-- wp:code {"language":"js"} -->
+<pre class="wp-block-code"><code lang="js" class="language-js">jQuery(document).ready(function($) { 	   //wrapper
 	$(".pref").change(function() { 		   //event
 		var this2 = this; 		           //use in callback
 		$.post(my_ajax_obj.ajax_url, { 	   //POST request

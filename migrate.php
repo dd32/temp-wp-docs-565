@@ -6,7 +6,7 @@ ini_set('memory_limit', -1);
 $_SERVER['REQUEST_URI'] = '/';
 $_SERVER['HTTP_HOST'] = 'developer.wordpress.org';
 
-include 'wp-load.php';
+include dirname( __DIR__ ) . '/wp-load.php';
 global $wpdb;
 
 
@@ -81,6 +81,11 @@ function make_alterations( $content ) {
 
 			$class = str_replace( [ "brush:$lang", "brush: $lang" ], '', $class );
 			$class = ltrim( $class, ' ;' );
+
+			if ( 'jscript' === $lang ) {
+				$lang = 'js';
+			}
+
 			$lang_attr = '';
 			$class_attr = '';
 			if ( $lang ) {

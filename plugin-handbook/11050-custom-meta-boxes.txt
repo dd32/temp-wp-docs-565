@@ -275,8 +275,8 @@ add_action( 'save_post', [ 'WPOrg_Meta_Box', 'save' ] );</code></pre>
 <p>In the example below we will define <code>change</code> as our trigger for performing an AJAX request.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:code {"language":"jscript"} -->
-<pre class="wp-block-code"><code lang="jscript" class="language-jscript">/*jslint browser: true, plusplus: true */
+<!-- wp:code {"language":"js"} -->
+<pre class="wp-block-code"><code lang="js" class="language-js">/*jslint browser: true, plusplus: true */
 (function ($, window, document) {
     'use strict';
     // execute when the DOM is ready
@@ -301,8 +301,8 @@ add_action( 'save_post', [ 'WPOrg_Meta_Box', 'save' ] );</code></pre>
 <p>In the example below we will make a <code>POST</code> request, the response will either be success or failure, this will indicate wither the value of the <code>wporg_field</code> is valid.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:code {"language":"jscript"} -->
-<pre class="wp-block-code"><code lang="jscript" class="language-jscript">/*jslint browser: true, plusplus: true */
+<!-- wp:code {"language":"js"} -->
+<pre class="wp-block-code"><code lang="js" class="language-js">/*jslint browser: true, plusplus: true */
 (function ($, window, document) {
     'use strict';
     // execute when the DOM is ready

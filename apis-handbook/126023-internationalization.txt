@@ -105,8 +105,8 @@ https://developer.wordpress.org/apis/handbook/internationalization/
 <p>In your javascript code you will use i18n functions pretty much the same way you do in your PHP code:</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:code {"language":"jscript"} -->
-<pre class="wp-block-code"><code lang="jscript" class="language-jscript">const { __, _x, _n, sprintf } = wp.i18n;
+<!-- wp:code {"language":"js"} -->
+<pre class="wp-block-code"><code lang="js" class="language-js">const { __, _x, _n, sprintf } = wp.i18n;
 
 // simple string
 __( 'Hello World', 'my-plugin' );
