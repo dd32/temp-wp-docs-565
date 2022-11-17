@@ -60,7 +60,7 @@ https://developer.wordpress.org/plugins/wordpress-org/how-to-use-subversion/
 <p>There are three directories created by default in all SVN repositories.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:code {"language":"bash","lineNumbers":false} -->
+<!-- wp:code {"language":"bash"} -->
 <pre class="wp-block-code"><code lang="bash" class="language-bash">/assets/
 /tags/
 /trunk/</code></pre>
@@ -210,7 +210,7 @@ https://developer.wordpress.org/plugins/wordpress-org/how-to-use-subversion/
 <p>First create a local directory on your machine to house a copy of the SVN repository:</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:code {"language":"bash","lineNumbers":false} -->
+<!-- wp:code {"language":"bash"} -->
 <pre class="wp-block-code"><code lang="bash" class="language-bash">$ mkdir my-local-dir</code></pre>
 <!-- /wp:code -->
 

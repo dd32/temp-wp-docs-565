@@ -40,7 +40,7 @@ https://developer.wordpress.org/plugins/wordpress-org/preventing-wordpress-from-
 <p>The Update URI header can be added to the plugin headers. Look in your main plugin file for this section:</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:code {"language":"php","lineNumbers":false} -->
+<!-- wp:code {"language":"php"} -->
 <pre class="wp-block-code"><code lang="php" class="language-php">/**
  * Plugin Name: My Cool Plugin
  * Plugin URI: https://example.com/my-plugin/
@@ -58,7 +58,7 @@ https://developer.wordpress.org/plugins/wordpress-org/preventing-wordpress-from-
 <p>To apply it, add a new header for <strong>Update URI</strong> and put a <strong>non</strong> WordPress.org URI in the value:</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:code {"language":"php","lineNumbers":false} -->
+<!-- wp:code {"language":"php"} -->
 <pre class="wp-block-code"><code lang="php" class="language-php">* Update URI: https://example.com/my-updater/</code></pre>
 <!-- /wp:code -->
 
@@ -78,7 +78,7 @@ https://developer.wordpress.org/plugins/wordpress-org/preventing-wordpress-from-
 <p>This code, which was written by <a href="https://markjaquith.wordpress.com/2009/12/14/excluding-your-plugin-or-theme-from-update-checks/">Mark Jaquith</a>, can be added to your own plugin:</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:code {"language":"php","lineNumbers":false} -->
+<!-- wp:code {"language":"php"} -->
 <pre class="wp-block-code"><code lang="php" class="language-php">function example_hidden_plugin_12345( $r, $url ) {
     if ( 0 !== strpos( $url, 'http://api.wordpress.org/plugins/update-check' ) )
         return $r; // Not a plugin update request. Bail immediately.

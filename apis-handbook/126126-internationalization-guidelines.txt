@@ -104,7 +104,7 @@ printf(
 <p><code>sprintf</code> is also available for javascript translations:</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:code -->
+<!-- wp:code {"language":"php"} -->
 <pre class="wp-block-code"><code lang="php" class="language-php">const zipCodeMessage = sprintf(
     /* translators: 1:ZIP code 2:Name of a city */
     __( 'Your zip code is %2$s, and your city is %1$s.', 'my-theme'),

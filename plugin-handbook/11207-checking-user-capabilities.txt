@@ -141,7 +141,7 @@ add_action( 'init', 'wporg_delete_post' );</code></pre>
 <p>To accomplish this, we will check that the current user has the capability <code>edit_others_posts</code>, which only Editors or above would have:</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:code {"highlightLines":"54,64"} -->
+<!-- wp:code {"language":"php"} -->
 <pre class="wp-block-code"><code lang="php" class="language-php">/**
  * Generate a Delete link based on the homepage url.
  *

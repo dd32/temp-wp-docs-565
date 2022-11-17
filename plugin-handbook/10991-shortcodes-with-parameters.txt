@@ -8,7 +8,7 @@ https://developer.wordpress.org/plugins/shortcodes/shortcodes-with-parameters/
 <p>Shortcode <code>[$tag]</code> can accept parameters, known as attributes:</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:code {"highlightLines":"1"} -->
+<!-- wp:code {"language":"php"} -->
 <pre class="wp-block-code"><code lang="php" class="language-php">[wporg title="WordPress.org"]
 Having fun with WordPress.org shortcodes.
 [/wporg]</code></pre>
@@ -22,7 +22,7 @@ Having fun with WordPress.org shortcodes.
 <ul><li><code>$atts</code> - array - [$tag] attributes</li><li><code>$content</code> - string - The content inside your shortcode. In the exampe above, it will be "Having fun with WordPress.org shortcodes."</li><li><code>$tag</code> - string - the name of the [$tag] (i.e. the name of the shortcode)</li></ul>
 <!-- /wp:list -->
 
-<!-- wp:code -->
+<!-- wp:code {"language":"php"} -->
 <pre class="wp-block-code"><code lang="php" class="language-php">function wporg_shortcode( $atts = array(), $content = null, $tag = '' ) {}</code></pre>
 <!-- /wp:code -->
 

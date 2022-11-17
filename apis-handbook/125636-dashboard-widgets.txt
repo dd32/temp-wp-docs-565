@@ -44,7 +44,7 @@ https://developer.wordpress.org/apis/handbook/dashboard-widgets/
 <p>To run the function you will need to hook into the action&nbsp;<a href="https://developer.wordpress.org/reference/hooks/wp_dashboard_setup/">wp_dashboard_setup</a>&nbsp;via&nbsp;<a href="https://developer.wordpress.org/reference/functions/add_action/">add_action()</a>. For the Network Admin dashboard, use the hook&nbsp;<a href="https://developer.wordpress.org/reference/hooks/wp_network_dashboard_setup/">wp_network_dashboard_setup</a>.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:code -->
+<!-- wp:code {"language":"php"} -->
 <pre class="wp-block-code"><code lang="php" class="language-php">/**
  * Add a widget to the dashboard.
  *
@@ -60,7 +60,7 @@ add_action( 'wp_dashboard_setup', 'wporg_add_dashboard_widgets' );</code></pre>
 <p>Network dashboard:</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:code -->
+<!-- wp:code {"language":"php"} -->
 <pre class="wp-block-code"><code lang="php" class="language-php">/**
  * Add a widget to the network dashboard.
  *
@@ -204,7 +204,7 @@ add_action( 'wp_dashboard_setup', 'wporg_remove_dashboard_widget' );</code></pre
 <p>The example below removes all Dashboard Widgets:</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:code -->
+<!-- wp:code {"language":"php"} -->
 <pre class="wp-block-code"><code lang="php" class="language-php">function wporg_remove_all_dashboard_metaboxes() {
 	// Remove Welcome panel
 	remove_action( 'welcome_panel', 'wp_welcome_panel' );

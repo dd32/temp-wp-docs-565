@@ -77,7 +77,7 @@ It is the responsibility of the handler function to <a href="https://developer.w
 <p>This means that if the <code>$content</code> parameter of a shortcode handler contains another shortcode, it won't be parsed. In this example, <code>[shortcode]</code> will not be processed:</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:code -->
+<!-- wp:code {"language":"php"} -->
 <pre class="wp-block-code"><code lang="php" class="language-php">[wporg]another [shortcode] is included[/wporg]</code></pre>
 <!-- /wp:code -->
 
@@ -105,7 +105,7 @@ add_shortcode( 'wporg', 'wporg_shortcode' );</pre>
 <p>The shortcode parser is unable to handle mixing of enclosing and non-enclosing forms of the same <code>[$tag]</code>.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:code -->
+<!-- wp:code {"language":"php"} -->
 <pre class="wp-block-code"><code lang="php" class="language-php">[wporg] non-enclosed content [wporg]enclosed content[/wporg]</code></pre>
 <!-- /wp:code -->
 

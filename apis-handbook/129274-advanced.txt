@@ -20,7 +20,7 @@ https://developer.wordpress.org/apis/handbook/making-http-requests/advanced/
 <p>To send a DELETE method, for example, you may have something similar to the following:</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:code -->
+<!-- wp:code {"language":"php"} -->
 <pre class="wp-block-code"><code lang="php" class="language-php">$args     = array(
 	'method' =&gt; 'DELETE',
 );

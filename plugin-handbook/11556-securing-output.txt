@@ -52,7 +52,7 @@ Most WordPress functions properly prepare data for output, so you don't need to 
 <p>These functions simply wrap a localization function inside an escaping function:</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:code {"language":"php","makeURLsClickable":false} -->
+<!-- wp:code {"language":"php"} -->
 <pre class="wp-block-code"><code lang="php" class="language-php">esc_html_e( 'Hello World', 'text_domain' );
 // Same as
 echo esc_html( __( 'Hello World', 'text_domain' ) );</code></pre>

@@ -458,7 +458,7 @@ define( 'NONCE_SALT',       'a|#h{c5|P &amp;xWs4IZ20c2&amp;%4!c(/uG}W:mAvy&lt;I4
 <p>When editing a post, WordPress uses Ajax to auto-save revisions to the post as you edit. You may want to increase this setting for longer delays in between auto-saves, or decrease the setting to make sure you never lose changes. The default is 60 seconds.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:code -->
+<!-- wp:code {"language":"php"} -->
 <pre class="wp-block-code"><code lang="php" class="language-php">define( 'AUTOSAVE_INTERVAL', 160 ); // Seconds</code></pre>
 <!-- /wp:code -->
 
@@ -799,7 +799,7 @@ define( 'WP_DEBUG_DISPLAY', false );</code></pre>
 <p>Increase PHP Memory to 96MB</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:code -->
+<!-- wp:code {"language":"php"} -->
 <pre class="wp-block-code"><code lang="php" class="language-php">define( 'WP_MEMORY_LIMIT', '96M' );</code></pre>
 <!-- /wp:code -->
 

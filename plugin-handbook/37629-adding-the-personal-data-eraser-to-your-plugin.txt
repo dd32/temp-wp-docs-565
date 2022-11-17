@@ -40,7 +40,7 @@ https://developer.wordpress.org/plugins/privacy/adding-the-personal-data-eraser-
 <p>The first thing the plugin needs to do is to create an eraser function that accepts an email address and a page, e.g.:</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:code -->
+<!-- wp:code {"language":"php"} -->
 <pre class="wp-block-code"><code lang="php" class="language-php">/**
  * Removes any stored location data from a user's comment meta for the supplied email address.
  *
@@ -99,7 +99,7 @@ function wporg_remove_location_meta_from_comments_for_email( $email_address, $pa
 <p>When registering you provide a friendly name for the eraser (to aid in debugging - this friendly name is not shown to anyone at this time)<br>and the callback, e.g.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:code -->
+<!-- wp:code {"language":"php"} -->
 <pre class="wp-block-code"><code lang="php" class="language-php">/**
  * Registers all data erasers.
  *

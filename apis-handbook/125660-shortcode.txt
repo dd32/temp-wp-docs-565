@@ -117,7 +117,7 @@ add_shortcode( 'bartag', 'bartag_func' );</code></pre>
 <p>These attributes will be converted into an associative array like the following, passed to the handler function as its&nbsp;<code>$atts</code>&nbsp;parameter:</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:code -->
+<!-- wp:code {"language":"php"} -->
 <pre class="wp-block-code"><code lang="php" class="language-php">array( 'foo' =&gt; 'bar', 'bar' =&gt; 'bing' )</code></pre>
 <!-- /wp:code -->
 
@@ -168,7 +168,7 @@ add_shortcode( 'bartag', 'bartag_func' );</code></pre>
 <p>A suggested code idiom for declaring defaults and parsing attributes in a shortcode handler is as follows:</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:code -->
+<!-- wp:code {"language":"php"} -->
 <pre class="wp-block-code"><code lang="php" class="language-php">function wporg_shortcode_handler( $atts, $content = null ) {
 	$a = shortcode_atts( array(
 		'attr_1' =&gt; 'attribute 1 default',
@@ -230,7 +230,7 @@ add_shortcode( 'bartag', 'bartag_func' );</code></pre>
 <p>If the shortcode produces a lot of HTML then <code>ob_start</code> can be used to capture output and convert it to a string as follows:</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:code -->
+<!-- wp:code {"language":"php"} -->
 <pre class="wp-block-code"><code lang="php" class="language-php">function wporg_shortcode() {
 	ob_start();
 	?&gt; &lt;HTML&gt; &lt;here&gt; ... &lt;?php
@@ -266,7 +266,7 @@ add_shortcode( 'bartag', 'bartag_func' );</code></pre>
 <p>Here's a trivial example of an enclosing shortcode:</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:code -->
+<!-- wp:code {"language":"php"} -->
 <pre class="wp-block-code"><code lang="php" class="language-php">function wporg_caption_shortcode( $atts, $content = null ) {
 	return '&lt;span class="caption"&gt;' . $content . '&lt;/span&gt;';
 }

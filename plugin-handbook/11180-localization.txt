@@ -96,7 +96,7 @@ https://developer.wordpress.org/plugins/internationalization/localization/
 <p>You can use a text editor to enter the translation. In a text editor it will look like this.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:code -->
+<!-- wp:code {"language":"php"} -->
 <pre class="wp-block-code"><code lang="php" class="language-php">#: plugin-name.php:123
 msgid "Page Title"
 msgstr ""</code></pre>
@@ -106,7 +106,7 @@ msgstr ""</code></pre>
 <p>You enter the translation between the quotation marks. For the German translation it would look like this.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:code -->
+<!-- wp:code {"language":"php"} -->
 <pre class="wp-block-code"><code lang="php" class="language-php">#: plugin-name.php:123
 msgid "Page Title"
 msgstr "Seitentitel"</code></pre>

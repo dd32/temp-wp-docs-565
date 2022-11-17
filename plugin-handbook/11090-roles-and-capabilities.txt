@@ -40,7 +40,7 @@ https://developer.wordpress.org/plugins/users/roles-and-capabilities/
 <p>Add new roles and assign capabilities to them with add_role().</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:code -->
+<!-- wp:code {"language":"php"} -->
 <pre class="wp-block-code"><code lang="php" class="language-php">function wporg_simple_role() {
 	add_role(
 		'simple_role',

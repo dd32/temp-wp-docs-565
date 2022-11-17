@@ -12,8 +12,8 @@ https://developer.wordpress.org/plugins/plugin-basics/header-requirements/
 <p>At a minimum, a header comment must contain the Plugin Name:</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:code {"language":"php","className":"brush: php; notranslate"} -->
-<pre class="wp-block-code"><code lang="php" class="language-php ; notranslate">/**
+<!-- wp:code {"language":"php","className":"notranslate"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php notranslate">/**
  * Plugin Name: YOUR PLUGIN NAME
  */</code></pre>
 <!-- /wp:code -->
@@ -34,8 +34,8 @@ https://developer.wordpress.org/plugins/plugin-basics/header-requirements/
 <p>A valid PHP file with a header comment might look like this:</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:code {"language":"php","className":"brush: php; notranslate"} -->
-<pre class="wp-block-code"><code lang="php" class="language-php ; notranslate">/**
+<!-- wp:code {"language":"php","className":"notranslate"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php notranslate">/**
  * Plugin Name:       My Basics Plugin
  * Plugin URI:        https://example.com/plugins/the-basics/
  * Description:       Handle the basics with this plugin.

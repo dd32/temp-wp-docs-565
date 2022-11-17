@@ -24,7 +24,7 @@ https://developer.wordpress.org/apis/handbook/making-http-requests/getting-data-
 <p>Let's use the URL to a GitHub WordPress organization and see what sort of information we can get.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:code {"language":"php","quickCode":false} -->
+<!-- wp:code {"language":"php"} -->
 <pre class="wp-block-code"><code lang="php" class="language-php">$response = wp_remote_get( 'https://api.github.com/users/wordpress' );</code></pre>
 <!-- /wp:code -->
 

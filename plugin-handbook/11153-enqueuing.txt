@@ -94,7 +94,7 @@ function my_enqueue( $hook ) {
 <p>If you recall from the <a href="https://developer.wordpress.org/plugins/javascript/jquery/">jQuery Section</a>, data created by PHP for use by jQuery was passed in a global object named <code>my_ajax_obj</code>. In our example, this data was a nonce and the complete URL to <code>admin-ajax.php</code>. The process of assigning object properties and creating the global jQuery object is called <strong>localizing</strong>. This is the localizing code used in our example which uses <code><a href="https://developer.wordpress.org/reference/functions/wp_localize_script/">wp_localize_script()</a></code>.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:code -->
+<!-- wp:code {"language":"php"} -->
 <pre class="wp-block-code"><code lang="php" class="language-php">wp_localize_script(
 	'ajax-script',
 	'my_ajax_obj',
@@ -109,7 +109,7 @@ function my_enqueue( $hook ) {
 <p>Note how our script handle <code>ajax-script</code> is used so that the global object is assigned to the right script. The object is global to our script, not to all scripts. Localization can also be called from the same hook that is used to enqueue scripts. The same goes for creating a nonce, though that particular function can be called virtually anywhere. All of that combined together in a single hook callback looks like this:</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:code -->
+<!-- wp:code {"language":"php"} -->
 <pre class="wp-block-code"><code lang="php" class="language-php">add_action( 'admin_enqueue_scripts', 'my_enqueue' );
 
 /**
@@ -162,7 +162,7 @@ You've probably used one or more of the PHP super globals such as <code>$_GET</c
 <p>Since our AJAX exchange is for the plugin's settings page, the user must be logged in. If you recall from the <a href="https://developer.wordpress.org/plugins/javascript/jquery/">jQuery section</a>, the <code>action:</code> value is <code>"my_tag_count"</code>. This means our action hook tag will be <code>wp_ajax_my_tag_count</code>. If our AJAX exchange were to be utilized by users who were not currently logged in, the action hook tag would be <code>wp_ajax_nopriv_my_tag_count</code> The basic code used to hook the action looks like this:</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:code -->
+<!-- wp:code {"language":"php"} -->
 <pre class="wp-block-code"><code lang="php" class="language-php">add_action( 'wp_ajax_my_tag_count', 'my_ajax_handler' );
 
 /**
@@ -179,7 +179,7 @@ function my_ajax_handler() {
 <p>The first thing your AJAX handler should do is verify the nonce sent by jQuery with <code><a href="https://developer.wordpress.org/reference/functions/check_ajax_referer/">check_ajax_referer()</a></code>, which should be the same value that was localized when the script was enqueued.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:code -->
+<!-- wp:code {"language":"php"} -->
 <pre class="wp-block-code"><code lang="php" class="language-php">check_ajax_referer( 'title_example' );</code></pre>
 <!-- /wp:code -->
 
@@ -203,7 +203,7 @@ function my_ajax_handler() {
 <p>Then we build a query in order to get the post count for the selected title tag.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:code -->
+<!-- wp:code {"language":"php"} -->
 <pre class="wp-block-code"><code lang="php" class="language-php">$args      = array(
 	'tag' =&gt; $_POST['title'],
 );
@@ -238,7 +238,7 @@ $the_query = new WP_Query( $args );</code></pre>
 <p>You can transfer data any way you like, as long as the sender and receiver are coordinated. Text formats like comma delimited or tab delimited are one of many possibilities. For small amounts of data, sending the raw stream may be adequate. That is what we will do with our example - we will send the actual replacement HTML, nothing else.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:code -->
+<!-- wp:code {"language":"php"} -->
 <pre class="wp-block-code"><code lang="php" class="language-php">echo esc_html( $_POST['title'] ) . ' (' . $the_query-&gt;post_count . ') ';</code></pre>
 <!-- /wp:code -->
 

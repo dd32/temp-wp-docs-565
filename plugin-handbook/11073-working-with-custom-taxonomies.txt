@@ -84,7 +84,7 @@ https://developer.wordpress.org/plugins/taxonomies/working-with-custom-taxonomie
 <p>Register the Taxonomy "course" for the post type "post" using the <code>init</code> action hook.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:code -->
+<!-- wp:code {"language":"php"} -->
 <pre class="wp-block-code"><code lang="php" class="language-php">/*
 * Plugin Name: Course Taxonomy
 * Description: A short example showing how to add a taxonomy called Course.

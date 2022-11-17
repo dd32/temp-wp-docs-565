@@ -32,7 +32,7 @@ https://developer.wordpress.org/plugins/post-types/working-with-custom-post-type
 <p>You can query posts of a specific type by passing the <code>post_type</code> key in the arguments array of the <code>WP_Query</code> class constructor.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:code {"language":"php","makeURLsClickable":false} -->
+<!-- wp:code {"language":"php"} -->
 <pre class="wp-block-code"><code lang="php" class="language-php">&lt;?php
 $args = array(
 	'post_type'      =&gt; 'product',

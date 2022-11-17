@@ -34,7 +34,7 @@ To successfully remove a callback function you must&nbsp;perform the removal aft
 <p>Let's analyze the theme's code by looking into <code>functions.php</code>.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:code -->
+<!-- wp:code {"language":"php"} -->
 <pre class="wp-block-code"><code lang="php" class="language-php">function wporg_setup_slider() {
 	// ...
 }
@@ -49,7 +49,7 @@ add_action( 'template_redirect', 'wporg_setup_slider', 9 );</code></pre>
 <p>Since we want to hook into WordPress after the <code>wporg_setup_slider</code> callback function was registered (<code>functions.php</code> executed) our best chance would be the <code><a href="https://developer.wordpress.org/reference/hooks/after_setup_theme/">after_setup_theme</a></code> hook.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:code -->
+<!-- wp:code {"language":"php"} -->
 <pre class="wp-block-code"><code lang="php" class="language-php">function wporg_disable_slider() {
 	// Make sure all parameters match the add_action() call exactly.
 	remove_action( 'template_redirect', 'wporg_setup_slider', 9 );
@@ -78,7 +78,7 @@ add_action( 'after_setup_theme', 'wporg_disable_slider' );</code></pre>
 <p>You can use the&nbsp;<code>current_action()</code> / <code>current_filter()</code> to determine the current Action / Filter.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:code -->
+<!-- wp:code {"language":"php"} -->
 <pre class="wp-block-code"><code lang="php" class="language-php">function wporg_modify_content( $content ) {
 	switch ( current_filter() ) {
 		case 'the_content':

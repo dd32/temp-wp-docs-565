@@ -8,7 +8,7 @@ https://developer.wordpress.org/plugins/cron/hooking-wp-cron-into-the-system-tas
 <p>After scheduling the task on your system, there is one more step to complete. WordPress will continue to run WP-Cron on each page load. This is no longer necessary and will contribute to extra resource usage on your server. WP-Cron can be disabled in the <code>wp-config.php</code> file. Open the <code>wp-config.php</code> file for editing and add the following line:</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:code {"language":"php","lineNumbers":false} -->
+<!-- wp:code {"language":"php"} -->
 <pre class="wp-block-code"><code lang="php" class="language-php">define('DISABLE_WP_CRON', true);</code></pre>
 <!-- /wp:code -->
 
@@ -24,7 +24,7 @@ https://developer.wordpress.org/plugins/cron/hooking-wp-cron-into-the-system-tas
 <p>How you setup the task varies with server setup. One method is to use PowerShell and a Basic Task. After creating a Basic Task the following command can be used to call the WordPress Cron script.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:code {"language":"powershell","lineNumbers":false,"makeURLsClickable":false} -->
+<!-- wp:code {"language":"powershell"} -->
 <pre class="wp-block-code"><code lang="powershell" class="language-powershell">powershell "Invoke-WebRequest http://YOUR_SITE_URL/wp-cron.php"</code></pre>
 <!-- /wp:code -->
 
@@ -60,7 +60,7 @@ https://developer.wordpress.org/plugins/cron/hooking-wp-cron-into-the-system-tas
 <p>Many servers have <code>wget</code> installed and this is an easy tool to call the WordPress Cron script.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:code {"language":"bash","lineNumbers":false} -->
+<!-- wp:code {"language":"bash"} -->
 <pre class="wp-block-code"><code lang="bash" class="language-bash">wget --delete-after http://YOUR_SITE_URL/wp-cron.php</code></pre>
 <!-- /wp:code -->
 
@@ -72,6 +72,6 @@ https://developer.wordpress.org/plugins/cron/hooking-wp-cron-into-the-system-tas
 <p>A daily call to your site's WordPress Cron that triggers at midnight every night could look similar to:</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:code {"language":"bash","lineNumbers":false,"makeURLsClickable":false} -->
+<!-- wp:code {"language":"bash"} -->
 <pre class="wp-block-code"><code lang="bash" class="language-bash">0 0 * * * wget --delete-after http://YOUR_SITE_URL/wp-cron.php</code></pre>
 <!-- /wp:code -->

@@ -133,7 +133,7 @@ function wporg_export_user_data_by_email( $email_address, $page = 1 ) {
 <p>When registering you provide a friendly name for the export (to aid in debugging - this friendly name is not shown to anyone at this time) and the callback, e.g.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:code -->
+<!-- wp:code {"language":"php"} -->
 <pre class="wp-block-code"><code lang="php" class="language-php">/**
  * Registers all data exporters.
  *

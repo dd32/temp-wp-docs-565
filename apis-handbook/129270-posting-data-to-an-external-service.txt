@@ -41,7 +41,7 @@ https://developer.wordpress.org/apis/handbook/making-http-requests/posting-data-
 <p>Now we add the body to the <code>$args</code> array that will be passed as the second argument. (The second argument accepts many options, see Advanced section for more details)</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:code -->
+<!-- wp:code {"language":"php"} -->
 <pre class="wp-block-code"><code lang="php" class="language-php">$args = array(
 	'body'        =&gt; $body,
 );</code></pre>

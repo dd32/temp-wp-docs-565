@@ -36,7 +36,7 @@ https://developer.wordpress.org/plugins/hooks/filters/
 <p>The example below will run when the <code>the_title</code> filter is executed.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:code -->
+<!-- wp:code {"language":"php"} -->
 <pre class="wp-block-code"><code lang="php" class="language-php">function wporg_filter_title( $title ) {
 	return 'The ' . $title . ' was filtered';
 }
@@ -75,7 +75,7 @@ add_filter( 'the_title', 'wporg_filter_title' );</code></pre>
 <p>To add a CSS class to the <code>&lt;body&gt;</code> tag when a certain condition is met:</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:code -->
+<!-- wp:code {"language":"php"} -->
 <pre class="wp-block-code"><code lang="php" class="language-php">function wporg_css_body_class( $classes ) {
 	if ( ! is_admin() ) {
 		$classes[] = 'wporg-is-awesome';

@@ -131,7 +131,7 @@ https://developer.wordpress.org/plugins/internationalization/how-to-internationa
 <p>What if you have a string like the following: </p>
 <!-- /wp:paragraph -->
 
-<!-- wp:code -->
+<!-- wp:code {"language":"php"} -->
 <pre class="wp-block-code"><code lang="php" class="language-php">echo 'Your city is $city.'</code></pre>
 <!-- /wp:code -->
 
@@ -210,7 +210,7 @@ _e( "Your city is $city.", 'my-plugin' );</code></pre>
 <p>If you have string that changes when the number of items changes, you'll need a way to reflect this in your translations. For example, in English you have <code>"One comment"</code> and <code>"Two comments"</code>. In other languages you can have multiple plural forms. To handle this in WordPress use the <code><a href="https://developer.wordpress.org/reference/functions/_n/">_n()</a></code> function. </p>
 <!-- /wp:paragraph -->
 
-<!-- wp:code -->
+<!-- wp:code {"language":"php"} -->
 <pre class="wp-block-code"><code lang="php" class="language-php">printf(
 	_n(
 		'%s comment',
@@ -240,7 +240,7 @@ _e( "Your city is $city.", 'my-plugin' );</code></pre>
 <p>Note that some languages use the singular form for other numbers (e.g. 21, 31 and so on, much like '21st', '31st' in English). If you would like to special case the singular, check for it specifically:</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:code -->
+<!-- wp:code {"language":"php"} -->
 <pre class="wp-block-code"><code lang="php" class="language-php">if ( 1 === $count ) {
 	printf( esc_html__( 'Last thing!', 'my-text-domain' ), $count );
 } else {
@@ -271,7 +271,7 @@ _e( "Your city is $city.", 'my-plugin' );</code></pre>
 <p>Then at a later point in the code you can use <code><a href="https://developer.wordpress.org/reference/functions/translate_nooped_plural/">translate_nooped_plural()</a></code> to load the strings. </p>
 <!-- /wp:paragraph -->
 
-<!-- wp:code -->
+<!-- wp:code {"language":"php"} -->
 <pre class="wp-block-code"><code lang="php" class="language-php">printf(
 	translate_nooped_plural(
 		$comments_plural,
@@ -290,7 +290,7 @@ _e( "Your city is $city.", 'my-plugin' );</code></pre>
 <p>Sometimes one term is used in several contexts and although it is one and the same word in English it has to be translated differently in other languages. For example the word <code>Post</code> can be used both as a verb <code>"Click here to post your comment"</code> and as a noun <code>"Edit this post"</code>. In such cases the <code>_x()</code> or <code>_ex()</code> function should be used. It is similar to <code>__()</code> and <code>_e()</code>, but it has an additional argument -- the context: </p>
 <!-- /wp:paragraph -->
 
-<!-- wp:code -->
+<!-- wp:code {"language":"php"} -->
 <pre class="wp-block-code"><code lang="php" class="language-php">_x( 'Post', 'noun', 'my-plugin' );
 _x( 'Post', 'verb', 'my-plugin' );</code></pre>
 <!-- /wp:code -->
@@ -303,7 +303,7 @@ _x( 'Post', 'verb', 'my-plugin' );</code></pre>
 <p>Note that similarly to <code>__()</code>, <code>_x()</code> has an <code>echo</code> version: <code>_ex()</code>. The previous example could be written as: </p>
 <!-- /wp:paragraph -->
 
-<!-- wp:code -->
+<!-- wp:code {"language":"php"} -->
 <pre class="wp-block-code"><code lang="php" class="language-php">_ex( 'Post', 'noun', 'my-plugin' );
 _ex( 'Post', 'verb', 'my-plugin' );</code></pre>
 <!-- /wp:code -->
@@ -322,7 +322,7 @@ _ex( 'Post', 'verb', 'my-plugin' );</code></pre>
 <p>So that translators know how to translate a string like <code>__( 'g:i:s a' )</code> you can add a clarifying comment in the source code. It has to start with the words <code>translators:</code> and to be the last PHP comment before the gettext call. Here is an example: </p>
 <!-- /wp:paragraph -->
 
-<!-- wp:code -->
+<!-- wp:code {"language":"php"} -->
 <pre class="wp-block-code"><code lang="php" class="language-php">/* translators: draft saved date format, see http://php.net/date */
 $saved_date_format = __( 'g:i:s a' );</code></pre>
 <!-- /wp:code -->
@@ -331,7 +331,7 @@ $saved_date_format = __( 'g:i:s a' );</code></pre>
 <p>It's also used to explain placeholders in a string like <code>_n_noop( '&lt;strong&gt;Version %1$s&lt;/strong&gt; addressed %2$s bug.','&lt;strong&gt;Version %1$s&lt;/strong&gt; addressed %2$s bugs.' )</code>. </p>
 <!-- /wp:paragraph -->
 
-<!-- wp:code -->
+<!-- wp:code {"language":"php"} -->
 <pre class="wp-block-code"><code lang="php" class="language-php">/* translators: 1: WordPress version number, 2: plural number of bugs. */
 _n_noop( '&lt;strong&gt;Version %1$s&lt;/strong&gt; addressed %2$s bug.','&lt;strong&gt;Version %1$s&lt;/strong&gt;strong&gt; addressed %2$s bugs.' );</code></pre>
 <!-- /wp:code -->
@@ -410,7 +410,7 @@ _n_noop( '&lt;strong&gt;Version %1$s&lt;/strong&gt; addressed %2$s bug.','&lt;st
 <ul><li>Use decent English style - minimize slang and abbreviations.</li><li>Use entire sentences - in most languages word order is different than that in English.</li><li>Split at paragraphs - merge related sentences, but do not include a whole page of text in one string.</li><li>Do not leave leading or trailing whitespace in a translatable phrase.</li><li>Assume strings can double in length when translated</li><li>Avoid unusual markup and unusual control characters - do not include tags that surround your text</li><li>Do not put unnecessary HTML markup into the translated string</li><li>Do not leave URLs for translation, unless they could have a version in another language.</li><li>Add the variables as placeholders to the string as in some languages the placeholders change position.</li></ul>
 <!-- /wp:list -->
 
-<!-- wp:code -->
+<!-- wp:code {"language":"php"} -->
 <pre class="wp-block-code"><code lang="php" class="language-php">printf(
 	__( 'Search results for: %s', 'my-plugin' ),
 	get_search_query()
@@ -467,7 +467,7 @@ _n_noop( '&lt;strong&gt;Version %1$s&lt;/strong&gt; addressed %2$s bug.','&lt;st
 <p>Use this command if you don't want a new file outputted: </p>
 <!-- /wp:paragraph -->
 
-<!-- wp:code -->
+<!-- wp:code {"language":"php"} -->
 <pre class="wp-block-code"><code lang="php" class="language-php">php add-textdomain.php -i my-plugin my-plugin.php</code></pre>
 <!-- /wp:code -->
 
@@ -475,7 +475,7 @@ _n_noop( '&lt;strong&gt;Version %1$s&lt;/strong&gt; addressed %2$s bug.','&lt;st
 <p>If you want to change multiple files in a directory you can also pass a directory to the script: </p>
 <!-- /wp:paragraph -->
 
-<!-- wp:code -->
+<!-- wp:code {"language":"php"} -->
 <pre class="wp-block-code"><code lang="php" class="language-php">php add-textdomain.php -i my-plugin my-plugin-directory</code></pre>
 <!-- /wp:code -->
 
@@ -511,7 +511,7 @@ function wpdocs_load_textdomain() {
 <p>If you still want to load your own translations and not the ones from translate, you will have to use a hook filter named <code>load_textdomain_mofile</code>. <br><strong>Example</strong> with a .mo file in the <code>/languages/</code> directory of your plugin, with this code inserted in the main plugin file:</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:code -->
+<!-- wp:code {"language":"php"} -->
 <pre class="wp-block-code"><code lang="php" class="language-php">function my_plugin_load_my_own_textdomain( $mofile, $domain ) {
 	if ( 'my-domain' === $domain &amp;&amp; false !== strpos( $mofile, WP_LANG_DIR . '/plugins/' ) ) {
 		$locale = apply_filters( 'plugin_locale', determine_locale(), $domain );
