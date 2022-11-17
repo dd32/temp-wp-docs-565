@@ -46,7 +46,7 @@ function make_alterations( $content ) {
 	$content = preg_replace_callback(
 		'~<!-- wp:syntaxhighlighter/code (?P<params>{[^}]+})?\s*-->.*?<pre.+?>(?<content>.+?)</pre>.*?<!-- /wp:syntaxhighlighter/code -->~ism',
 		function( $m ) {
-			$content = trim( $m['content'] );
+			$content = $m['content'];
 			$details = json_decode( $m['params'] ?? '{}' );
 			$lang    = esc_attr( $details->language ?? '' );
 			$class   = esc_attr( $details->className ?? '' );

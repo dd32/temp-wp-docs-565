@@ -229,7 +229,7 @@ else
 <!-- /wp:paragraph -->
 
 <!-- wp:code {"language":"php"} -->
-<pre class="wp-block-code"><code lang="php" class="language-php">define( 'MY_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );</code></pre>
+<pre class="wp-block-code"><code lang="php" class="language-php">define( 'MY_PLUGIN_DIR', plugin_dir_path( __FILE__ ) ); </code></pre>
 <!-- /wp:code -->
 
 <!-- wp:paragraph -->

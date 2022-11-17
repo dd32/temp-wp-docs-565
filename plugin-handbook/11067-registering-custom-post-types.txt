@@ -39,7 +39,8 @@ We recommend that you put custom post types in a plugin rather than a theme. Thi
 		)
 	);
 }
-add_action('init', 'wporg_custom_post_type');</code></pre>
+add_action('init', 'wporg_custom_post_type');
+</code></pre>
 <!-- /wp:code -->
 
 <!-- wp:paragraph -->
@@ -135,7 +136,8 @@ If your identifier is too generic (for example: "<code>product</code>"), it may 
 		)
 	);
 }
-add_action('init', 'wporg_custom_post_type');</code></pre>
+add_action('init', 'wporg_custom_post_type');
+</code></pre>
 <!-- /wp:code -->
 
 <!-- wp:paragraph -->

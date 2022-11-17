@@ -59,7 +59,7 @@ https://developer.wordpress.org/plugins/wordpress-org/preventing-wordpress-from-
 <!-- /wp:paragraph -->
 
 <!-- wp:code {"language":"php"} -->
-<pre class="wp-block-code"><code lang="php" class="language-php">* Update URI: https://example.com/my-updater/</code></pre>
+<pre class="wp-block-code"><code lang="php" class="language-php"> * Update URI: https://example.com/my-updater/</code></pre>
 <!-- /wp:code -->
 
 <!-- wp:paragraph -->

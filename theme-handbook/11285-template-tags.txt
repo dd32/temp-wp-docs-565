@@ -135,7 +135,7 @@ https://developer.wordpress.org/themes/basics/template-tags/
 <!-- /wp:paragraph -->
 
 <!-- wp:code {"language":"php"} -->
-<pre class="wp-block-code"><code lang="php" class="language-php">endwhile;
+<pre class="wp-block-code"><code lang="php" class="language-php">	endwhile;
 else :
 	_e( 'Sorry, no posts matched your criteria.', 'devhub' );
 endif;</code></pre>

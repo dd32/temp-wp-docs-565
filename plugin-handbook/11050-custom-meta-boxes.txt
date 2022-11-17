@@ -77,7 +77,8 @@ add_action( 'add_meta_boxes', 'wporg_add_custom_box' );</code></pre>
 		&lt;option value="else"&gt;Else&lt;/option&gt;
 	&lt;/select&gt;
 	&lt;?php
-}</code></pre>
+}
+</code></pre>
 <!-- /wp:code -->
 
 <!-- wp:shortcode -->
@@ -113,7 +114,8 @@ add_action( 'add_meta_boxes', 'wporg_add_custom_box' );</code></pre>
 		&lt;option value="else" &lt;?php selected( $value, 'else' ); ?&gt;&gt;Else&lt;/option&gt;
 	&lt;/select&gt;
 	&lt;?php
-}</code></pre>
+}
+</code></pre>
 <!-- /wp:code -->
 
 <!-- wp:paragraph -->
@@ -248,7 +250,8 @@ add_action( 'save_post', 'wporg_save_postdata' );</code></pre>
 }
 
 add_action( 'add_meta_boxes', [ 'WPOrg_Meta_Box', 'add' ] );
-add_action( 'save_post', [ 'WPOrg_Meta_Box', 'save' ] );</code></pre>
+add_action( 'save_post', [ 'WPOrg_Meta_Box', 'save' ] );
+</code></pre>
 <!-- /wp:code -->
 
 <!-- wp:heading {"level":3} -->

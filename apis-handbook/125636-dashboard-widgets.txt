@@ -184,7 +184,7 @@ $wp_meta_boxes['dashboard']['normal']['core']['health_check_status'];
 // WordPress Events and News
 $wp_meta_boxes['dashboard']['side']['core']['dashboard_primary'];
 // Quick Draft, Your Recent Drafts
-$wp_meta_boxes['dashboard']['side']['core']['dashboard_quick_press'];</code></pre>
+$wp_meta_boxes['dashboard']['side']['core']['dashboard_quick_press']; </code></pre>
 <!-- /wp:code -->
 
 <!-- wp:paragraph -->
@@ -292,7 +292,8 @@ add_action( 'wp_dashboard_setup', 'wporg_add_dashboard_widget' );</code></pre>
 <!-- /wp:paragraph -->
 
 <!-- wp:code {"language":"php"} -->
-<pre class="wp-block-code"><code lang="php" class="language-php">/**
+<pre class="wp-block-code"><code lang="php" class="language-php">
+/**
  * Gets all widget options, or only options for a specified widget if a widget id is provided.
  *
  * @param string $widget_id Optional. If provided, will only get options for that widget.

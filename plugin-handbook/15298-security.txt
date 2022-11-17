@@ -29,7 +29,7 @@ https://developer.wordpress.org/plugins/internationalization/security/
 <!-- /wp:paragraph -->
 
 <!-- wp:code {"language":"php"} -->
-<pre class="wp-block-code"><code lang="php" class="language-php">_e( 'The REST API content endpoints were added in WordPress 4.7.', 'your-text-domain' );</code></pre>
+<pre class="wp-block-code"><code lang="php" class="language-php">_e( 'The REST API content endpoints were added in WordPress 4.7.', 'your-text-domain' ); </code></pre>
 <!-- /wp:code -->
 
 <!-- wp:paragraph -->

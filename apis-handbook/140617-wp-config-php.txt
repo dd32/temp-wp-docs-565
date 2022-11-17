@@ -138,7 +138,8 @@ define( 'DB_HOST', 'localhost:&lt;strong&gt;3307' );</code></pre>
 <!-- wp:code {"language":"php"} -->
 <pre class="wp-block-code"><code lang="php" class="language-php">define( 'DB_HOST', '127.0.0.1:&lt;strong&gt;/var/run/mysqld/mysqld.sock' );
 // or define( 'DB_HOST', 'localhost:&lt;strong&gt;/var/run/mysqld/mysqld.sock' );
-// or define( 'DB_HOST', 'example.tld:&lt;strong&gt;/var/run/mysqld/mysqld.sock' );</code></pre>
+// or define( 'DB_HOST', 'example.tld:&lt;strong&gt;/var/run/mysqld/mysqld.sock' );
+</code></pre>
 <!-- /wp:code -->
 
 <!-- wp:paragraph -->
@@ -556,7 +557,7 @@ define( 'NONCE_SALT',       'a|#h{c5|P &amp;xWs4IZ20c2&amp;%4!c(/uG}W:mAvy&lt;I4
 
 <!-- wp:code {"language":"php"} -->
 <pre class="wp-block-code"><code lang="php" class="language-php">define( 'WP_DISABLE_FATAL_ERROR_HANDLER', true );   // 5.2 and later define( 'WP_DEBUG', true );
-define( 'WP_DEBUG_DISPLAY', true );</code></pre>
+define( 'WP_DEBUG_DISPLAY', true ); </code></pre>
 <!-- /wp:code -->
 
 <!-- wp:heading {"level":3} -->
@@ -900,7 +901,8 @@ define( 'WP_LANG_DIR', dirname(__FILE__) . 'wordpress/languages' );</code></pre>
     print_r( $wpdb-&gt;queries );
     echo "&lt;/pre&gt;";
 }
-?&gt;</code></pre>
+?&gt;
+</code></pre>
 <!-- /wp:code -->
 
 <!-- wp:paragraph -->
@@ -1161,7 +1163,7 @@ define( 'STYLESHEETPATH', get_stylesheet_directory() );</code></pre>
 <!-- /wp:paragraph -->
 
 <!-- wp:code {"language":"php"} -->
-<pre class="wp-block-code"><code lang="php" class="language-php">define( 'WP_ALLOW_REPAIR', true );</code></pre>
+<pre class="wp-block-code"><code lang="php" class="language-php"> define( 'WP_ALLOW_REPAIR', true );</code></pre>
 <!-- /wp:code -->
 
 <!-- wp:paragraph -->
@@ -1193,7 +1195,7 @@ define( 'STYLESHEETPATH', get_stylesheet_directory() );</code></pre>
 <!-- /wp:paragraph -->
 
 <!-- wp:code {"language":"php"} -->
-<pre class="wp-block-code"><code lang="php" class="language-php">print_r( @get_defined_constants() );</code></pre>
+<pre class="wp-block-code"><code lang="php" class="language-php"> print_r( @get_defined_constants() );</code></pre>
 <!-- /wp:code -->
 
 <!-- wp:heading {"level":3} -->
@@ -1262,7 +1264,7 @@ define( 'WP_ACCESSIBLE_HOSTS', 'api.wordpress.org,*.github.com' );</code></pre>
 <!-- /wp:paragraph -->
 
 <!-- wp:code {"language":"php"} -->
-<pre class="wp-block-code"><code lang="php" class="language-php">define( 'AUTOMATIC_UPDATER_DISABLED', true );</code></pre>
+<pre class="wp-block-code"><code lang="php" class="language-php"> define( 'AUTOMATIC_UPDATER_DISABLED', true );</code></pre>
 <!-- /wp:code -->
 
 <!-- wp:heading {"level":3} -->
@@ -1274,7 +1276,7 @@ define( 'WP_ACCESSIBLE_HOSTS', 'api.wordpress.org,*.github.com' );</code></pre>
 <!-- /wp:paragraph -->
 
 <!-- wp:code {"language":"php"} -->
-<pre class="wp-block-code"><code lang="php" class="language-php"># Disable all core updates:
+<pre class="wp-block-code"><code lang="php" class="language-php"> # Disable all core updates:
  define( 'WP_AUTO_UPDATE_CORE', false );
  # Enable all core updates, including minor and major:
  define( 'WP_AUTO_UPDATE_CORE', true );
@@ -1295,7 +1297,7 @@ define( 'WP_ACCESSIBLE_HOSTS', 'api.wordpress.org,*.github.com' );</code></pre>
 <!-- /wp:paragraph -->
 
 <!-- wp:code {"language":"php"} -->
-<pre class="wp-block-code"><code lang="php" class="language-php">define( 'IMAGE_EDIT_OVERWRITE', true );</code></pre>
+<pre class="wp-block-code"><code lang="php" class="language-php"> define( 'IMAGE_EDIT_OVERWRITE', true );</code></pre>
 <!-- /wp:code -->
 
 <!-- wp:heading -->

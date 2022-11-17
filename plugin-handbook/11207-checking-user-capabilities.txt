@@ -126,7 +126,8 @@ add_filter( 'the_content', 'wporg_generate_delete_link' );
 /**
  * Register our request handler with the init hook.
  */
-add_action( 'init', 'wporg_delete_post' );</code></pre>
+add_action( 'init', 'wporg_delete_post' );
+</code></pre>
 <!-- /wp:code -->
 
 <!-- wp:heading {"level":3} -->

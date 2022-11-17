@@ -88,7 +88,8 @@ echo esc_html( __( 'Hello World', 'text_domain' ) );</code></pre>
 	'em'     =&gt; array(),
 	'strong' =&gt; array(),
 );
-echo wp_kses( $custom_content, $allowed_html );</code></pre>
+echo wp_kses( $custom_content, $allowed_html );
+</code></pre>
 <!-- /wp:code -->
 
 <!-- wp:paragraph -->
