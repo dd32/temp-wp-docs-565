@@ -77,6 +77,11 @@ function make_alterations( $content ) {
 				) {
 					$lang = 'js';
 				}
+				if (
+					str_starts_with( $content, '#: ' ) // .po file.
+				) {
+					$lang = '';
+				}
 			}
 
 			$class = str_replace( [ "brush:$lang", "brush: $lang" ], '', $class );
@@ -100,7 +105,10 @@ function make_alterations( $content ) {
 				'language'  => $lang,
 				'className' => preg_replace( '/^language-\S+\s*/', '', $class )
 			) ) );
-			if ( $params && $params !== '{}' ) {
+			if ( $params === '{}' || $params === '[]' ) {
+				$params = '';
+			}
+			if ( $params ) {
 				$params .= ' ';
 			}
 
