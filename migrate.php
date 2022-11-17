@@ -127,7 +127,7 @@ foreach ( $data as $r ) {
 
 	$r['post_content'] = make_alterations( $r['post_content']  );
 
-	file_put_contents( $name, $r['post_content'] );
+	file_put_contents( $name, get_permalink( $r['ID'] ) . "\n\n" . $r['post_content'] );
 
 	echo $name . "\n";
 }
