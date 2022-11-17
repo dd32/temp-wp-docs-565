@@ -72,9 +72,9 @@ https://developer.wordpress.org/apis/handbook/settings/
 <p><strong>NOTE:</strong> You MUST register any options you use with <code>add_settings_field()</code> or they won't be saved and updated automatically. See below for details and an example.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">add_settings_field( $id, $title, $callback, $page, $section = 'default', $args = array() )</pre>
-<!-- /wp:syntaxhighlighter/code -->
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">add_settings_field( $id, $title, $callback, $page, $section = 'default', $args = array() )</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:list -->
 <ul><li><code>$id</code> - String for use in the 'id' attribute of tags.</li><li><code>$title</code> - Title of the field.</li><li><code>$callback</code> - Function that fills the field with the desired inputs as part of the larger form. Name and id of the input should match the $id given to this function. The function should echo its output.</li><li><code>$page</code> - The type of settings page on which to show the field (general, reading, writing, ...).</li><li><code>$section</code> - The section of the settings page in which to show the box (default or a section you added with add_settings_section, look at the page in the source to see what the existing ones are.)</li><li><code>$args</code> - Extra arguments passed into the callback function</li></ul>
@@ -88,9 +88,9 @@ https://developer.wordpress.org/apis/handbook/settings/
 <p>Settings Sections are the groups of settings you see on WordPress settings pages with a shared heading. In your plugin you can add new sections to existing settings pages rather than creating a whole new page. This makes your plugin simpler to maintain and creates fewer new pages for users to learn. You just tell them to change your setting on the relevant existing page.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">add_settings_section( $id, $title, $callback, $page );</pre>
-<!-- /wp:syntaxhighlighter/code -->
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">add_settings_section( $id, $title, $callback, $page );</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:list -->
 <ul><li><code>$id</code> - String for use in the 'id' attribute of tags.</li><li><code>$title</code> - Title of the section.</li><li><code>$callback</code> - Function that fills the section with the desired content. The function should echo its output.</li><li><code>$page</code> - The type of settings page on which to show the section (general, reading, writing, media etc.)</li></ul>
@@ -100,13 +100,13 @@ https://developer.wordpress.org/apis/handbook/settings/
 <h2>Registering Settings</h2>
 <!-- /wp:heading -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">register_setting( $option_group, $option_name, $args );</pre>
-<!-- /wp:syntaxhighlighter/code -->
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">register_setting( $option_group, $option_name, $args );</code></pre>
+<!-- /wp:code -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">unregister_setting( $option_group, $option_name );</pre>
-<!-- /wp:syntaxhighlighter/code -->
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">unregister_setting( $option_group, $option_name );</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p><strong>NOTE:</strong> <code>register_setting()</code> as well as the above mentioned <code>add_settings_*()</code> functions should all be called from a <code>admin_init</code> action hook callback function. Refer to the "Examples" section below.</p>
@@ -156,15 +156,15 @@ https://developer.wordpress.org/apis/handbook/settings/
 <p>Finally, you need to output the HTML &lt;form&gt; tag defining the action destination of options.php and method of POST. Here is an example options form code to generate all the sections and fields added to a page who's slug name is <code>my-page</code>:</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">&lt;form method="POST" action="options.php"&gt;
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">&lt;form method="POST" action="options.php"&gt;
 &lt;?php 
 settings_fields( 'my-page' ); // pass slug name of page, also referred to in Settings API as option group name
 do_settings_sections( 'my-page' );  // pass slug name of page
 submit_button(); // submit button
 ?&gt;
-&lt;/form&gt;</pre>
-<!-- /wp:syntaxhighlighter/code -->
+&lt;/form&gt;</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:heading -->
 <h2>Example</h2>
@@ -174,8 +174,8 @@ submit_button(); // submit button
 <h3>Adding a settings section with a new field in it</h3>
 <!-- /wp:heading -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">&lt;?php 
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">&lt;?php 
 /**
  * Add all your sections, fields and settings during admin_init
  */
@@ -227,8 +227,8 @@ function wporg_settings_api_init() {
  
  function wporg_setting_callback_function() {
  	echo '&lt;input name="wporg_setting_name" id="wporg_setting_name" type="checkbox" value="1" class="code" ' . checked( 1, get_option( 'wporg_setting_name' ), false ) . ' /&gt; &lt;label for="wporg_setting_name"&gt;Explanation text&lt;/label&gt;';
- }</pre>
-<!-- /wp:syntaxhighlighter/code -->
+ }</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:heading {"level":4} -->
 <h4>Graphical Representation of where all those code should go</h4>

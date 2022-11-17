@@ -64,8 +64,8 @@ https://developer.wordpress.org/plugins/security/checking-user-capabilities/
 <p>The example below creates a link on the frontend which gives the ability to trash posts.&nbsp;Because this code does not check user capabilities, <strong>it allows any visitor to the site to trash posts!</strong></p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">/**
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">/**
  * Generate a Delete link based on the homepage url.
  *
  * @param string $content   Existing content.
@@ -126,9 +126,8 @@ add_filter( 'the_content', 'wporg_generate_delete_link' );
 /**
  * Register our request handler with the init hook.
  */
-add_action( 'init', 'wporg_delete_post' );
-</pre>
-<!-- /wp:syntaxhighlighter/code -->
+add_action( 'init', 'wporg_delete_post' );</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:heading {"level":3} -->
 <h3 id="restricted-to-a-specific-capability">Restricted to a Specific Capability</h3>
@@ -142,8 +141,8 @@ add_action( 'init', 'wporg_delete_post' );
 <p>To accomplish this, we will check that the current user has the capability <code>edit_others_posts</code>, which only Editors or above would have:</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"highlightLines":"54,64"} -->
-<pre class="wp-block-syntaxhighlighter-code">/**
+<!-- wp:code {"highlightLines":"54,64"} -->
+<pre class="wp-block-code"><code>/**
  * Generate a Delete link based on the homepage url.
  *
  * @param string $content   Existing content.
@@ -213,8 +212,8 @@ function wporg_add_delete_post_ability() {
          */
         add_action( 'init', 'wporg_delete_post' );
     }
-}</pre>
-<!-- /wp:syntaxhighlighter/code -->
+}</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p></p>

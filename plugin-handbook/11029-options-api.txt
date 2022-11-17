@@ -28,12 +28,12 @@ https://developer.wordpress.org/plugins/settings/options-api/
 <p>When saved as a single value, the option name refers to a single value.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">// add a new option
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">// add a new option
 add_option('wporg_custom_option', 'hello world!');
 // get an option
-$option = get_option('wporg_custom_option');</pre>
-<!-- /wp:syntaxhighlighter/code -->
+$option = get_option('wporg_custom_option');</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:heading {"level":3} -->
 <h3>Array of Values</h3>
@@ -43,16 +43,16 @@ $option = get_option('wporg_custom_option');</pre>
 <p>When saved as an array of values, the option name refers to an array, which itself may be comprised key/value pairs.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">// array of options
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">// array of options
 $data_r = array('title' =&gt; 'hello world!', 1, false );
 // add a new option
 add_option('wporg_custom_option', $data_r);
 // get an option
 $options_r = get_option('wporg_custom_option');
 // output the title
-echo esc_html($options_r['title']);</pre>
-<!-- /wp:syntaxhighlighter/code -->
+echo esc_html($options_r['title']);</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p>If you are working with a large number of related options, storing them as an array can have a positive impact on overall performance.</p>

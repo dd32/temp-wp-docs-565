@@ -24,15 +24,15 @@ https://developer.wordpress.org/plugins/javascript/enqueuing/
 <p>The enqueue function takes three parameters. The first is an arbitrary tag or handle that is used to refer to your script in other functions. The second is the complete URL to your script file. For portability, use <code>plugins_url()</code> to build the proper URL. If you are enqueuing the script for something besides a plugin, use some related function to create a proper URL - never hardcode it. The third parameter is an array of any script tags that your script is dependent on. Since we are using jQuery to send an AJAX request, you will at least need to list <em>'jquery'</em> in the array. Always use an array even if it is for a single dependency. The enqueue call for our example looks like this:</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">wp_enqueue_script(
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">wp_enqueue_script(
 	'ajax-script',
 	plugins_url( '/js/myjquery.js', __FILE__ ),
 	array( 'jquery' ),
 	'1.0.,0',
 	true
-);</pre>
-<!-- /wp:syntaxhighlighter/code -->
+);</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p>You cannot enqueue scripts directly from your plugin code page when it is loaded. Scripts must be enqueued from one of a few action hooks - which one depends on what sort of page the script needs to be linked to. For administration pages, use <code>admin_enqueue_scripts</code>. For front-end pages use <code>wp_enqueue_scripts</code>, except for the login page, in which case use <code>login_enqueue_scripts</code>.</p>
@@ -42,8 +42,8 @@ https://developer.wordpress.org/plugins/javascript/enqueuing/
 <p>The <code>admin_enqueue_scripts</code> hook passes the current page filename to your callback. Use this information to only enqueue your script on pages where it is needed. The front-end version does not pass anything. In that case, use template tags such as <code>is_home()</code>, <code>is_single()</code>, etc. to ensure that you only enqueue your script where it is needed. This is the complete enqueue code for our example:</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">add_action( 'admin_enqueue_scripts', 'my_enqueue' );
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">add_action( 'admin_enqueue_scripts', 'my_enqueue' );
 function my_enqueue( $hook ) {
 	if ( 'myplugin_settings.php' !== $hook ) {
 		return;
@@ -55,8 +55,8 @@ function my_enqueue( $hook ) {
 		'1.0.0',
 		true
 	);
-}</pre>
-<!-- /wp:syntaxhighlighter/code -->
+}</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p>Why do we use a named function here but use anonymous functions with jQuery? Because closures are only recently supported by PHP. jQuery has supported them for quite some time. Since some people may still be running older versions of PHP, we always use named functions for maximum compatibility. If you have a recent PHP version and are developing only for your own installation, go ahead and use closures if you like.</p>
@@ -78,9 +78,9 @@ function my_enqueue( $hook ) {
 <p>You need to create a nonce so that the jQuery AJAX request can be validated as a legitimate request instead of a potentially nefarious request from some unknown bad actor. Only your PHP script and your jQuery script will know this value. When the request is received, you can verify it is the same value created here. This is how to create a nonce for our example:</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">$title_nonce = wp_create_nonce( 'title_example' );</pre>
-<!-- /wp:syntaxhighlighter/code -->
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">$title_nonce = wp_create_nonce( 'title_example' );</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p>The parameter <code>title_example</code> can be any arbitrary string. It's suggested the string be related to what the nonce is used for, but it can really be anything that suits you.</p>
@@ -94,23 +94,23 @@ function my_enqueue( $hook ) {
 <p>If you recall from the <a href="https://developer.wordpress.org/plugins/javascript/jquery/">jQuery Section</a>, data created by PHP for use by jQuery was passed in a global object named <code>my_ajax_obj</code>. In our example, this data was a nonce and the complete URL to <code>admin-ajax.php</code>. The process of assigning object properties and creating the global jQuery object is called <strong>localizing</strong>. This is the localizing code used in our example which uses <code><a href="https://developer.wordpress.org/reference/functions/wp_localize_script/">wp_localize_script()</a></code>.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code -->
-<pre class="wp-block-syntaxhighlighter-code">wp_localize_script(
+<!-- wp:code -->
+<pre class="wp-block-code"><code>wp_localize_script(
 	'ajax-script',
 	'my_ajax_obj',
 	array(
 		'ajax_url' =&gt; admin_url( 'admin-ajax.php' ),
 		'nonce'    =&gt; $title_nonce,
 	)
-);</pre>
-<!-- /wp:syntaxhighlighter/code -->
+);</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p>Note how our script handle <code>ajax-script</code> is used so that the global object is assigned to the right script. The object is global to our script, not to all scripts. Localization can also be called from the same hook that is used to enqueue scripts. The same goes for creating a nonce, though that particular function can be called virtually anywhere. All of that combined together in a single hook callback looks like this:</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code -->
-<pre class="wp-block-syntaxhighlighter-code">add_action( 'admin_enqueue_scripts', 'my_enqueue' );
+<!-- wp:code -->
+<pre class="wp-block-code"><code>add_action( 'admin_enqueue_scripts', 'my_enqueue' );
 
 /**
  * Enqueue my scripts and assets.
@@ -137,8 +137,8 @@ function my_enqueue( $hook ) {
 			'nonce'    =&gt; wp_create_nonce( 'title_example' ),
 		)
 	);
-}</pre>
-<!-- /wp:syntaxhighlighter/code -->
+}</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:shortcode -->
 [info] Remember to only add this nonce localization to the needed pages, do not display a nonce to someone who should not use it. And remember to use <code>current_user_can()</code> with a capability or role to complete the security.[/info]
@@ -162,8 +162,8 @@ You've probably used one or more of the PHP super globals such as <code>$_GET</c
 <p>Since our AJAX exchange is for the plugin's settings page, the user must be logged in. If you recall from the <a href="https://developer.wordpress.org/plugins/javascript/jquery/">jQuery section</a>, the <code>action:</code> value is <code>"my_tag_count"</code>. This means our action hook tag will be <code>wp_ajax_my_tag_count</code>. If our AJAX exchange were to be utilized by users who were not currently logged in, the action hook tag would be <code>wp_ajax_nopriv_my_tag_count</code> The basic code used to hook the action looks like this:</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code -->
-<pre class="wp-block-syntaxhighlighter-code">add_action( 'wp_ajax_my_tag_count', 'my_ajax_handler' );
+<!-- wp:code -->
+<pre class="wp-block-code"><code>add_action( 'wp_ajax_my_tag_count', 'my_ajax_handler' );
 
 /**
  * Handles my AJAX request.
@@ -172,16 +172,16 @@ function my_ajax_handler() {
 	// Handle the ajax request here
 
 	wp_die(); // All ajax handlers die when finished
-}</pre>
-<!-- /wp:syntaxhighlighter/code -->
+}</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p>The first thing your AJAX handler should do is verify the nonce sent by jQuery with <code><a href="https://developer.wordpress.org/reference/functions/check_ajax_referer/">check_ajax_referer()</a></code>, which should be the same value that was localized when the script was enqueued.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code -->
-<pre class="wp-block-syntaxhighlighter-code">check_ajax_referer( 'title_example' );</pre>
-<!-- /wp:syntaxhighlighter/code -->
+<!-- wp:code -->
+<pre class="wp-block-code"><code>check_ajax_referer( 'title_example' );</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p>The provided parameter must be identical to the parameter provided <a href="#php-nonce">earlier</a> to <code>wp_create_nonce()</code>. The function simply dies if the nonce does not check out. If this were a true nonce, now that it was used, the value is no longer any good. You would then generate a new one and send it to the callback script so that it can be used for the next request. But since WordPress nonces are good for twenty-four hours, you needn't do anything but check it.</p>
@@ -195,20 +195,20 @@ function my_ajax_handler() {
 <p>With the nonce out of the way, our handler can deal with the data sent by the jQuery script contained in <code>$_POST['title']</code>. We can save the user's selection in user meta by using <a href="https://developer.wordpress.org/reference/functions/update_user_meta/">update_user_meta()</a>.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">update_user_meta( get_current_user_id(), 'title_preference', sanitize_post_title( $_POST['title'] ) );</pre>
-<!-- /wp:syntaxhighlighter/code -->
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">update_user_meta( get_current_user_id(), 'title_preference', sanitize_post_title( $_POST['title'] ) );</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p>Then we build a query in order to get the post count for the selected title tag.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code -->
-<pre class="wp-block-syntaxhighlighter-code">$args      = array(
+<!-- wp:code -->
+<pre class="wp-block-code"><code>$args      = array(
 	'tag' =&gt; $_POST['title'],
 );
-$the_query = new WP_Query( $args );</pre>
-<!-- /wp:syntaxhighlighter/code -->
+$the_query = new WP_Query( $args );</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p>Finally we can send the response back to the jQuery script. There's several ways to transmit data. Let's look at some of the options before we deal with the specifics of our example.</p>
@@ -238,9 +238,9 @@ $the_query = new WP_Query( $args );</pre>
 <p>You can transfer data any way you like, as long as the sender and receiver are coordinated. Text formats like comma delimited or tab delimited are one of many possibilities. For small amounts of data, sending the raw stream may be adequate. That is what we will do with our example - we will send the actual replacement HTML, nothing else.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code -->
-<pre class="wp-block-syntaxhighlighter-code">echo esc_html( $_POST['title'] ) . ' (' . $the_query-&gt;post_count . ') ';</pre>
-<!-- /wp:syntaxhighlighter/code -->
+<!-- wp:code -->
+<pre class="wp-block-code"><code>echo esc_html( $_POST['title'] ) . ' (' . $the_query-&gt;post_count . ') ';</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p>In a real world application, you must account for the possibility that the action could fail for some reason--for instance, maybe the database server is down. The response should allow for this contingency, and the jQuery script receiving the response should act accordingly, perhaps telling the user to try again later.</p>
@@ -262,8 +262,8 @@ $the_query = new WP_Query( $args );</pre>
 <p>The complete AJAX handler for our example looks like this:</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">/**
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">/**
  * AJAX handler using JSON
  */
 function my_ajax_handler__json() {
@@ -274,11 +274,11 @@ function my_ajax_handler__json() {
 	);
 	$the_query = new WP_Query( $args );
 	wp_send_json( esc_html( $_POST['title'] ) . ' (' . $the_query-&gt;post_count . ') ' );
-}</pre>
-<!-- /wp:syntaxhighlighter/code -->
+}</code></pre>
+<!-- /wp:code -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">/**
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">/**
  * AJAX handler not using JSON.
  */
 function my_ajax_handler() {
@@ -290,5 +290,5 @@ function my_ajax_handler() {
 	$the_query = new WP_Query( $args );
 	echo esc_html( $_POST['title'] ) . ' (' . $the_query-&gt;post_count . ') ';
 	wp_die(); // All ajax handlers should die when finished
-}</pre>
-<!-- /wp:syntaxhighlighter/code -->
+}</code></pre>
+<!-- /wp:code -->

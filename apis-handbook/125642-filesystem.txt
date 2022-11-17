@@ -82,12 +82,12 @@ https://developer.wordpress.org/apis/handbook/filesystem/
 <p>The credentials form can be displayed onto an admin page by using the following code:</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">$url = wp_nonce_url( 'themes.php?page=example', 'example-theme-options' );
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">$url = wp_nonce_url( 'themes.php?page=example', 'example-theme-options' );
 if ( false === ( $creds = request_filesystem_credentials( $url, '', false, false, null ) ) ) {
 	return; // stop processing here
-}</pre>
-<!-- /wp:syntaxhighlighter/code -->
+}</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p>The request_filesystem_credentials() call takes five arguments.</p>
@@ -143,12 +143,12 @@ if ( false === ( $creds = request_filesystem_credentials( $url, '', false, false
 <p>Before the WP_Filesystem can be used, it must be initialized with the proper credentials. This can be done like so:</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">if ( ! WP_Filesystem( $creds ) ) {
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">if ( ! WP_Filesystem( $creds ) ) {
 	request_filesystem_credentials( $url, '', true, false, null );
 	return;
-}</pre>
-<!-- /wp:syntaxhighlighter/code -->
+}</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p>First you call the <code>WP_Filesystem</code> function, passing it the credentials from before. It will then attempt to verify the credentials. If they are good, then it will return true. If not, then it will return false.</p>
@@ -166,14 +166,14 @@ if ( false === ( $creds = request_filesystem_credentials( $url, '', false, false
 <p>Once the class has been initialized, then the global <code>$wp_filesystem</code> variable becomes defined and available for you to use. The <code>WP_Filesystem_Base</code> class defines several methods you can use to read and write local files. For example, to write a file, you could do this:</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">global $wp_filesystem;
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">global $wp_filesystem;
 $wp_filesystem-&gt;put_contents(
   '/tmp/example.txt',
   'Example contents of a file',
   FS_CHMOD_FILE // predefined mode settings for WP files
-);</pre>
-<!-- /wp:syntaxhighlighter/code -->
+);</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p>Other available methods include <code>get_contents()</code> and <code>get_contents_array()</code> to read files; <code>wp_content_dir()</code>, <code>wp_plugins_dir()</code>, and <code>wp_themes_dir()</code> which will return the filesystem paths to those directories; <code>mkdir()</code> and <code>rmdir()</code> to make and remove directories; along with several other handy filesystem related functions.</p>
@@ -199,8 +199,8 @@ $wp_filesystem-&gt;put_contents(
 <p>But let's expand on this scenario further and say this plugin needs to access the file system every time the plugin updated. If you're regularly releasing updates and bug fixes, it soon becomes tenuous for users to click your actionable button every time they upgrade. What would be nice is to determine if we have direct write access before calling&nbsp;<code>request_filesystem_credentials()</code>&nbsp;and silently do the installation. That's where the&nbsp;<code>get_filesystem_method()</code>&nbsp;function comes into play.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">$access_type = get_filesystem_method();
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">$access_type = get_filesystem_method();
 if ( $access_type === 'direct' )
 {
 	/* you can safely run request_filesystem_credentials() without any issues and don't need to worry about passing in a URL */
@@ -217,8 +217,8 @@ else
 {
 	/* don't have direct write access. Prompt user with our notice */
 	add_action( 'admin_notices', 'you_admin_notice_function' ); 	
-}</pre>
-<!-- /wp:syntaxhighlighter/code -->
+}</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p>This approach works well for all involved. Users who don't have direct write permissions get prompted to make changes to the file system, while the plugin goes unnoticed (in a good way) on sites who can directly write to the file system.</p>
@@ -228,23 +228,23 @@ else
 <p><strong>Working with Paths</strong><br>WordPress developers worth their salt should be familiar with setting up constants or variables to access their plugin's path. It usually looks like this:</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">define( 'MY_PLUGIN_DIR', plugin_dir_path( __FILE__ ) ); </pre>
-<!-- /wp:syntaxhighlighter/code -->
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">define( 'MY_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p>What you need to take into consideration when working with the Filesystem API is the path to the files won't always be the same. When using the direct method you can safely use the&nbsp;<code>MY_PLUGIN_DIR</code>&nbsp;constant, but if you tried to do the same when the FTP or SSH method is used then you can run into problems. This is because FTP and SSH are usually rooted to a directory somewhere along the absolute path. Now, the Filesystem API gives us ways of overcoming this problem with methods like&nbsp;<code>$wp_filesystem-&gt;wp_content_dir()</code>&nbsp;and&nbsp;<code>$wp_filesystem-&gt;wp_plugins_dir()</code>, but it isn't practical to define the path to your plugin twice.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">/* replace the 'direct' absolute path with the Filesystem API path */
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">/* replace the 'direct' absolute path with the Filesystem API path */
  $plugin_path = str_replace( ABSPATH, $wp_filesystem-&gt;abspath(), MY_PLUGIN_DIR );
 /* Now we can use $plugin_path in all our Filesystem API method calls */
 if ( ! $wp_filesystem-&gt;is_dir( $plugin_path . '/config/' ) ) {
 	/* directory didn't exist, so let's create it */
 	$wp_filesystem-&gt;mkdir( $plugin_path . '/config/' );
-}</pre>
-<!-- /wp:syntaxhighlighter/code -->
+}</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p><strong><code>unzip_file($file, $to);</code></strong></p>
@@ -254,8 +254,8 @@ if ( ! $wp_filesystem-&gt;is_dir( $plugin_path . '/config/' ) ) {
 <p>While this function requires the Filesystem API to be initialized, it isn't a method of the&nbsp;<code>$wp_filesystem</code>&nbsp;object, which might be why its arguments are at odds with each other. The first parameter,&nbsp;<code>$file</code>, needs to be the absolute 'direct' path to the file, while the&nbsp;<code>$toparameter</code> needs to point to the absolute path of the Filesystem.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">define( 'MY_PLUGIN_DIR', plugin_dir_path( __FILE__ ) ); 
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">define( 'MY_PLUGIN_DIR', plugin_dir_path( __FILE__ ) ); 
 global $wp_filesystem; // already initialised the Filesystem API previously
 $plugin_path = str_replace( ABSPATH, $wp_filesystem-&gt;abspath(), MY_PLUGIN_DIR ); // get remote system absolute path
 /* Acceptable way to use the function */
@@ -271,8 +271,8 @@ $to = MY_PLUGIN_DIR; // $to cannot be the 'direct' absolute path to the folder o
 unzip_file( $file, $to ); 
 $file = $plugin_path . '/plugin-file.zip'; // If $file isn't the 'direct' absolute path then users not using FTP and SSH methods are left in the cold
 $to = $plugin_path;
-unzip_file( $file, $to );</pre>
-<!-- /wp:syntaxhighlighter/code -->
+unzip_file( $file, $to );</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:heading -->
 <h2>External references</h2>

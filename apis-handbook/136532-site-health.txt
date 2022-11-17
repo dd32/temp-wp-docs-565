@@ -16,16 +16,16 @@ https://developer.wordpress.org/apis/handbook/site-health/
 <p>Developers need to start by creating a navigation element, so that users may access the new tab. This is done using the&nbsp;<code>site_health_navigation_tabs</code>&nbsp;filter, which is an associated array of tab keys, and their label.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">&lt;?php
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">&lt;?php
 function wporg_example_site_health_navigation_tabs( $tabs ) {
     // translators: Tab heading for Site Health navigation.
     $tabs['example-site-health-tab'] = esc_html_x( 'My New Tab', 'Site Health', 'text-domain' );
  
     return $tabs;
 }
-add_filter( 'site_health_navigation_tabs', 'wporg_example_site_health_navigation_tabs' );</pre>
-<!-- /wp:syntaxhighlighter/code -->
+add_filter( 'site_health_navigation_tabs', 'wporg_example_site_health_navigation_tabs' );</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p>The above example will add the identifier&nbsp;<code>example-site-health-tab</code>&nbsp;with the label&nbsp;<code>My New Tab</code>&nbsp;to the header navigation located in Site Health screens.</p>
@@ -51,8 +51,8 @@ add_filter( 'site_health_navigation_tabs', 'wporg_example_site_health_navigation
 <p>The action fires after the header itself has been loaded, but does not include any wrappers. This gives you as a developer the full width of the screen (not counting the&nbsp;admin&nbsp;menu) to work with.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">&lt;?php
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">&lt;?php
 function wporg_example_site_health_tab_content( $tab ) {
     // Do nothing if this is not our tab.
     if ( 'example-site-health-tab' !== $tab ) {
@@ -62,8 +62,8 @@ function wporg_example_site_health_tab_content( $tab ) {
     // Include the interface, kept in a separate file just to differentiate code from views.
     include trailingslashit( plugin_dir_path( __FILE__ ) ) . 'views/site-health-tab.php';
 }
-add_action( 'site_health_tab_content', 'wporg_example_site_health_tab_content' );</pre>
-<!-- /wp:syntaxhighlighter/code -->
+add_action( 'site_health_tab_content', 'wporg_example_site_health_tab_content' );</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p>The above example loads in a file with your tab content from your plugin, but only if the tab matches the tab key (or slug if you will) which was defined in the previous example.</p>
@@ -77,8 +77,8 @@ add_action( 'site_health_tab_content', 'wporg_example_site_health_tab_content' )
 <p>Another example might be to extend the default&nbsp;<code>Info</code>&nbsp;tab, which has the slug&nbsp;<code>debug</code>, and add a button to copy some information specific to only your plugin or theme:</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">&lt;?php
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">&lt;?php
 function wporg_add_button_to_site_health_info_tab( $tab ) {
     // Do nothing if this is not the "debug" tab.
     if ( 'debug' !== $tab ) {
@@ -90,5 +90,5 @@ function wporg_add_button_to_site_health_info_tab( $tab ) {
     &lt;/button&gt;
     &lt;?php
 }
-add_action( 'site_health_tab_content', 'wporg_add_button_to_site_health_info_tab' );</pre>
-<!-- /wp:syntaxhighlighter/code -->
+add_action( 'site_health_tab_content', 'wporg_add_button_to_site_health_info_tab' );</code></pre>
+<!-- /wp:code -->

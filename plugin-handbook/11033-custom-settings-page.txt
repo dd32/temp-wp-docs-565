@@ -22,8 +22,8 @@ Please read these chapters before attempting to create your own settings page.
 <p>Complete example which adds a Top-Level Menu named <code>WPOrg</code>, registers a custom option named <code>wporg_options</code> and performs the CRUD (create, read, update, delete) logic using Settings API and Options API (including showing error/update messages).</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">&lt;?php
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">&lt;?php
 /**
  * @internal never define functions inside callbacks.
  * these functions could be run multiple times; this would result in a fatal error.
@@ -172,5 +172,5 @@ function wporg_options_page_html() {
 		&lt;/form&gt;
 	&lt;/div&gt;
 	&lt;?php
-}</pre>
-<!-- /wp:syntaxhighlighter/code -->
+}</code></pre>
+<!-- /wp:code -->

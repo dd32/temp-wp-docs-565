@@ -52,8 +52,8 @@ https://developer.wordpress.org/plugins/privacy/adding-the-personal-data-exporte
 <p>The first thing the plugin needs to do is to create an exporter function that accepts an email address and a page, e.g.:</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">/**
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">/**
  * Export user meta for a user using the supplied email.
  *
  * @param string $email_address   email address to manipulate
@@ -122,8 +122,8 @@ function wporg_export_user_data_by_email( $email_address, $page = 1 ) {
 		'data' =&gt; $export_items,
 		'done' =&gt; $done,
 	);
-}</pre>
-<!-- /wp:syntaxhighlighter/code -->
+}</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p>The next thing the plugin needs to do is to register the callback by filtering the exporter array using the `wp_privacy_personal_data_exporters` filter.</p>
@@ -133,8 +133,8 @@ function wporg_export_user_data_by_email( $email_address, $page = 1 ) {
 <p>When registering you provide a friendly name for the export (to aid in debugging - this friendly name is not shown to anyone at this time) and the callback, e.g.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code -->
-<pre class="wp-block-syntaxhighlighter-code">/**
+<!-- wp:code -->
+<pre class="wp-block-code"><code>/**
  * Registers all data exporters.
  *
  * @param array $exporters
@@ -149,8 +149,8 @@ function wporg_register_user_data_exporters( $exporters ) {
 	return $exporters;
 }
 
-add_filter( 'wp_privacy_personal_data_exporters', 'wporg_register_user_data_exporters' );</pre>
-<!-- /wp:syntaxhighlighter/code -->
+add_filter( 'wp_privacy_personal_data_exporters', 'wporg_register_user_data_exporters' );</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p>And that's all there is to it! Your plugin will now provide data for the export!</p>

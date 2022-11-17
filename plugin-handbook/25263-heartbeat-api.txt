@@ -40,12 +40,12 @@ https://developer.wordpress.org/plugins/javascript/heartbeat-api/
 <p>When Heartbeat sends data to the server, you can include custom data. This can be any data you want to send to the server, or a simple true value to indicate you are expecting data.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"jscript"} -->
-<pre class="wp-block-syntaxhighlighter-code">jQuery( document ).on( 'heartbeat-send', function ( event, data ) {
+<!-- wp:code {"language":"jscript"} -->
+<pre class="wp-block-code"><code lang="jscript" class="language-jscript">jQuery( document ).on( 'heartbeat-send', function ( event, data ) {
 	// Add additional data to Heartbeat data.
 	data.myplugin_customfield = 'some_data';
-});</pre>
-<!-- /wp:syntaxhighlighter/code -->
+});</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:heading {"level":3} -->
 <h3>Receiving and Responding on the Server</h3>
@@ -55,8 +55,8 @@ https://developer.wordpress.org/plugins/javascript/heartbeat-api/
 <p>On the server side, you can then detect this data, and add additional data to the response.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">/**
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">/**
  * Receive Heartbeat data and respond.
  *
  * Processes data received via a Heartbeat request, and returns additional data to pass back to the front end.
@@ -78,8 +78,8 @@ function myplugin_receive_heartbeat( array $response, array $data ) {
 	$response['myplugin_customfield_hashed'] = sha1( $received_data );
 	return $response;
 }
-add_filter( 'heartbeat_received', 'myplugin_receive_heartbeat', 10, 2 );</pre>
-<!-- /wp:syntaxhighlighter/code -->
+add_filter( 'heartbeat_received', 'myplugin_receive_heartbeat', 10, 2 );</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:heading {"level":3} -->
 <h3>Processing the Response</h3>
@@ -89,16 +89,16 @@ add_filter( 'heartbeat_received', 'myplugin_receive_heartbeat', 10, 2 );</pre>
 <p>Back on the frontend, you can then handle receiving this data back.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"jscript"} -->
-<pre class="wp-block-syntaxhighlighter-code">jQuery( document ).on( 'heartbeat-tick', function ( event, data ) {
+<!-- wp:code {"language":"jscript"} -->
+<pre class="wp-block-code"><code lang="jscript" class="language-jscript">jQuery( document ).on( 'heartbeat-tick', function ( event, data ) {
 	// Check for our data, and use it.
 	if ( ! data.myplugin_customfield_hashed ) {
 		return;
 	}
 
 	alert( 'The hash is ' + data.myplugin_customfield_hashed );
-});</pre>
-<!-- /wp:syntaxhighlighter/code -->
+});</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p><br>Not every feature will need all three of these steps. For example, if you don't need to send any data to the server, you can use just the latter two steps.</p>

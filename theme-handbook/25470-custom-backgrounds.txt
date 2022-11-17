@@ -16,21 +16,21 @@ https://developer.wordpress.org/themes/functionality/custom-backgrounds/
 <p>Use add_theme_support() in the <code>functions.php</code> file to enable custom backgrounds.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">add_theme_support( 'custom-background' );</pre>
-<!-- /wp:syntaxhighlighter/code -->
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">add_theme_support( 'custom-background' );</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p><br>You can specify default parameters. In below example using default '#0000ff' background color (blue) with 'wapuu.jpg' background image that was stored under the /images folder.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">$args = array(
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">$args = array(
     'default-color' => '0000ff',
     'default-image' => get_template_directory_uri() . '/images/wapuu.jpg',
 );
-add_theme_support( 'custom-background', $args );</pre>
-<!-- /wp:syntaxhighlighter/code -->
+add_theme_support( 'custom-background', $args );</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p><br>By calling add_theme_support(), Customizer displays 'Background Image' menu and 'Background Color' section in Colors menu.</p>
@@ -44,21 +44,21 @@ add_theme_support( 'custom-background', $args );</pre>
 <p>In general, invokes wp_head() and body_class() in <code>header.php</code> file to display the custom backgrounds.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">&lt;!DOCTYPE html>
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">&lt;!DOCTYPE html>
 &lt;html>
 &lt;head>
     &lt;?php wp_head(); ?>
 &lt;/head>
-&lt;body &lt;?php body_class(); ?>></pre>
-<!-- /wp:syntaxhighlighter/code -->
+&lt;body &lt;?php body_class(); ?>></code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p>wp_head() generates an extra style sheet in-line with the HTML headers, usually right before the end of the document's HEAD element. The extra style sheet overrides the background values from the theme's style sheet.<br>In our example, following code will be generated in the HTML. Notice that body tag includes "custom-background " class.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">&lt;!DOCTYPE html>
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">&lt;!DOCTYPE html>
 &lt;html lang="en-US" class="no-js">
 
 &lt;head>
@@ -77,8 +77,8 @@ body.custom-background {
 
 &lt;body class="home page-template-default page page-id-211 logged-in admin-bar no-customize-support custom-background">
 
-	...</pre>
-<!-- /wp:syntaxhighlighter/code -->
+	...</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p>Now you'll see repeated background images</p>
@@ -96,16 +96,16 @@ body.custom-background {
 <p>This is another example of default value set.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">$another_args = array(
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">$another_args = array(
     'default-color'      => '0000ff',
     'default-image'      => get_template_directory_uri() . '/images/wapuu.jpg',
     'default-position-x' => 'right',
     'default-position-y' => 'top',
     'default-repeat'     => 'no-repeat',
 );
-add_theme_support( 'custom-background', $another_args );</pre>
-<!-- /wp:syntaxhighlighter/code -->
+add_theme_support( 'custom-background', $another_args );</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p><br>This will show single image at the top right corner as below.</p>

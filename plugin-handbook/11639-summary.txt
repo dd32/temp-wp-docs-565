@@ -28,8 +28,8 @@ https://developer.wordpress.org/plugins/javascript/summary/
 <p></p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"jscript"} -->
-<pre class="wp-block-syntaxhighlighter-code">jQuery(document).ready(function($) { 	   //wrapper
+<!-- wp:code {"language":"jscript"} -->
+<pre class="wp-block-code"><code lang="jscript" class="language-jscript">jQuery(document).ready(function($) { 	   //wrapper
 	$(".pref").change(function() { 		   //event
 		var this2 = this; 		           //use in callback
 		$.post(my_ajax_obj.ajax_url, { 	   //POST request
@@ -41,8 +41,8 @@ https://developer.wordpress.org/plugins/javascript/summary/
 			$(this2).after(data); 	       //insert server response
 		});
 	});
-});</pre>
-<!-- /wp:syntaxhighlighter/code -->
+});</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p>And after storing the preference, the resulting post count is added to the selected title.</p>

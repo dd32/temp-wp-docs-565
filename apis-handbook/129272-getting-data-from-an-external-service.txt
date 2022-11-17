@@ -24,9 +24,9 @@ https://developer.wordpress.org/apis/handbook/making-http-requests/getting-data-
 <p>Let's use the URL to a GitHub WordPress organization and see what sort of information we can get.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php","quickCode":false} -->
-<pre class="wp-block-syntaxhighlighter-code">$response = wp_remote_get( 'https://api.github.com/users/wordpress' );</pre>
-<!-- /wp:syntaxhighlighter/code -->
+<!-- wp:code {"language":"php","quickCode":false} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">$response = wp_remote_get( 'https://api.github.com/users/wordpress' );</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p><code>$response</code> will contain all the headers, content, and other meta data about our request.</p>
@@ -36,8 +36,8 @@ https://developer.wordpress.org/apis/handbook/making-http-requests/getting-data-
 <p>Response from previous example will be something like</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">Array(
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">Array(
 	[headers] =&gt; Array(
 		[server] =&gt; nginx
 		[date] =&gt; Fri, 05 Oct 2012 04:43:50 GMT
@@ -96,8 +96,8 @@ https://developer.wordpress.org/apis/handbook/making-http-requests/getting-data-
 
 	[cookies] =&gt; Array()
 	[filename] =&gt;
-)</pre>
-<!-- /wp:syntaxhighlighter/code -->
+)</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:heading {"level":3} -->
 <h3>GET the body you always wanted</h3>
@@ -107,17 +107,17 @@ https://developer.wordpress.org/apis/handbook/making-http-requests/getting-data-
 <p>To retrieve response body use <code><a title="wp_remote_retrieve_body" href="http://developer.wordpress.org/reference/functions/wp_remote_retrieve_body/">wp_remote_retrieve_body()</a></code> function. This function takes just one parameter, the response from <code><a href="http://developer.wordpress.org/reference/functions/wp_remote_get/">wp_remote_get()</a></code> function.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">$response = wp_remote_get( 'https://api.github.com/users/wordpress' );
-$body     = wp_remote_retrieve_body( $response );</pre>
-<!-- /wp:syntaxhighlighter/code -->
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">$response = wp_remote_get( 'https://api.github.com/users/wordpress' );
+$body     = wp_remote_retrieve_body( $response );</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p>Using the <code>$response</code> from the previous example, <code>$body</code> will be something like:</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">{
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">{
 "login": "WordPress",
 "id": 276006,
 "node_id": "MDEyOk9yZ2FuaXphdGlvbjI3NjAwNg==",
@@ -150,8 +150,8 @@ $body     = wp_remote_retrieve_body( $response );</pre>
 "following": 0,
 "created_at": "2010-05-13T22:42:10Z",
 "updated_at": "2020-05-22T14:27:02Z"
-}</pre>
-<!-- /wp:syntaxhighlighter/code -->
+}</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:heading {"level":3} -->
 <h3>GET the response code</h3>
@@ -161,9 +161,9 @@ $body     = wp_remote_retrieve_body( $response );</pre>
 <p>You may want to check the response code to ensure your retrieval was successful. This can be done via the <code><a href="https://developer.wordpress.org/reference/functions/wp_remote_retrieve_response_code/">wp_remote_retrieve_response_code()</a></code> function:</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">$http_code = wp_remote_retrieve_response_code( $response );</pre>
-<!-- /wp:syntaxhighlighter/code -->
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">$http_code = wp_remote_retrieve_response_code( $response );</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p>If successful <code>$http_code</code> will contain <code>200</code>. Otherwise, it will contain some HTTP status codes.</p>
@@ -185,9 +185,9 @@ $body     = wp_remote_retrieve_body( $response );</pre>
 <p>To retrieve the last-modified header:</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">$last_modified = wp_remote_retrieve_header( $response, 'last-modified' );</pre>
-<!-- /wp:syntaxhighlighter/code -->
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">$last_modified = wp_remote_retrieve_header( $response, 'last-modified' );</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p>You can also retrieve all of the headers in an array with  <a href="https://developer.wordpress.org/reference/functions/wp_remote_retrieve_headers/">wp_remote_retrieve_headers()</a> function.</p>
@@ -201,14 +201,14 @@ $body     = wp_remote_retrieve_body( $response );</pre>
 <p>APIs that are secured more provide one or more of many different types of authentication. A common, though not highly secure, the authentication method is HTTP Basic Authentication. It can be used in WordPress bypassing 'Authorization' to the second parameter of the <code><a href="https://developer.wordpress.org/reference/functions/wp_remote_get/">wp_remote_get()</a></code> function, as well as the other HTTP method functions.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">$args = array(
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">$args = array(
     'headers' =&gt; array(
         'Authorization' =&gt; 'Basic ' . base64_encode( YOUR_USERNAME . ':' . YOUR_PASSWORD )
     )
 );
-wp_remote_get( $url, $args );</pre>
-<!-- /wp:syntaxhighlighter/code -->
+wp_remote_get( $url, $args );</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p>MORE ABOUT AUTH</p>

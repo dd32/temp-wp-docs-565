@@ -78,8 +78,8 @@ As of WP 4.7 the table contains: <code>ID</code>, <code>user_login</code>, <code
 <p>In the example below we will be adding a birthday field to the all profile screens. Saving it to the database on profile updates.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">&lt;?php
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">&lt;?php
 /**
  * The field on the editing screens.
  *
@@ -156,8 +156,8 @@ add_action(
 add_action(
     'edit_user_profile_update',
     'wporg_usermeta_form_field_birthday_update'
-);</pre>
-<!-- /wp:syntaxhighlighter/code -->
+);</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:heading {"level":3} -->
 <h3>Programmatically</h3>
@@ -175,14 +175,14 @@ add_action(
 <h4>Add</h4>
 <!-- /wp:heading -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">add_user_meta(
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">add_user_meta(
     int $user_id,
     string $meta_key,
     mixed $meta_value,
     bool $unique = false
-);</pre>
-<!-- /wp:syntaxhighlighter/code -->
+);</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p>Please refer to the Function Reference about <code><a href="/reference/functions/add_user_meta/">add_user_meta()</a></code> for full explanation about the used parameters.</p>
@@ -192,14 +192,14 @@ add_action(
 <h4>Update</h4>
 <!-- /wp:heading -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">update_user_meta(
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">update_user_meta(
     int $user_id,
     string $meta_key,
     mixed $meta_value,
     mixed $prev_value = ''
-);</pre>
-<!-- /wp:syntaxhighlighter/code -->
+);</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p>Please refer to the Function Reference about <code><a href="/reference/functions/update_user_meta/">update_user_meta()</a></code> for full explanation about the used parameters.</p>
@@ -209,13 +209,13 @@ add_action(
 <h4>Delete</h4>
 <!-- /wp:heading -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">delete_user_meta(
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">delete_user_meta(
     int $user_id,
     string $meta_key,
     mixed $meta_value = ''
-);</pre>
-<!-- /wp:syntaxhighlighter/code -->
+);</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p>Please refer to the Function Reference about <code><a href="/reference/functions/delete_user_meta/">delete_user_meta()</a></code> for full explanation about the used parameters.</p>
@@ -225,13 +225,13 @@ add_action(
 <h4>Get</h4>
 <!-- /wp:heading -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">get_user_meta(
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">get_user_meta(
     int $user_id,
     string $key = '',
     bool $single = false
-);</pre>
-<!-- /wp:syntaxhighlighter/code -->
+);</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p>Please refer to the Function Reference about <code><a href="/reference/functions/get_user_meta/">get_user_meta()</a></code> for full explanation about the used parameters.</p>

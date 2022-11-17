@@ -44,12 +44,12 @@ https://developer.wordpress.org/plugins/hooks/actions/
 <p>The example below will run <code>wporg_callback()</code> when the <code>init</code> hook is executed:</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">function wporg_callback() {
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">function wporg_callback() {
     // do something
 }
-add_action( 'init', 'wporg_callback' );</pre>
-<!-- /wp:syntaxhighlighter/code -->
+add_action( 'init', 'wporg_callback' );</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p>You can refer to the <a href="https://developer.wordpress.org/plugins/hooks/">Hooks</a> chapter for a list of available hooks.</p>
@@ -99,12 +99,12 @@ add_action( 'init', 'wporg_callback' );</pre>
 <p>For example, the following callback functions are all registered to the<br><code>init</code> hook, but with different priorities:</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">add_action('init', 'wporg_callback_run_me_late', 11);
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">add_action('init', 'wporg_callback_run_me_late', 11);
 add_action('init', 'wporg_callback_run_me_normal');
 add_action('init', 'wporg_callback_run_me_early', 9);
-add_action('init', 'wporg_callback_run_me_later', 11);</pre>
-<!-- /wp:syntaxhighlighter/code -->
+add_action('init', 'wporg_callback_run_me_later', 11);</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p>In the example above:</p>
@@ -126,27 +126,27 @@ add_action('init', 'wporg_callback_run_me_later', 11);</pre>
 <p>For example, when WordPress saves a post and runs the <code><a href="http://developer.wordpress.org/reference/hooks/save_post/">save_post</a></code> hook, it passes two parameters to the callback function: the ID of the post being saved, and the post object itself:</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">do_action( 'save_post', $post-&gt;ID, $post );</pre>
-<!-- /wp:syntaxhighlighter/code -->
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">do_action( 'save_post', $post-&gt;ID, $post );</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p>When a callback function is registered for the <code><a href="http://developer.wordpress.org/reference/hooks/save_post/">save_post</a></code> hook, it can specify that it wants to receive those two parameters. It does so by telling <code>add_action</code> to expect them by (in this case) putting <code>2</code> as the fourth argument:</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">add_action('save_post', 'wporg_custom', 10, 2);</pre>
-<!-- /wp:syntaxhighlighter/code -->
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">add_action('save_post', 'wporg_custom', 10, 2);</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p>In order to actually receive those parameters in your callback function, modify the parameters your callback function will accept, like this:</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">function wporg_custom( $post_id, $post ) {
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">function wporg_custom( $post_id, $post ) {
     // do something
-}</pre>
-<!-- /wp:syntaxhighlighter/code -->
+}</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:shortcode -->
 [tip]It's good practice to give your callback function parameters the same name as the passed parameters, or as close as you can.[/tip]

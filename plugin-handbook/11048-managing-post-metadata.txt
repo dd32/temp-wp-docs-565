@@ -52,15 +52,15 @@ https://developer.wordpress.org/plugins/metadata/managing-post-metadata/
 <p>Consider the JSON value <code>{"key":"value with \"escaped quotes\""}</code>:</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">$escaped_json = '{"key":"value with \"escaped quotes\""}';
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">$escaped_json = '{"key":"value with \"escaped quotes\""}';
 update_post_meta( $id, 'escaped_json', $escaped_json );
 $broken = get_post_meta( $id, 'escaped_json', true );
 /*
 $broken, after stripslashes(), ends up unparsable:
 {"key":"value with "escaped quotes""}
-*/</pre>
-<!-- /wp:syntaxhighlighter/code -->
+*/</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:heading {"level":3} -->
 <h3>Workaround</h3>
@@ -70,15 +70,15 @@ $broken, after stripslashes(), ends up unparsable:
 <p>By adding one more level of \ escaping using the function wp_slash() (introduced in WP 3.6), you can compensate for the call to <a href="http://php.net/manual/en/function.stripslashes.php">stripslashes()</a>:</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code -->
-<pre class="wp-block-syntaxhighlighter-code">$escaped_json = '{"key":"value with \"escaped quotes\""}';
+<!-- wp:code -->
+<pre class="wp-block-code"><code>$escaped_json = '{"key":"value with \"escaped quotes\""}';
 update_post_meta( $id, 'double_escaped_json', wp_slash( $escaped_json ) );
 $fixed = get_post_meta( $id, 'double_escaped_json', true );
 /*
 $fixed, after stripslashes(), ends up as desired:
 {"key":"value with \"escaped quotes\""}
-*/</pre>
-<!-- /wp:syntaxhighlighter/code -->
+*/</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:heading -->
 <h2>Hidden Custom Fields</h2>
@@ -96,9 +96,9 @@ $fixed, after stripslashes(), ends up as desired:
 <p>The example below will add a unique custom field with the <code>meta_key</code> name '_color' and the <code>meta_value</code> of 'red' but this custom field will not display in the post edit screen:</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">add_post_meta( 68, '_color', 'red', true );</pre>
-<!-- /wp:syntaxhighlighter/code -->
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">add_post_meta( 68, '_color', 'red', true );</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:heading {"level":3} -->
 <h3>Hidden Arrays</h3>

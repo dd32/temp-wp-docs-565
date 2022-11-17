@@ -32,9 +32,9 @@ https://developer.wordpress.org/plugins/plugin-basics/uninstall-methods/
 <p>To set up an uninstall hook, use the register_uninstall_hook() function:</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">register_uninstall_hook(__FILE__, 'pluginprefix_function_to_run');</pre>
-<!-- /wp:syntaxhighlighter/code -->
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">register_uninstall_hook(__FILE__, 'pluginprefix_function_to_run');</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:heading -->
 <h2>Method 2: <code>uninstall.php</code></h2>
@@ -62,8 +62,8 @@ The constant is <strong>NOT</strong> defined when uninstall is performed by regi
 <p>Here is an example deleting option entries and dropping a database table:</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code -->
-<pre class="wp-block-syntaxhighlighter-code">// if uninstall.php is not called by WordPress, die
+<!-- wp:code -->
+<pre class="wp-block-code"><code>// if uninstall.php is not called by WordPress, die
 if (!defined('WP_UNINSTALL_PLUGIN')) {
     die;
 }
@@ -77,8 +77,8 @@ delete_site_option($option_name);
 
 // drop a custom database table
 global $wpdb;
-$wpdb-&gt;query("DROP TABLE IF EXISTS {$wpdb-&gt;prefix}mytable");</pre>
-<!-- /wp:syntaxhighlighter/code -->
+$wpdb-&gt;query("DROP TABLE IF EXISTS {$wpdb-&gt;prefix}mytable");</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:shortcode -->
 [info]

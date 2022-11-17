@@ -52,11 +52,11 @@ Most WordPress functions properly prepare data for output, so you don't need to 
 <p>These functions simply wrap a localization function inside an escaping function:</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php","makeURLsClickable":false} -->
-<pre class="wp-block-syntaxhighlighter-code">esc_html_e( 'Hello World', 'text_domain' );
+<!-- wp:code {"language":"php","makeURLsClickable":false} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">esc_html_e( 'Hello World', 'text_domain' );
 // Same as
-echo esc_html( __( 'Hello World', 'text_domain' ) );</pre>
-<!-- /wp:syntaxhighlighter/code -->
+echo esc_html( __( 'Hello World', 'text_domain' ) );</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p>These helper functions combine localization and escaping:</p>
@@ -78,8 +78,8 @@ echo esc_html( __( 'Hello World', 'text_domain' ) );</pre>
 <p>This function makes sure that only the specified HTML elements, attributes, and attribute values will occur in your output, and normalizes&nbsp;HTML entities.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">$allowed_html = array(
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">$allowed_html = array(
 	'a'      =&gt; array(
 		'href'  =&gt; array(),
 		'title' =&gt; array(),
@@ -88,9 +88,8 @@ echo esc_html( __( 'Hello World', 'text_domain' ) );</pre>
 	'em'     =&gt; array(),
 	'strong' =&gt; array(),
 );
-echo wp_kses( $custom_content, $allowed_html );
-</pre>
-<!-- /wp:syntaxhighlighter/code -->
+echo wp_kses( $custom_content, $allowed_html );</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p><code>wp_kses_post()</code> is a wrapper function for <code>wp_kses</code> where <code>$allowed_html</code> is a set of rules used by post content.</p>

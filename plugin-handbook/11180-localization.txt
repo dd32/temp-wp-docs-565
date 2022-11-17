@@ -96,21 +96,21 @@ https://developer.wordpress.org/plugins/internationalization/localization/
 <p>You can use a text editor to enter the translation. In a text editor it will look like this.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code -->
-<pre class="wp-block-syntaxhighlighter-code">#: plugin-name.php:123
+<!-- wp:code -->
+<pre class="wp-block-code"><code>#: plugin-name.php:123
 msgid "Page Title"
-msgstr ""</pre>
-<!-- /wp:syntaxhighlighter/code -->
+msgstr ""</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p>You enter the translation between the quotation marks. For the German translation it would look like this.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code -->
-<pre class="wp-block-syntaxhighlighter-code">#: plugin-name.php:123
+<!-- wp:code -->
+<pre class="wp-block-code"><code>#: plugin-name.php:123
 msgid "Page Title"
-msgstr "Seitentitel"</pre>
-<!-- /wp:syntaxhighlighter/code -->
+msgstr "Seitentitel"</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:heading {"level":3} -->
 <h3>Poedit</h3>
@@ -152,17 +152,17 @@ msgstr "Seitentitel"</pre>
 <p><strong>Unix Operating Systems</strong></p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"bash"} -->
-<pre class="wp-block-syntaxhighlighter-code">msgfmt -o filename.mo filename.po</pre>
-<!-- /wp:syntaxhighlighter/code -->
+<!-- wp:code {"language":"bash"} -->
+<pre class="wp-block-code"><code lang="bash" class="language-bash">msgfmt -o filename.mo filename.po</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p><strong>Windows Operating Systems</strong></p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"bash"} -->
-<pre class="wp-block-syntaxhighlighter-code">msgfmt -o filename.mo filename.po</pre>
-<!-- /wp:syntaxhighlighter/code -->
+<!-- wp:code {"language":"bash"} -->
+<pre class="wp-block-code"><code lang="bash" class="language-bash">msgfmt -o filename.mo filename.po</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p>If you have a lot of&nbsp;<code>PO</code>&nbsp;files to convert at once, you can run it as a batch. For example, using a&nbsp;<code>bash</code>&nbsp;command:</p>
@@ -172,10 +172,10 @@ msgstr "Seitentitel"</pre>
 <p><strong>Unix Operating Systems</strong></p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"bash"} -->
-<pre class="wp-block-syntaxhighlighter-code"># Find PO files, process each with msgfmt and rename the result to MO
-for file in `find . -name "*.po"` ; do msgfmt -o ${file/.po/.mo} $file ; done</pre>
-<!-- /wp:syntaxhighlighter/code -->
+<!-- wp:code {"language":"bash"} -->
+<pre class="wp-block-code"><code lang="bash" class="language-bash"># Find PO files, process each with msgfmt and rename the result to MO
+for file in `find . -name "*.po"` ; do msgfmt -o ${file/.po/.mo} $file ; done</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p><strong>Windows Operating Systems</strong><br>For Windows you need to install&nbsp;<a href="http://www.cygwin.com/">Cygwin</a> first.</p>
@@ -185,19 +185,19 @@ for file in `find . -name "*.po"` ; do msgfmt -o ${file/.po/.mo} $file ; done</p
 <p>Create a file called <code>potomo.sh</code> and put the following into it:</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"bash"} -->
-<pre class="wp-block-syntaxhighlighter-code">#! /bin/sh
+<!-- wp:code {"language":"bash"} -->
+<pre class="wp-block-code"><code lang="bash" class="language-bash">#! /bin/sh
 # Find PO files, process each with msgfmt and rename the result to MO
-for file in `/usr/bin/find . -name '*.po'` ; do /usr/bin/msgfmt -o ${file/.po/.mo} $file ; done</pre>
-<!-- /wp:syntaxhighlighter/code -->
+for file in `/usr/bin/find . -name '*.po'` ; do /usr/bin/msgfmt -o ${file/.po/.mo} $file ; done</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p>You can run this command in the command line.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"bash"} -->
-<pre class="wp-block-syntaxhighlighter-code">cd C:/path/to/language/folder/my-plugin/languages &amp; C:/cygwin/bin/bash -c /cygdrive/c/path/to/script/directory/potomo.sh</pre>
-<!-- /wp:syntaxhighlighter/code -->
+<!-- wp:code {"language":"bash"} -->
+<pre class="wp-block-code"><code lang="bash" class="language-bash">cd C:/path/to/language/folder/my-plugin/languages &amp; C:/cygwin/bin/bash -c /cygdrive/c/path/to/script/directory/potomo.sh</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:heading {"level":3} -->
 <h3>Poedit</h3>

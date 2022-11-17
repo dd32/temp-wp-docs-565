@@ -68,9 +68,9 @@ https://developer.wordpress.org/apis/handbook/transients/
 <p>To save a transient you use <a href="https://developer.wordpress.org/reference/functions/set_transient/">set_transient()</a>:</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">set_transient( $transient, $value, $expiration );</pre>
-<!-- /wp:syntaxhighlighter/code -->
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">set_transient( $transient, $value, $expiration );</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:list -->
 <ul><li><code>$transient</code> (string): Transient name. <br>Expected to not be SQL-escaped. Must be 172 characters or fewer in length.</li><li><code>$value</code> (array|object): Data to save, either a regular variable or an array/object. <br>The API will handle serialization of complex data for you.</li><li><code>$expiration</code> (integer): The maximum of seconds to keep the data before refreshing. <br>Transients may expire before the <code>$expiration</code> (Due to External Object Caches, or database upgrades) but will never return their value past $expiration.</li></ul>
@@ -80,9 +80,9 @@ https://developer.wordpress.org/apis/handbook/transients/
 <p>So for example to save the <code>$special_query_results</code> object for 12 hours you would do:</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">set_transient( 'special_query_results', $special_query_results, 60*60*12 );</pre>
-<!-- /wp:syntaxhighlighter/code -->
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">set_transient( 'special_query_results', $special_query_results, 60*60*12 );</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:heading {"level":4} -->
 <h4>Using Time Constants</h4>
@@ -92,22 +92,22 @@ https://developer.wordpress.org/apis/handbook/transients/
 <p>In <a href="https://codex.wordpress.org/Version_3.5">WordPress 3.5</a>, several constants were introduced to easily express time:</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">MINUTE_IN_SECONDS  = 60 (seconds)
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">MINUTE_IN_SECONDS  = 60 (seconds)
 HOUR_IN_SECONDS    = 60 * MINUTE_IN_SECONDS
 DAY_IN_SECONDS     = 24 * HOUR_IN_SECONDS
 WEEK_IN_SECONDS    = 7 * DAY_IN_SECONDS
 MONTH_IN_SECONDS   = 30 * DAY_IN_SECONDS
-YEAR_IN_SECONDS    = 365 * DAY_IN_SECONDS</pre>
-<!-- /wp:syntaxhighlighter/code -->
+YEAR_IN_SECONDS    = 365 * DAY_IN_SECONDS</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p>So for example, the code sample from above can be simplified to:</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">set_transient( 'special_query_results', $special_query_results, 12 * HOUR_IN_SECONDS );</pre>
-<!-- /wp:syntaxhighlighter/code -->
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">set_transient( 'special_query_results', $special_query_results, 12 * HOUR_IN_SECONDS );</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:heading {"level":3} -->
 <h3>Fetching Transients</h3>
@@ -117,9 +117,9 @@ YEAR_IN_SECONDS    = 365 * DAY_IN_SECONDS</pre>
 <p>To get a saved transient you use <a href="https://developer.wordpress.org/reference/functions/get_transient/">get_transient()</a>:</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">get_transient( $transient );</pre>
-<!-- /wp:syntaxhighlighter/code -->
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">get_transient( $transient );</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p><code>$transient</code>: the unique slug used while saving the transient with <code>set_transient()</code>.</p>
@@ -129,9 +129,9 @@ YEAR_IN_SECONDS    = 365 * DAY_IN_SECONDS</pre>
 <p>In our case we could fetch our special query results with:</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">get_transient( 'special_query_results' );</pre>
-<!-- /wp:syntaxhighlighter/code -->
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">get_transient( 'special_query_results' );</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p>If the transient does not exist, or has expired, then <code>get_transient()</code> will return <code>false</code>. This should be checked using the identity operator <code>===</code> instead of the normal equality operator <code>==</code>, because an integer value of zero (or other "empty"/"falsey" data) could be the data you're wanting to store. Because of this "false" value, transients should not be used to hold plain boolean values (true/false). Put them into an array or convert them to integers instead.</p>
@@ -141,11 +141,11 @@ YEAR_IN_SECONDS    = 365 * DAY_IN_SECONDS</pre>
 <p>Example usage:</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">if ( false === ( $value = get_transient( 'value' ) ) ) {
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">if ( false === ( $value = get_transient( 'value' ) ) ) {
 	// this code runs when there is no valid transient set
-}</pre>
-<!-- /wp:syntaxhighlighter/code -->
+}</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p>The above code will get the transient and put it into <code>$value</code>. The code inside the if block only runs when there's not a valid transient for it to get. This is typically a method to re-generate the transient value through other means. Keep in mind that it's possible for a transient to not be available before it's normal expiration time.</p>
@@ -159,9 +159,9 @@ YEAR_IN_SECONDS    = 365 * DAY_IN_SECONDS</pre>
 <p>Our transient will die naturally of old age once $expiration seconds have passed since we last ran <a href="https://developer.wordpress.org/reference/functions/set_transient/">set_transient()</a>, but we can force the transient to die early by manually deleting it. This is useful for times when a given activity (saving a post, adding a category etc.) will make the cached data inherently stale and in need of updating.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">delete_transient( $transient );</pre>
-<!-- /wp:syntaxhighlighter/code -->
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">delete_transient( $transient );</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p><code>$transient</code>: the unique name used when saving with <code>set_transient()</code>.</p>
@@ -171,9 +171,9 @@ YEAR_IN_SECONDS    = 365 * DAY_IN_SECONDS</pre>
 <p>In our case, obviously, this would be:</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">delete_transient( 'special_query_results' );</pre>
-<!-- /wp:syntaxhighlighter/code -->
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">delete_transient( 'special_query_results' );</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p>WordPress infrequently cleans out expired transients. To prevent expired transients from building up in the database, it's a good practice to always remove your transient once you are done with it and no longer need it.</p>
@@ -187,8 +187,8 @@ YEAR_IN_SECONDS    = 365 * DAY_IN_SECONDS</pre>
 <p>Putting it all together here is an example of how to use transients in your code.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">&lt;?php
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">&lt;?php
 // Get any existing copy of our transient data
 if ( false === ( $special_query_results = get_transient( 'special_query_results' ) ) ) {
 	// It wasn't there, so regenerate the data and save the transient
@@ -196,30 +196,30 @@ if ( false === ( $special_query_results = get_transient( 'special_query_results'
 	set_transient( 'special_query_results', $special_query_results, 12 * HOUR_IN_SECONDS );
 }
 // Use the data like you would have normally...
-?&gt;</pre>
-<!-- /wp:syntaxhighlighter/code -->
+?&gt;</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p>And an example of using <a href="https://developer.wordpress.org/reference/functions/delete_transient/">delete_transient()</a>. In this case we'll add a function to the <code>edit_term</code> action, which will run every time a category or tag is edited (i.e. we're assuming that the editing of a term invalidates our data and we want to remove the cached version).</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">&lt;?php
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">&lt;?php
 // Create a simple function to delete our transient
 function edit_term_delete_transient() {
 	delete_transient( 'special_query_results' );
 }
 // Add the function to the edit_term hook so it runs when categories/tags are edited
 add_action( 'edit_term', 'edit_term_delete_transient' );
-?&gt;</pre>
-<!-- /wp:syntaxhighlighter/code -->
+?&gt;</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p>Use transients with <a href="https://developer.wordpress.org/reference/classes/wp_query/">WP_Query</a> to retrieve "featured posts":</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">&lt;?php 
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">&lt;?php 
 // Check for transient. If none, then execute WP_Query
 if ( false === ( $featured = get_transient( 'foo_featured_posts' ) ) ) {
 	$featured = new WP_Query(
@@ -246,9 +246,8 @@ if ( false === ( $featured = get_transient( 'foo_featured_posts' ) ) ) {
 	// no featured posts found
 &lt;?php endif; ?&gt;
 
-&lt;?php wp_reset_postdata(); ?&gt;
-</pre>
-<!-- /wp:syntaxhighlighter/code -->
+&lt;?php wp_reset_postdata(); ?&gt;</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p>Using transients in your plugins and themes is simple and only adds a few extra lines of code, but if used in the right situations (long/expensive database queries or complex processed data) it can save seconds off the load times on your site.</p>

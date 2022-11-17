@@ -64,9 +64,9 @@ https://developer.wordpress.org/plugins/javascript/ajax/
 <p>Now we will define the "do stuff" portion from the <a href="https://developer.wordpress.org/plugin/javascript/jquery/#selector-and-event">snippet in the article on jQuery</a>. We will use the <a title="jQuery Reference" href="http://api.jquery.com/jQuery.post/">$.post()</a> method, which takes 3 parameters: the URL to send the POST request to, the data to send, and a callback function to handle the server response. Before we do that though, we have a bit of advance planning to get out of the way. We do the following assignment for use later in the callback function. The purpose will be more evident in the <a title="Page section" href="#callback">Callback section</a>.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"jscript"} -->
-<pre class="wp-block-syntaxhighlighter-code">var this2 = this;</pre>
-<!-- /wp:syntaxhighlighter/code -->
+<!-- wp:code {"language":"jscript"} -->
+<pre class="wp-block-code"><code lang="jscript" class="language-jscript">var this2 = this;</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:heading {"level":3} -->
 <h3>URL</h3>
@@ -76,9 +76,9 @@ https://developer.wordpress.org/plugins/javascript/ajax/
 <p>All WordPress AJAX requests must be sent to <code>wp-admin/admin-ajax.php</code>. The correct, complete URL needs to come from PHP, jQuery cannot determine this value on its own, and you cannot hardcode the URL in your jQuery code and expect anyone else to use your plugin on their site. If the page is from the administration area, WordPress sets the correct URL in the global JavaScript variable <tt>ajaxurl</tt>. For a page from the public area, you will need to establish the correct URL yourself and pass it to jQuery using <tt>wp_localize_script()</tt>. This will be covered in more detail in the <a title="Server Side PHP and Enqueuing" href="http://developer.wordpress.org/plugin/javascript/enqueuing/">PHP section</a>. For now just know that the URL that will work for both the front and back end is available as a property of a global object that you will define in the PHP segment. In jQuery it is referenced like so:</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"jscript"} -->
-<pre class="wp-block-syntaxhighlighter-code">my_ajax_obj.ajax_url</pre>
-<!-- /wp:syntaxhighlighter/code -->
+<!-- wp:code {"language":"jscript"} -->
+<pre class="wp-block-code"><code lang="jscript" class="language-jscript">my_ajax_obj.ajax_url</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:heading {"level":3} -->
 <h3>Data</h3>
@@ -88,13 +88,13 @@ https://developer.wordpress.org/plugins/javascript/ajax/
 <p>All data that needs to be sent to the server is included in the data array. Besides any data needed by your app, you must send an action parameter. For requests that could result in a change to the database you need to send a nonce so the server knows the request came from a legitimate source. Our example data array provided to the <tt>.post()</tt> method looks like this:</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"jscript"} -->
-<pre class="wp-block-syntaxhighlighter-code">{
+<!-- wp:code {"language":"jscript"} -->
+<pre class="wp-block-code"><code lang="jscript" class="language-jscript">{
   _ajax_nonce: my_ajax_obj.nonce, // nonce
   action: "my_tag_count", // action
   title: this.value // data
-}</pre>
-<!-- /wp:syntaxhighlighter/code -->
+}</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p>Each component is explained below.</p>
@@ -130,9 +130,9 @@ https://developer.wordpress.org/plugins/javascript/ajax/
 <p>It's easiest if you key this nonce value to <tt>_ajax_nonce</tt>. You can use a different key if it's coordinated with the PHP code verifying the nonce, but it's easier to just use the default value and not worry about coordination. Here is the way the declaration of this key-value pair appears:</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"jscript"} -->
-<pre class="wp-block-syntaxhighlighter-code">_ajax_nonce: my_ajax_obj.nonce</pre>
-<!-- /wp:syntaxhighlighter/code -->
+<!-- wp:code {"language":"jscript"} -->
+<pre class="wp-block-code"><code lang="jscript" class="language-jscript">_ajax_nonce: my_ajax_obj.nonce</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:heading {"level":3} -->
 <h3>Action</h3>
@@ -142,9 +142,9 @@ https://developer.wordpress.org/plugins/javascript/ajax/
 <p>All WordPress AJAX requests must include an action argument in the data. This value is an arbitrary string that is used in part to construct an action tag you use to hook your AJAX handler code. It's useful for this value to be a very brief description of the AJAX call's purpose. Unsurprisingly, the key for this value is <em>'action'</em>. In this example, we will use <tt>"my_tag_count"</tt> as our action value. The declaration of this key-value pair looks like this:</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"jscript"} -->
-<pre class="wp-block-syntaxhighlighter-code">action: "my_tag_count"</pre>
-<!-- /wp:syntaxhighlighter/code -->
+<!-- wp:code {"language":"jscript"} -->
+<pre class="wp-block-code"><code lang="jscript" class="language-jscript">action: "my_tag_count"</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p>Any other data the server needs to do its task is also included in this array. If there are a lot of fields to transmit, there are two common formats to combine data fields into a single string for more convenient transmission, XML and JSON. Using these formats is optional, but whatever you do does need to be coordinated with the PHP script on the server side. More information on these formats is available in the following Callback section. It is more common to receive data in this format than to send it, but it can work both ways.</p>
@@ -154,9 +154,9 @@ https://developer.wordpress.org/plugins/javascript/ajax/
 <p>In our example, the server only needs one value, a single string for the selected book title, so we will use the key <em>'title'</em>. In jQuery, the object that fired the event is always contained in the variable <tt>this</tt>. Accordingly, the value of the selected element is <tt>this.value</tt>. Our declaration of this key-value pair appears like so:</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"jscript"} -->
-<pre class="wp-block-syntaxhighlighter-code">title: this.value</pre>
-<!-- /wp:syntaxhighlighter/code -->
+<!-- wp:code {"language":"jscript"} -->
+<pre class="wp-block-code"><code lang="jscript" class="language-jscript">title: this.value</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:heading {"level":3} -->
 <h3>Callback</h3>
@@ -170,12 +170,12 @@ https://developer.wordpress.org/plugins/javascript/ajax/
 <p>In our example, we replace the current text following the radio input with the server response, which includes the number of posts tagged by the book title. Here is our anonymous callback function:</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"jscript"} -->
-<pre class="wp-block-syntaxhighlighter-code">function( data ) {
+<!-- wp:code {"language":"jscript"} -->
+<pre class="wp-block-code"><code lang="jscript" class="language-jscript">function( data ) {
   this2.nextSibling.remove();
   $( this2 ).after( data );
-}</pre>
-<!-- /wp:syntaxhighlighter/code -->
+}</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p><tt>data</tt> contains the entire server response. Earlier we assigned to <tt>this2</tt> the object that triggered the change event (referenced as <tt>this</tt>) with the line <tt>var this2 = this;</tt>. This is because variable scope in closures only extends one level. By assigning <tt>this2</tt> in the event handler (the part that initially just contained <em>"/* do stuff */"</em>), we are able to use it in the callback where <tt>this</tt> would be out of scope.</p>
@@ -217,8 +217,8 @@ https://developer.wordpress.org/plugins/javascript/ajax/
 <p>Now that we've added our callback as the final parameter for the <tt>$.post()</tt> function, we've completed our sample jQuery Ajax script. All the pieces put together look like this:</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"jscript"} -->
-<pre class="wp-block-syntaxhighlighter-code">jQuery(document).ready(function($) {          //wrapper
+<!-- wp:code {"language":"jscript"} -->
+<pre class="wp-block-code"><code lang="jscript" class="language-jscript">jQuery(document).ready(function($) {          //wrapper
 	$(".pref").change(function() {             //event
 		var this2 = this;                     //use in callback
 		$.post(my_ajax_obj.ajax_url, {         //POST request
@@ -231,8 +231,8 @@ https://developer.wordpress.org/plugins/javascript/ajax/
 			}
 		);
 	} );
-} );</pre>
-<!-- /wp:syntaxhighlighter/code -->
+} );</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p>This script can either be output into a <tt>block</tt> on the web page or contained in its own file. This file can reside anywhere on the Internet, but most plugin developers place it in a <code>/js/</code> subfolder of the plugin's main folder. Unless you have reason to do otherwise, you may as well follow convention. For this example we will name our file <code>myjquery.js</code></p>

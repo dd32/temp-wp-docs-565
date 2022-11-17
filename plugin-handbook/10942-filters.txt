@@ -36,12 +36,12 @@ https://developer.wordpress.org/plugins/hooks/filters/
 <p>The example below will run when the <code>the_title</code> filter is executed.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code -->
-<pre class="wp-block-syntaxhighlighter-code">function wporg_filter_title( $title ) {
+<!-- wp:code -->
+<pre class="wp-block-code"><code>function wporg_filter_title( $title ) {
 	return 'The ' . $title . ' was filtered';
 }
-add_filter( 'the_title', 'wporg_filter_title' );</pre>
-<!-- /wp:syntaxhighlighter/code -->
+add_filter( 'the_title', 'wporg_filter_title' );</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p>Lets say we have a post title, "Learning WordPress", the above example will modify it to be "The Learning WordPress was filtered".</p>
@@ -75,12 +75,12 @@ add_filter( 'the_title', 'wporg_filter_title' );</pre>
 <p>To add a CSS class to the <code>&lt;body&gt;</code> tag when a certain condition is met:</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code -->
-<pre class="wp-block-syntaxhighlighter-code">function wporg_css_body_class( $classes ) {
+<!-- wp:code -->
+<pre class="wp-block-code"><code>function wporg_css_body_class( $classes ) {
 	if ( ! is_admin() ) {
 		$classes[] = 'wporg-is-awesome';
 	}
 	return $classes;
 }
-add_filter( 'body_class', 'wporg_css_body_class' );</pre>
-<!-- /wp:syntaxhighlighter/code -->
+add_filter( 'body_class', 'wporg_css_body_class' );</code></pre>
+<!-- /wp:code -->

@@ -76,14 +76,14 @@ https://developer.wordpress.org/apis/handbook/internationalization/
 <p>In order to be able to use i18n functions in your javascript code, you have to declare <code>wp-i18n</code> as a dependency on your script when registering or enqueueing it. For example:</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">wp_register_script(
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">wp_register_script(
      'my-script',
      plugins_url( 'js/my-script.js', FILE ),
      array( 'wp-i18n' ),
      '0.0.1'
- );</pre>
-<!-- /wp:syntaxhighlighter/code -->
+ );</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p>Now that you have added the dependency to your script, you can use i18n functions in it, however you still have to tell WordPress to load the translations. </p>
@@ -93,9 +93,9 @@ https://developer.wordpress.org/apis/handbook/internationalization/
 <p>You do this by calling <code>wp_set_script_translations()</code>. This function takes three arguments: the registered/enqueued script handle, the text domain, and optionally a path to the directory containing translation files. The latter is only needed if your plugin or theme is not hosted on WordPress.org, which provides these translation files automatically.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">wp_set_script_translations('my-script', 'my-plugin');</pre>
-<!-- /wp:syntaxhighlighter/code -->
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">wp_set_script_translations('my-script', 'my-plugin');</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:shortcode -->
 [info]For better performance, always make sure to enqueue your scripts and load their translations only when they are really used.[/info]
@@ -105,15 +105,15 @@ https://developer.wordpress.org/apis/handbook/internationalization/
 <p>In your javascript code you will use i18n functions pretty much the same way you do in your PHP code:</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"jscript"} -->
-<pre class="wp-block-syntaxhighlighter-code">const { __, _x, _n, sprintf } = wp.i18n;
+<!-- wp:code {"language":"jscript"} -->
+<pre class="wp-block-code"><code lang="jscript" class="language-jscript">const { __, _x, _n, sprintf } = wp.i18n;
 
 // simple string
 __( 'Hello World', 'my-plugin' );
 
 // string with context
-_x( 'My Gutenberg block name', 'block name', 'my-plugin' );</pre>
-<!-- /wp:syntaxhighlighter/code -->
+_x( 'My Gutenberg block name', 'block name', 'my-plugin' );</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p>The available i18n for you to use in your JS code are (See internationalization functions for more details):</p>

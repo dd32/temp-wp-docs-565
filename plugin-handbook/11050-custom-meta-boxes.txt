@@ -44,8 +44,8 @@ Operations such as <a href="../../plugin-security/securing-input/">securing inpu
 <p>The following example is adding a meta box to the <code>post</code> edit screen and the <code>wporg_cpt</code> edit screen.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">function wporg_add_custom_box() {
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">function wporg_add_custom_box() {
 	$screens = [ 'post', 'wporg_cpt' ];
 	foreach ( $screens as $screen ) {
 		add_meta_box(
@@ -56,8 +56,8 @@ Operations such as <a href="../../plugin-security/securing-input/">securing inpu
 		);
 	}
 }
-add_action( 'add_meta_boxes', 'wporg_add_custom_box' );</pre>
-<!-- /wp:syntaxhighlighter/code -->
+add_action( 'add_meta_boxes', 'wporg_add_custom_box' );</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p>The <code>wporg_custom_box_html</code> function will hold the HTML for the meta box.</p>
@@ -67,8 +67,8 @@ add_action( 'add_meta_boxes', 'wporg_add_custom_box' );</pre>
 <p>The following example is adding form elements, labels, and other HTML elements.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">function wporg_custom_box_html( $post ) {
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">function wporg_custom_box_html( $post ) {
 	?&gt;
 	&lt;label for="wporg_field"&gt;Description for this field&lt;/label&gt;
 	&lt;select name="wporg_field" id="wporg_field" class="postbox"&gt;
@@ -77,9 +77,8 @@ add_action( 'add_meta_boxes', 'wporg_add_custom_box' );</pre>
 		&lt;option value="else"&gt;Else&lt;/option&gt;
 	&lt;/select&gt;
 	&lt;?php
-}
-</pre>
-<!-- /wp:syntaxhighlighter/code -->
+}</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:shortcode -->
 [info]
@@ -103,8 +102,8 @@ add_action( 'add_meta_boxes', 'wporg_add_custom_box' );</pre>
 <p>The following example enhances the previous form elements with pre-populated data based on saved meta box values. You will learn how to save meta box values in the next section.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">function wporg_custom_box_html( $post ) {
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">function wporg_custom_box_html( $post ) {
 	$value = get_post_meta( $post-&gt;ID, '_wporg_meta_key', true );
 	?&gt;
 	&lt;label for="wporg_field"&gt;Description for this field&lt;/label&gt;
@@ -114,9 +113,8 @@ add_action( 'add_meta_boxes', 'wporg_add_custom_box' );</pre>
 		&lt;option value="else" &lt;?php selected( $value, 'else' ); ?&gt;&gt;Else&lt;/option&gt;
 	&lt;/select&gt;
 	&lt;?php
-}
-</pre>
-<!-- /wp:syntaxhighlighter/code -->
+}</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p>More on the selected() function.</p>
@@ -138,8 +136,8 @@ add_action( 'add_meta_boxes', 'wporg_add_custom_box' );</pre>
 <p>The following example will save the <code>wporg_field</code> field value in the <code>_wporg_meta_key</code> meta key, which is hidden.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">function wporg_save_postdata( $post_id ) {
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">function wporg_save_postdata( $post_id ) {
 	if ( array_key_exists( 'wporg_field', $_POST ) ) {
 		update_post_meta(
 			$post_id,
@@ -148,8 +146,8 @@ add_action( 'add_meta_boxes', 'wporg_add_custom_box' );</pre>
 		);
 	}
 }
-add_action( 'save_post', 'wporg_save_postdata' );</pre>
-<!-- /wp:syntaxhighlighter/code -->
+add_action( 'save_post', 'wporg_save_postdata' );</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p>In production code, remember to follow the security measures outlined in the info box!</p>
@@ -195,8 +193,8 @@ add_action( 'save_post', 'wporg_save_postdata' );</pre>
 <p>Adding meta boxes using OOP is easy and saves you from having to worry about naming collisions in the global namespace.<br>To save memory and allow easier implementation, the following example uses an abstract Class with static methods.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">abstract class WPOrg_Meta_Box {
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">abstract class WPOrg_Meta_Box {
 
 
 	/**
@@ -250,9 +248,8 @@ add_action( 'save_post', 'wporg_save_postdata' );</pre>
 }
 
 add_action( 'add_meta_boxes', [ 'WPOrg_Meta_Box', 'add' ] );
-add_action( 'save_post', [ 'WPOrg_Meta_Box', 'save' ] );
-</pre>
-<!-- /wp:syntaxhighlighter/code -->
+add_action( 'save_post', [ 'WPOrg_Meta_Box', 'save' ] );</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:heading {"level":3} -->
 <h3>AJAX</h3>
@@ -278,8 +275,8 @@ add_action( 'save_post', [ 'WPOrg_Meta_Box', 'save' ] );
 <p>In the example below we will define <code>change</code> as our trigger for performing an AJAX request.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"jscript"} -->
-<pre class="wp-block-syntaxhighlighter-code">/*jslint browser: true, plusplus: true */
+<!-- wp:code {"language":"jscript"} -->
+<pre class="wp-block-code"><code lang="jscript" class="language-jscript">/*jslint browser: true, plusplus: true */
 (function ($, window, document) {
     'use strict';
     // execute when the DOM is ready
@@ -289,8 +286,8 @@ add_action( 'save_post', [ 'WPOrg_Meta_Box', 'save' ] );
             // our code
         });
     });
-}(jQuery, window, document));</pre>
-<!-- /wp:syntaxhighlighter/code -->
+}(jQuery, window, document));</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:heading {"level":4} -->
 <h4>Client Side Code</h4>
@@ -304,8 +301,8 @@ add_action( 'save_post', [ 'WPOrg_Meta_Box', 'save' ] );
 <p>In the example below we will make a <code>POST</code> request, the response will either be success or failure, this will indicate wither the value of the <code>wporg_field</code> is valid.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"jscript"} -->
-<pre class="wp-block-syntaxhighlighter-code">/*jslint browser: true, plusplus: true */
+<!-- wp:code {"language":"jscript"} -->
+<pre class="wp-block-code"><code lang="jscript" class="language-jscript">/*jslint browser: true, plusplus: true */
 (function ($, window, document) {
     'use strict';
     // execute when the DOM is ready
@@ -331,8 +328,8 @@ add_action( 'save_post', [ 'WPOrg_Meta_Box', 'save' ] );
             );
         });
     });
-}(jQuery, window, document));</pre>
-<!-- /wp:syntaxhighlighter/code -->
+}(jQuery, window, document));</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p>We took the WordPress AJAX file URL dynamically from the <code>wporg_meta_box_obj</code> JavaScript custom object that we will create in the next step.</p>
@@ -361,8 +358,8 @@ If your meta box only requires the WordPress AJAX file URL; instead of creating 
 <p>The script file will reside at <code>/plugin-name/admin/meta-boxes/js/admin.js</code>,<br><code>plugin-name</code> being the main plugin folder,<br><code>/plugin-name/plugin.php</code> the file calling the function.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">function wporg_meta_box_scripts()
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">function wporg_meta_box_scripts()
 {
     // get current admin screen, or null
     $screen = get_current_screen();
@@ -383,8 +380,8 @@ If your meta box only requires the WordPress AJAX file URL; instead of creating 
         }
     }
 }
-add_action('admin_enqueue_scripts', 'wporg_meta_box_scripts');</pre>
-<!-- /wp:syntaxhighlighter/code -->
+add_action('admin_enqueue_scripts', 'wporg_meta_box_scripts');</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:heading {"level":4} -->
 <h4>Server Side Code</h4>
@@ -394,8 +391,8 @@ add_action('admin_enqueue_scripts', 'wporg_meta_box_scripts');</pre>
 <p>The last step is to write our server side code that is going to handle the request.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">// The piece after `wp_ajax_`  matches the action argument being sent in the POST request.
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">// The piece after `wp_ajax_`  matches the action argument being sent in the POST request.
 add_action( 'wp_ajax_wporg_ajax_change', 'my_ajax_handler' );
  
 /**
@@ -415,8 +412,8 @@ function my_ajax_handler() {
     }
  
     wp_die(); // All ajax handlers die when finished
-}</pre>
-<!-- /wp:syntaxhighlighter/code -->
+}</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p>As a final reminder, the code illustrated on this page lacks important operations that take care of security. Be sure your production code includes such operations.</p>

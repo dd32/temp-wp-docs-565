@@ -24,9 +24,9 @@ https://developer.wordpress.org/plugins/plugin-basics/determining-plugin-and-con
 <p>If your plugin includes JavaScript files, CSS files or other external files, then it's likely you'll need the URL to these files so you can load them into the page. To do this you should use the&nbsp;<a href="https://developer.wordpress.org/reference/functions/plugins_url/">plugins_url()</a>&nbsp;function like so:</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">plugins_url( 'myscript.js', __FILE__ );</pre>
-<!-- /wp:syntaxhighlighter/code -->
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">plugins_url( 'myscript.js', __FILE__ );</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p>This will return the full URL to myscript.js, such as&nbsp;<code>example.com/wp-content/plugins/myplugin/myscript.js</code>.</p>

@@ -60,11 +60,11 @@ https://developer.wordpress.org/plugins/wordpress-org/how-to-use-subversion/
 <p>There are three directories created by default in all SVN repositories.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"bash","lineNumbers":false} -->
-<pre class="wp-block-syntaxhighlighter-code">/assets/
+<!-- wp:code {"language":"bash","lineNumbers":false} -->
+<pre class="wp-block-code"><code lang="bash" class="language-bash">/assets/
 /tags/
-/trunk/</pre>
-<!-- /wp:syntaxhighlighter/code -->
+/trunk/</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p><em>The /branches/ directory is no longer created by default, as it was unused.</em></p>
@@ -210,21 +210,21 @@ https://developer.wordpress.org/plugins/wordpress-org/how-to-use-subversion/
 <p>First create a local directory on your machine to house a copy of the SVN repository:</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"bash","lineNumbers":false} -->
-<pre class="wp-block-syntaxhighlighter-code">$ mkdir my-local-dir</pre>
-<!-- /wp:syntaxhighlighter/code -->
+<!-- wp:code {"language":"bash","lineNumbers":false} -->
+<pre class="wp-block-code"><code lang="bash" class="language-bash">$ mkdir my-local-dir</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p>Next, check out the pre-built&nbsp;repository</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"bash"} -->
-<pre class="wp-block-syntaxhighlighter-code">$ svn co https://plugins.svn.wordpress.org/your-plugin-name my-local-dir
+<!-- wp:code {"language":"bash"} -->
+<pre class="wp-block-code"><code lang="bash" class="language-bash">$ svn co https://plugins.svn.wordpress.org/your-plugin-name my-local-dir
 > A my-local-dir/trunk
 > A my-local-dir/branches
 > A my-local-dir/tags
-> Checked out revision 11325.</pre>
-<!-- /wp:syntaxhighlighter/code -->
+> Checked out revision 11325.</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p>In our example, subversion has added ( "A" for "add" ) all of the directories from the central SVN repository to your local copy.</p>
@@ -246,24 +246,24 @@ https://developer.wordpress.org/plugins/wordpress-org/how-to-use-subversion/
 <p>Once your files are in the trunk folder, you must let subversion know you want to add those new files back into the central repository.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"bash"} -->
-<pre class="wp-block-syntaxhighlighter-code">$ cd my-local-dir
+<!-- wp:code {"language":"bash"} -->
+<pre class="wp-block-code"><code lang="bash" class="language-bash">$ cd my-local-dir
 my-local-dir/ $ svn add trunk/*
 > A trunk/my-plugin.php
-> A trunk/readme.txt</pre>
-<!-- /wp:syntaxhighlighter/code -->
+> A trunk/readme.txt</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p>After you add all your files, you'll check in the changes back to the central repository.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"bash"} -->
-<pre class="wp-block-syntaxhighlighter-code">my-local-dir/ $ svn ci -m 'Adding first version of my plugin'
+<!-- wp:code {"language":"bash"} -->
+<pre class="wp-block-code"><code lang="bash" class="language-bash">my-local-dir/ $ svn ci -m 'Adding first version of my plugin'
 > Adding trunk/my-plugin.php
 > Adding trunk/readme.txt
 > Transmitting file data .
-> Committed revision 11326.</pre>
-<!-- /wp:syntaxhighlighter/code -->
+> Committed revision 11326.</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p>It's required to include a commit message for all checkins.</p>
@@ -273,9 +273,9 @@ my-local-dir/ $ svn add trunk/*
 <p>If the commit fails because of 'Access forbidden' and you <strong>know</strong> you have commit access, add your username and password to the check-in command.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"bash"} -->
-<pre class="wp-block-syntaxhighlighter-code">my-local-dir/ $ svn ci -m 'Adding first version of my plugin' --username your_username --password your_password</pre>
-<!-- /wp:syntaxhighlighter/code -->
+<!-- wp:code {"language":"bash"} -->
+<pre class="wp-block-code"><code lang="bash" class="language-bash">my-local-dir/ $ svn ci -m 'Adding first version of my plugin' --username your_username --password your_password</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p>Remember your username is <em>case sensitive</em>.</p>
@@ -293,11 +293,11 @@ my-local-dir/ $ svn add trunk/*
 <p>First go into your your local copy of the repository and make sure it's up to date.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"bash"} -->
-<pre class="wp-block-syntaxhighlighter-code">$ cd my-local-dir/
+<!-- wp:code {"language":"bash"} -->
+<pre class="wp-block-code"><code lang="bash" class="language-bash">$ cd my-local-dir/
 my-local-dir/ $ svn up
-> At revision 11326.</pre>
-<!-- /wp:syntaxhighlighter/code -->
+> At revision 11326.</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p>In the above example, we're all up to date. If there had been changes in the central repository, they would have been downloaded and merged into your local copy.</p>
@@ -311,10 +311,10 @@ my-local-dir/ $ svn up
 <p>If you're not using an SVN GUI tool (like SubVersion or Coda) you can still check and see what's different between your local copy and the central repository after you make changes. First we check the status of the local copy:</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"bash"} -->
-<pre class="wp-block-syntaxhighlighter-code">my-local-dir/ $ svn stat
-> M trunk/my-plugin.php</pre>
-<!-- /wp:syntaxhighlighter/code -->
+<!-- wp:code {"language":"bash"} -->
+<pre class="wp-block-code"><code lang="bash" class="language-bash">my-local-dir/ $ svn stat
+> M trunk/my-plugin.php</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p>This tells us that our local <code>trunk/my-plugin.php</code> is different from the copy we downloaded from the central repository ( "M" for "modified" ).</p>
@@ -324,23 +324,23 @@ my-local-dir/ $ svn up
 <p>Let's see what exactly has changed in that file, so we can check it over and make sure things look right.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"bash"} -->
-<pre class="wp-block-syntaxhighlighter-code">my-local-dir/ $ svn diff
+<!-- wp:code {"language":"bash"} -->
+<pre class="wp-block-code"><code lang="bash" class="language-bash">my-local-dir/ $ svn diff
 > * What comes out is essentially the result of a
   * standard `diff -u` between your local copy and the
-  * original copy you downloaded.</pre>
-<!-- /wp:syntaxhighlighter/code -->
+  * original copy you downloaded.</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p>If it all looks good then it's time to check in those changes to the central repository.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"bash"} -->
-<pre class="wp-block-syntaxhighlighter-code">my-local-dir/ $ svn ci -m "fancy new feature: now you can foo *and* bar at the same time"
+<!-- wp:code {"language":"bash"} -->
+<pre class="wp-block-code"><code lang="bash" class="language-bash">my-local-dir/ $ svn ci -m "fancy new feature: now you can foo *and* bar at the same time"
 > Sending trunk/my-plugin.php
 > Transmitting file data .
-> Committed revision 11327.</pre>
-<!-- /wp:syntaxhighlighter/code -->
+> Committed revision 11327.</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p>And now you've successfully updated trunk.</p>
@@ -362,22 +362,22 @@ my-local-dir/ $ svn up
 <p>We want to use <code>svn cp</code> instead of the regular <code>cp</code> in order to take advantage of SVN's features.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"bash"} -->
-<pre class="wp-block-syntaxhighlighter-code">my-local-dir/ $ svn cp trunk tags/2.0
-> A tags/2.0</pre>
-<!-- /wp:syntaxhighlighter/code -->
+<!-- wp:code {"language":"bash"} -->
+<pre class="wp-block-code"><code lang="bash" class="language-bash">my-local-dir/ $ svn cp trunk tags/2.0
+> A tags/2.0</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p>As always, check in the changes.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"bash"} -->
-<pre class="wp-block-syntaxhighlighter-code">my-local-dir/ $ svn ci -m "tagging version 2.0"
+<!-- wp:code {"language":"bash"} -->
+<pre class="wp-block-code"><code lang="bash" class="language-bash">my-local-dir/ $ svn ci -m "tagging version 2.0"
 > Adding         tags/2.0
 > Adding         tags/2.0/my-plugin.php
 > Adding         tags/2.0/readme.txt
-> Committed revision 11328.</pre>
-<!-- /wp:syntaxhighlighter/code -->
+> Committed revision 11328.</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p>When tagging a new version, <strong>remember to update</strong> the <code>Stable Tag</code> field in <a href="https://wordpress.org/plugins/developers/#readme"><code>trunk/readme.txt</code></a> to the new version.</p>

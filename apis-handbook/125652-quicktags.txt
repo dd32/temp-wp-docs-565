@@ -24,9 +24,9 @@ https://developer.wordpress.org/apis/handbook/quicktags/
 <h2>Usage</h2>
 <!-- /wp:heading -->
 
-<!-- wp:syntaxhighlighter/code {"language":"jscript"} -->
-<pre class="wp-block-syntaxhighlighter-code">QTags.addButton( id, display, arg1, arg2, access_key, title, priority, instance );</pre>
-<!-- /wp:syntaxhighlighter/code -->
+<!-- wp:code {"language":"jscript"} -->
+<pre class="wp-block-code"><code lang="jscript" class="language-jscript">QTags.addButton( id, display, arg1, arg2, access_key, title, priority, instance );</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:heading -->
 <h2>Parameters</h2>
@@ -48,8 +48,8 @@ https://developer.wordpress.org/apis/handbook/quicktags/
 <h2>Examples</h2>
 <!-- /wp:heading -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">// add more buttons to the html editor
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">// add more buttons to the html editor
 function wporg_add_quicktags() {
     if ( wp_script_is( 'quicktags' ) ) {
 	?&gt;
@@ -61,8 +61,8 @@ function wporg_add_quicktags() {
 	&lt;?php
     }
 }
-add_action( 'admin_print_footer_scripts', 'wporg_add_quicktags' );</pre>
-<!-- /wp:syntaxhighlighter/code -->
+add_action( 'admin_print_footer_scripts', 'wporg_add_quicktags' );</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p>(Note: to avoid a Reference Error we check to see whether or not the 'quicktags' script is in use.)</p>
@@ -72,9 +72,9 @@ add_action( 'admin_print_footer_scripts', 'wporg_add_quicktags' );</pre>
 <p>The above would add HTML buttons to the default Quicktags in the Text editor. For example, the "p" button HTML would be:</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"xml"} -->
-<pre class="wp-block-syntaxhighlighter-code">&lt;input type="button" id="qt_content_wporg_paragraph" accesskey="p" class="wporg_button" title="Paragraph tag" value="p"&gt;</pre>
-<!-- /wp:syntaxhighlighter/code -->
+<!-- wp:code {"language":"xml"} -->
+<pre class="wp-block-code"><code lang="xml" class="language-xml">&lt;input type="button" id="qt_content_wporg_paragraph" accesskey="p" class="wporg_button" title="Paragraph tag" value="p"&gt;</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p>(The ID value for each button is automatically prepended with the string <code>qt_content_</code>.)</p>
@@ -84,8 +84,8 @@ add_action( 'admin_print_footer_scripts', 'wporg_add_quicktags' );</pre>
 <p>Here is a dump of the docblock from <code>quicktags.js</code>, it's pretty useful on it's own.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">/**
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">/**
  * Main API function for adding a button to Quicktags
  *
  * Adds qt.Button or qt.TagButton depending on the args. The first three args are always required.
@@ -100,8 +100,8 @@ add_action( 'admin_print_footer_scripts', 'wporg_add_quicktags' );</pre>
  * Minimum required to add a button that inserts a tag:
  *     QTags.addButton( 'my_id', 'my button', '&lt;span&gt;', '&lt;/span&gt;' );
  *     QTags.addButton( 'my_id2', 'my button', '&lt;br /&gt;' );
- */</pre>
-<!-- /wp:syntaxhighlighter/code -->
+ */</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:heading -->
 <h2>Default Quicktags</h2>

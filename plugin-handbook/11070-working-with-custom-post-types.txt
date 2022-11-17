@@ -32,8 +32,8 @@ https://developer.wordpress.org/plugins/post-types/working-with-custom-post-type
 <p>You can query posts of a specific type by passing the <code>post_type</code> key in the arguments array of the <code>WP_Query</code> class constructor.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php","makeURLsClickable":false} -->
-<pre class="wp-block-syntaxhighlighter-code">&lt;?php
+<!-- wp:code {"language":"php","makeURLsClickable":false} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">&lt;?php
 $args = array(
 	'post_type'      =&gt; 'product',
 	'posts_per_page' =&gt; 10,
@@ -47,8 +47,8 @@ while ( $loop-&gt;have_posts() ) {
 		&lt;?php the_content(); ?&gt;
 	&lt;/div&gt;
 	&lt;?php
-}</pre>
-<!-- /wp:syntaxhighlighter/code -->
+}</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p>This loops through the latest ten product posts and displays the title and content of them one by one.</p>
@@ -70,12 +70,12 @@ while ( $loop-&gt;have_posts() ) {
 <p>The next example will show posts from <code>post</code>, <code>page</code> and <code>movie</code> post types on the home page:</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">function wporg_add_custom_post_types($query) {
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">function wporg_add_custom_post_types($query) {
 	if ( is_home() &amp;&amp; $query-&gt;is_main_query() ) {
 		$query-&gt;set( 'post_type', array( 'post', 'page', 'movie' ) );
 	}
 	return $query;
 }
-add_action('pre_get_posts', 'wporg_add_custom_post_types');</pre>
-<!-- /wp:syntaxhighlighter/code -->
+add_action('pre_get_posts', 'wporg_add_custom_post_types');</code></pre>
+<!-- /wp:code -->

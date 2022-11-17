@@ -28,17 +28,17 @@ https://developer.wordpress.org/plugins/internationalization/security/
 <p><span style="background-color: #dd3d36;padding: 3px;color: white">Insecure:</span></p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">_e( 'The REST API content endpoints were added in WordPress 4.7.', 'your-text-domain' ); </pre>
-<!-- /wp:syntaxhighlighter/code -->
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">_e( 'The REST API content endpoints were added in WordPress 4.7.', 'your-text-domain' );</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p><span style="background-color: #7ad03a;padding: 3px">Secure:</span></p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">esc_html_e( 'The REST API content endpoints were added in WordPress 4.7.', 'your-text-domain' );</pre>
-<!-- /wp:syntaxhighlighter/code -->
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">esc_html_e( 'The REST API content endpoints were added in WordPress 4.7.', 'your-text-domain' );</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p>Alternatively, some people choose to rely on a translation verification mechanism, rather than adding escaping to their code. One example of a verification mechanism is <a href="https://make.wordpress.org/polyglots/handbook/glossary/#project-translation-editor">the editor roles</a> that the WordPress Polyglots team uses for <a href="https://translate.wordpress.org">translate.wordpress.org</a>. This ensures that any translation submitted by an untrusted contributor has been verified by a trusted editor before being accepted.</p>
@@ -56,24 +56,24 @@ https://developer.wordpress.org/plugins/internationalization/security/
 <p><span style="background-color: #dd3d36;padding: 3px;color: white">Insecure:</span></p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">_e(
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">_e(
 	'Please &lt;a href="https://login.wordpress.org/register"&gt; register for a WordPress.org account&lt;/a&gt;.',
 	'your-text-domain'
-);</pre>
-<!-- /wp:syntaxhighlighter/code -->
+);</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p><span style="background-color: #7ad03a;padding: 3px">Secure:</span></p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">printf(
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">printf(
 	esc_html__( 'Please %1$s register for a WordPress.org account %2$s.', 'your-text-domain' ),
 	'&lt;a href="https://login.wordpress.org/register"&gt;',
 	'&lt;/a&gt;'
-);</pre>
-<!-- /wp:syntaxhighlighter/code -->
+);</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:heading {"level":3} -->
 <h3>Compile Your Own .mo Binaries</h3>
@@ -87,6 +87,6 @@ https://developer.wordpress.org/plugins/internationalization/security/
 <p>Using PoEdit to generate the binary&nbsp;will override the headers in the .po file, so instead it’s better to&nbsp;compile it from the command line:</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"bash"} -->
-<pre class="wp-block-syntaxhighlighter-code">msgfmt -cv -o /path/to/output.mo /path/to/input.po</pre>
-<!-- /wp:syntaxhighlighter/code -->
+<!-- wp:code {"language":"bash"} -->
+<pre class="wp-block-code"><code lang="bash" class="language-bash">msgfmt -cv -o /path/to/output.mo /path/to/input.po</code></pre>
+<!-- /wp:code -->

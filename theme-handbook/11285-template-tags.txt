@@ -64,9 +64,9 @@ https://developer.wordpress.org/themes/basics/template-tags/
 <p>Another reason to use template tags is to display&nbsp;dynamic data,&nbsp;i.e.&nbsp;data from the database. In your header, you could manually include the <code>title</code> tag, like so:</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"xml"} -->
-<pre class="wp-block-syntaxhighlighter-code">&lt;title&gt;My Personal Website&lt;/title&gt;</pre>
-<!-- /wp:syntaxhighlighter/code -->
+<!-- wp:code {"language":"xml"} -->
+<pre class="wp-block-code"><code lang="xml" class="language-xml">&lt;title&gt;My Personal Website&lt;/title&gt;</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p>However, doing this means manually editing your theme any time you want to change the title of your website. Instead, it's easier to include the <code><a href="http://developer.wordpress.org/reference/functions/bloginfo/">bloginfo( 'name' )</a></code>&nbsp;template tag, which automatically fetch the site title&nbsp;from the database. Now, you can change the title of your site in WordPress, rather than having to hard code your theme templates.</p>
@@ -80,9 +80,9 @@ https://developer.wordpress.org/themes/basics/template-tags/
 <p>Using template tags is very simple. In any template file you can use a template tag by simply printing one line of php code to call the template tag. Printing the header.php file is as simple as:</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">get_header();</pre>
-<!-- /wp:syntaxhighlighter/code -->
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">get_header();</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:heading {"level":3} -->
 <h3>Parameters</h3>
@@ -96,17 +96,17 @@ https://developer.wordpress.org/themes/basics/template-tags/
 <p>For example, the&nbsp;<code><a title="bloginfo template tag" href="https://developer.wordpress.org/reference/functions/bloginfo/">bloginfo()</a></code>&nbsp;template tag allows you to give it a parameter telling WordPress the specific piece of information you want. To print the blog name, you just pass along the parameter "name," like so:</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">bloginfo( 'name' );</pre>
-<!-- /wp:syntaxhighlighter/code -->
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">bloginfo( 'name' );</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p>To print the version of WordPress that the blog is running on, you would pass a parameter of "version":</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">bloginfo( 'version' );</pre>
-<!-- /wp:syntaxhighlighter/code -->
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">bloginfo( 'version' );</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p>For each template tag, the parameters differ. A list of the parameters and what they can do can be found on specific template tag pages&nbsp;located throughout the <a href="https://developer.wordpress.org/reference/">code reference</a>.</p>
@@ -124,22 +124,22 @@ https://developer.wordpress.org/themes/basics/template-tags/
 <p>The WordPress loop begins with:</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">if ( have_posts() ) :
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">if ( have_posts() ) :
 	while ( have_posts() ) :
-		the_post();</pre>
-<!-- /wp:syntaxhighlighter/code -->
+		the_post();</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p>Template tags that work within the loop must be in the middle area, before the ending section of the loop below:</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">	endwhile;
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">endwhile;
 else :
 	_e( 'Sorry, no posts matched your criteria.', 'devhub' );
-endif;</pre>
-<!-- /wp:syntaxhighlighter/code -->
+endif;</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p>Some of template tags that need to be inside of the loop include</p>

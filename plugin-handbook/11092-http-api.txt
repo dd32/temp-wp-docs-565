@@ -170,16 +170,16 @@ https://developer.wordpress.org/plugins/http-api/
 <p>Let's use the URL to a GitHub user account and see what sort of information we can get</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php","quickCode":false} -->
-<pre class="wp-block-syntaxhighlighter-code">$response = wp_remote_get( 'https://api.github.com/users/blobaugh' );</pre>
-<!-- /wp:syntaxhighlighter/code -->
+<!-- wp:code {"language":"php","quickCode":false} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">$response = wp_remote_get( 'https://api.github.com/users/blobaugh' );</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p><br>$response will contain all the headers, content, and other meta data about our request</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code -->
-<pre class="wp-block-syntaxhighlighter-code">Array(
+<!-- wp:code -->
+<pre class="wp-block-code"><code>Array(
 	[headers] =&gt; Array(
 		[server] =&gt; nginx
 		[date] =&gt; Fri, 05 Oct 2012 04:43:50 GMT
@@ -203,8 +203,8 @@ https://developer.wordpress.org/plugins/http-api/
 	)
 	[cookies] =&gt; Array()
 	[filename] =&gt;
-)</pre>
-<!-- /wp:syntaxhighlighter/code -->
+)</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p><br>All of the same helper functions can be used on this function as with the previous two. The exception here being that HEAD never returns a body, so that element will always be empty.</p>
@@ -218,26 +218,26 @@ https://developer.wordpress.org/plugins/http-api/
 <p>Just the body can be retrieved using <code><a title="wp_remote_retrieve_body" href="http://developer.wordpress.org/reference/functions/wp_remote_retrieve_body/">wp_remote_retrieve_body()</a></code>. This function takes just one parameter, the response from any of the other <a href="https://developer.wordpress.org/?s=wp_remote_&amp;post_type%5B%5D=wp-parser-function">wp_remote_X</a> functions where retrieve is not the next value.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">$response = wp_remote_get( 'https://api.github.com/users/blobaugh' );
-$body     = wp_remote_retrieve_body( $response );</pre>
-<!-- /wp:syntaxhighlighter/code -->
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">$response = wp_remote_get( 'https://api.github.com/users/blobaugh' );
+$body     = wp_remote_retrieve_body( $response );</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p><br>Still using the GitHub resource from the previous example, $body will be</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code -->
-<pre class="wp-block-syntaxhighlighter-code">{"type":"User","login":"blobaugh","public_repos":31,"gravatar_id":"f25f324a47a1efdf7a745e0b2e3c878f","followers":22,"avatar_url":"https://secure.gravatar.com/avatar/f25f324a47a1efdf7a745e0b2e3c878f?d=https://a248.e.akamai.net/assets.github.com%2Fimages%2Fgravatars%2Fgravatar-user-420.png","public_gists":1,"created_at":"2011-05-23T21:38:50Z","email":"ben@lobaugh.net","following":30,"name":"Ben Lobaugh","company":null,"hireable":true,"id":806179,"html_url":"https://github.com/blobaugh","blog":"http://ben.lobaugh.net","location":null,"bio":null,"url":"https://api.github.com/users/blobaugh"}</pre>
-<!-- /wp:syntaxhighlighter/code -->
+<!-- wp:code -->
+<pre class="wp-block-code"><code>{"type":"User","login":"blobaugh","public_repos":31,"gravatar_id":"f25f324a47a1efdf7a745e0b2e3c878f","followers":22,"avatar_url":"https://secure.gravatar.com/avatar/f25f324a47a1efdf7a745e0b2e3c878f?d=https://a248.e.akamai.net/assets.github.com%2Fimages%2Fgravatars%2Fgravatar-user-420.png","public_gists":1,"created_at":"2011-05-23T21:38:50Z","email":"ben@lobaugh.net","following":30,"name":"Ben Lobaugh","company":null,"hireable":true,"id":806179,"html_url":"https://github.com/blobaugh","blog":"http://ben.lobaugh.net","location":null,"bio":null,"url":"https://api.github.com/users/blobaugh"}</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p><br>If you do not have any other operations to perform on the response other than getting the body you can reduce the code to one line with</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code -->
-<pre class="wp-block-syntaxhighlighter-code">$body = wp_remote_retrieve_body( wp_remote_get( 'https://api.github.com/users/blobaugh' ) );</pre>
-<!-- /wp:syntaxhighlighter/code -->
+<!-- wp:code -->
+<pre class="wp-block-code"><code>$body = wp_remote_retrieve_body( wp_remote_get( 'https://api.github.com/users/blobaugh' ) );</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p><br>Many of these helper functions can be used on one line similarly.</p>
@@ -251,10 +251,10 @@ $body     = wp_remote_retrieve_body( $response );</pre>
 <p>You may want to check the response code to ensure your retrieval was successful. This can be done via the <code><a href="https://developer.wordpress.org/reference/functions/wp_remote_retrieve_response_code/">wp_remote_retrieve_response_code()</a></code> function:</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">$response = wp_remote_get( 'https://api.github.com/users/blobaugh' );
-$http_code = wp_remote_retrieve_response_code( $response );</pre>
-<!-- /wp:syntaxhighlighter/code -->
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">$response = wp_remote_get( 'https://api.github.com/users/blobaugh' );
+$http_code = wp_remote_retrieve_response_code( $response );</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p><br>If successful <code>$http_code</code> will contain <code>200</code>.</p>
@@ -282,10 +282,10 @@ $http_code = wp_remote_retrieve_response_code( $response );</pre>
 <p>To retrieve the last-modified header</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">$response      = wp_remote_get( 'https://api.github.com/users/blobaugh' );
-$last_modified = wp_remote_retrieve_header( $response, 'last-modified' );</pre>
-<!-- /wp:syntaxhighlighter/code -->
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">$response      = wp_remote_get( 'https://api.github.com/users/blobaugh' );
+$last_modified = wp_remote_retrieve_header( $response, 'last-modified' );</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p><br><code>$last_modified</code> will contain <code>[last-modified] =&gt; Fri, 05 Oct 2012 04:39:58 GMT</code><br>You can also retrieve all of the headers in an array with <code>wp_remote_retrieve_headers( $response )</code>.</p>
@@ -299,14 +299,14 @@ $last_modified = wp_remote_retrieve_header( $response, 'last-modified' );</pre>
 <p>APIs that are secured more provide one or more of many different types of authentication. A common, though not highly secure, authentication method is HTTP Basic Authentication. It can be used in WordPress by passing 'Authorization' to the second parameter of the <code>{@see wp_remote_get()}</code> function, as well as the other HTTP method functions.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">$args = array(
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">$args = array(
     'headers' =&gt; array(
         'Authorization' =&gt; 'Basic ' . base64_encode( YOUR_USERNAME . ':' . YOUR_PASSWORD )
     )
 );
-wp_remote_get( $url, $args );</pre>
-<!-- /wp:syntaxhighlighter/code -->
+wp_remote_get( $url, $args );</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:heading -->
 <h2>POSTing data to an API</h2>
@@ -332,21 +332,21 @@ wp_remote_get( $url, $args );</pre>
 <p>Lets assume we are submitting a contact form with the following fields: name, email, subject, comment. To setup the body we do the following:</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">$body = array(
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">$body = array(
 	'name'    =&gt; 'Jane Smith',
 	'email'   =&gt; 'some@email.com',
 	'subject' =&gt; 'Checkout this API stuff',
 	'comment' =&gt; 'I just read a great tutorial. You gotta check it out!',
-);</pre>
-<!-- /wp:syntaxhighlighter/code -->
+);</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p><br>Now we need to set up the rest of the values that will be passed to the second parameter of <code>{@see wp_remote_post()}</code></p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code -->
-<pre class="wp-block-syntaxhighlighter-code">$args = array(
+<!-- wp:code -->
+<pre class="wp-block-code"><code>$args = array(
 	'body'        =&gt; $body,
 	'timeout'     =&gt; '5',
 	'redirection' =&gt; '5',
@@ -354,16 +354,16 @@ wp_remote_get( $url, $args );</pre>
 	'blocking'    =&gt; true,
 	'headers'     =&gt; array(),
 	'cookies'     =&gt; array(),
-);</pre>
-<!-- /wp:syntaxhighlighter/code -->
+);</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p><br>Then of course to make the call</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">$response = wp_remote_post( 'http://your-contact-form.com', $args );</pre>
-<!-- /wp:syntaxhighlighter/code -->
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">$response = wp_remote_post( 'http://your-contact-form.com', $args );</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:heading -->
 <h2>HEADing off bandwidth usage</h2>
@@ -407,16 +407,16 @@ wp_remote_get( $url, $args );</pre>
 <p>The following will check the HEAD value of my GitHub user account:</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">$response = wp_remote_head( 'https://api.github.com/users/blobaugh' );</pre>
-<!-- /wp:syntaxhighlighter/code -->
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">$response = wp_remote_head( 'https://api.github.com/users/blobaugh' );</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p><br>$response should look similar to</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code -->
-<pre class="wp-block-syntaxhighlighter-code">Array(
+<!-- wp:code -->
+<pre class="wp-block-code"><code>Array(
 	[headers] =&gt; Array
 		(
 		[server] =&gt; nginx
@@ -443,8 +443,8 @@ wp_remote_get( $url, $args );</pre>
     [cookies] =&gt; Array(
 	)
 	[filename] =&gt;
-)</pre>
-<!-- /wp:syntaxhighlighter/code -->
+)</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p><br>All of the same helper functions can be used on this function as with the previous two. The exception here being that HEAD never returns a body, so that element will always be empty.</p>
@@ -462,12 +462,12 @@ wp_remote_get( $url, $args );</pre>
 <p>To send a DELETE method example you may have something similar to the following:</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code -->
-<pre class="wp-block-syntaxhighlighter-code">$args     = array(
+<!-- wp:code -->
+<pre class="wp-block-code"><code>$args     = array(
 	'method' =&gt; 'DELETE',
 );
-$response = wp_remote_request( 'http://some-api.com/object/to/delete', $args );</pre>
-<!-- /wp:syntaxhighlighter/code -->
+$response = wp_remote_request( 'http://some-api.com/object/to/delete', $args );</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:heading -->
 <h2>Introduction to caching</h2>
@@ -527,10 +527,10 @@ $response = wp_remote_request( 'http://some-api.com/object/to/delete', $args );<
 <p>An example of caching the GitHub user information response from above for one hour would be</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">$response = wp_remote_get( 'https://api.github.com/users/blobaugh' );
-set_transient( 'prefix_github_userinfo', $response, 60 * 60 );</pre>
-<!-- /wp:syntaxhighlighter/code -->
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">$response = wp_remote_get( 'https://api.github.com/users/blobaugh' );
+set_transient( 'prefix_github_userinfo', $response, 60 * 60 );</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:heading {"level":3} -->
 <h3>Get a cached object ( Get a transient )</h3>
@@ -540,15 +540,15 @@ set_transient( 'prefix_github_userinfo', $response, 60 * 60 );</pre>
 <p>Getting a cached object is quite a bit more complex than setting a transient. You need to request the transient, but then you also need to check to see if that transient has expired and if so fetch updated data. Usually the <code>set_transient()</code> call is made inside of the <code>get_transient()</code> call. Here is an example of getting the transient data for the GitHub user profile:</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">$github_userinfo = get_transient( 'prefix_github_userinfo' );
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">$github_userinfo = get_transient( 'prefix_github_userinfo' );
 if ( false === $github_userinfo ) {
 	// Transient expired, refresh the data
 	$response = wp_remote_get( 'https://api.github.com/users/blobaugh' );
 	set_transient( 'prefix_github_userinfo', $response, HOUR_IN_SECONDS );
 }
-// Use $github_userinfo as you will</pre>
-<!-- /wp:syntaxhighlighter/code -->
+// Use $github_userinfo as you will</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:heading -->
 <h2>Delete a cached object (Delete a transient)</h2>
@@ -562,9 +562,9 @@ if ( false === $github_userinfo ) {
 <p>To remove the Github user info:</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">delete_transient( 'blobaugh_github_userinfo' );</pre>
-<!-- /wp:syntaxhighlighter/code -->
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">delete_transient( 'blobaugh_github_userinfo' );</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p>More information on transients can be found <a href="https://developer.wordpress.org/apis/handbook/transients/">here</a>.</p>

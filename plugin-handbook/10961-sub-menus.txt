@@ -8,16 +8,16 @@ https://developer.wordpress.org/plugins/administration-menus/sub-menus/
 <p>To add a new Sub-menu to WordPress Administration, use the <code>add_submenu_page()</code> function.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">add_submenu_page(
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">add_submenu_page(
 	string $parent_slug,
 	string $page_title,
 	string $menu_title,
 	string $capability,
 	string $menu_slug,
 	callable $function = ''
-);</pre>
-<!-- /wp:syntaxhighlighter/code -->
+);</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:heading {"level":3} -->
 <h3>Example</h3>
@@ -35,8 +35,8 @@ https://developer.wordpress.org/plugins/administration-menus/sub-menus/
 [info]We recommend wrapping your HTML using a <code>&lt;div&gt;</code> with a class of <code>wrap</code>.[/info]
 <!-- /wp:shortcode -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">function wporg_options_page_html() {
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">function wporg_options_page_html() {
 	// check user capabilities
 	if ( ! current_user_can( 'manage_options' ) ) {
 		return;
@@ -57,15 +57,15 @@ https://developer.wordpress.org/plugins/administration-menus/sub-menus/
 		&lt;/form&gt;
 	&lt;/div&gt;
 	&lt;?php
-}</pre>
-<!-- /wp:syntaxhighlighter/code -->
+}</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p><strong>The second step</strong> will be registering our WPOrg Options Sub-menu. The registration needs to occur during the <code>admin_menu</code> action hook.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">function wporg_options_page()
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">function wporg_options_page()
 {
 	add_submenu_page(
 		'tools.php',
@@ -76,8 +76,8 @@ https://developer.wordpress.org/plugins/administration-menus/sub-menus/
 		'wporg_options_page_html'
 	);
 }
-add_action('admin_menu', 'wporg_options_page');</pre>
-<!-- /wp:syntaxhighlighter/code -->
+add_action('admin_menu', 'wporg_options_page');</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p>For a list of parameters and what each do please see the add_submenu_page() in the reference.</p>
@@ -119,8 +119,8 @@ add_action('admin_menu', 'wporg_options_page');</pre>
 <p><code>add_submenu_page()</code> along with all functions for pre-defined sub-menus (<code>add_dashboard_page</code>, <code>add_posts_page</code>, etc.) will return a <code>$hookname</code>, which you can use as the first parameter of <code>add_action</code> in order to handle the submission of forms within custom pages:</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">function wporg_options_page() {
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">function wporg_options_page() {
 	$hookname = add_submenu_page(
 		'tools.php',
 		'WPOrg Options',
@@ -133,8 +133,8 @@ add_action('admin_menu', 'wporg_options_page');</pre>
 	add_action( 'load-' . $hookname, 'wporg_options_page_html_submit' );
 }
 
-add_action('admin_menu', 'wporg_options_page');</pre>
-<!-- /wp:syntaxhighlighter/code -->
+add_action('admin_menu', 'wporg_options_page');</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p>As always, do not forget to check whether the form is being submitted,  do CSRF verification, <a href="https://developer.wordpress.org/plugins/security/data-validation/">validation</a>, and sanitization.</p>

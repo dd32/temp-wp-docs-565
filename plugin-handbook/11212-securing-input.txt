@@ -40,18 +40,18 @@ https://developer.wordpress.org/plugins/security/securing-input/
 <p>Let's say we have an input field named title.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"xml"} -->
-<pre class="wp-block-syntaxhighlighter-code">&lt;input id="title" type="text" name="title"&gt;</pre>
-<!-- /wp:syntaxhighlighter/code -->
+<!-- wp:code {"language":"xml"} -->
+<pre class="wp-block-code"><code lang="xml" class="language-xml">&lt;input id="title" type="text" name="title"&gt;</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p>You can sanitize the input data with the sanitize_text_field() function:</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">$title = sanitize_text_field( $_POST['title'] );
-update_post_meta( $post-&gt;ID, 'title', $title );</pre>
-<!-- /wp:syntaxhighlighter/code -->
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">$title = sanitize_text_field( $_POST['title'] );
+update_post_meta( $post-&gt;ID, 'title', $title );</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p>Behind the scenes, <code>sanitize_text_field()</code> does the following:</p>

@@ -28,15 +28,15 @@ https://developer.wordpress.org/plugins/cron/understanding-wp-cron-scheduling/
 <p>To add a custom interval, you can create a filter, such as:</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">add_filter( 'cron_schedules', 'example_add_cron_interval' );
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">add_filter( 'cron_schedules', 'example_add_cron_interval' );
 function example_add_cron_interval( $schedules ) { 
     $schedules['five_seconds'] = array(
         'interval' =&gt; 5,
         'display'  =&gt; esc_html__( 'Every Five Seconds' ), );
     return $schedules;
-}</pre>
-<!-- /wp:syntaxhighlighter/code -->
+}</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p>This filter function creates a new interval that will allow us to run a cron task every five seconds.</p>

@@ -40,8 +40,8 @@ https://developer.wordpress.org/plugins/privacy/adding-the-personal-data-eraser-
 <p>The first thing the plugin needs to do is to create an eraser function that accepts an email address and a page, e.g.:</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code -->
-<pre class="wp-block-syntaxhighlighter-code">/**
+<!-- wp:code -->
+<pre class="wp-block-code"><code>/**
  * Removes any stored location data from a user's comment meta for the supplied email address.
  *
  * @param string $email_address   email address to manipulate
@@ -88,8 +88,8 @@ function wporg_remove_location_meta_from_comments_for_email( $email_address, $pa
 		'messages'       =&gt; array(), // no messages in this example
 		'done'           =&gt; $done,
 	);
-}</pre>
-<!-- /wp:syntaxhighlighter/code -->
+}</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p>The next thing the plugin needs to do is to register the callback by filtering the eraser array using the `wp_privacy_personal_data_erasers`<br>filter.</p>
@@ -99,8 +99,8 @@ function wporg_remove_location_meta_from_comments_for_email( $email_address, $pa
 <p>When registering you provide a friendly name for the eraser (to aid in debugging - this friendly name is not shown to anyone at this time)<br>and the callback, e.g.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code -->
-<pre class="wp-block-syntaxhighlighter-code">/**
+<!-- wp:code -->
+<pre class="wp-block-code"><code>/**
  * Registers all data erasers.
  *
  * @param array $exporters
@@ -115,8 +115,8 @@ function wporg_register_privacy_erasers( $erasers ) {
 	return $erasers;
 }
 
-add_filter( 'wp_privacy_personal_data_erasers', 'wporg_register_privacy_erasers' );</pre>
-<!-- /wp:syntaxhighlighter/code -->
+add_filter( 'wp_privacy_personal_data_erasers', 'wporg_register_privacy_erasers' );</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p>And that's all there is to it! Your plugin will now clean up its personal data!</p>

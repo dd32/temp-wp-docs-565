@@ -28,8 +28,8 @@ https://developer.wordpress.org/plugins/privacy/suggesting-text-for-the-site-pri
 [info]Supplemental information can be provided through the use of the specialized <code>.privacy-policy-tutorial</code> CSS class. Any content contained within HTML elements that have this CSS class applied will be omitted from the clipboard when the section content is copied.[/info]
 <!-- /wp:shortcode -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">/**
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">/**
  * Adds a privacy policy statement.
  */
 function wporg_add_privacy_policy_content() {
@@ -45,5 +45,5 @@ function wporg_add_privacy_policy_content() {
 	wp_add_privacy_policy_content( 'Example Plugin', wp_kses_post( wpautop( $content, false ) ) );
 }
 
-add_action( 'admin_init', 'wporg_add_privacy_policy_content' );</pre>
-<!-- /wp:syntaxhighlighter/code -->
+add_action( 'admin_init', 'wporg_add_privacy_policy_content' );</code></pre>
+<!-- /wp:code -->

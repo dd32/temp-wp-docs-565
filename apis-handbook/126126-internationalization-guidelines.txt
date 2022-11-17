@@ -104,14 +104,14 @@ printf(
 <p><code>sprintf</code> is also available for javascript translations:</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code -->
-<pre class="wp-block-syntaxhighlighter-code">const zipCodeMessage = sprintf(
+<!-- wp:code -->
+<pre class="wp-block-code"><code>const zipCodeMessage = sprintf(
     /* translators: 1:ZIP code 2:Name of a city */
     __( 'Your zip code is %2$s, and your city is %1$s.', 'my-theme'),
     city,
     zipcode
-);</pre>
-<!-- /wp:syntaxhighlighter/code -->
+);</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p>The following example tells you what not to do<br>[warning]This is incorrect.[/warning]</p>
@@ -311,17 +311,17 @@ $saved_date_format = __( 'g:i:s a' );
 <p>It is good to escape all of your strings, preventing translators from running malicious code. There are a few escape functions that are integrated with internationalization functions.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">&lt;a title="&lt;?php esc_attr_e( 'Skip to content', 'my-theme' ); ?&gt;" class="screen-reader-text skip-link" href="#content" &gt;
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">&lt;a title="&lt;?php esc_attr_e( 'Skip to content', 'my-theme' ); ?&gt;" class="screen-reader-text skip-link" href="#content" &gt;
   &lt;?php _e( 'Skip to content', 'my-theme' ); ?&gt;
-&lt;/a&gt;</pre>
-<!-- /wp:syntaxhighlighter/code -->
+&lt;/a&gt;</code></pre>
+<!-- /wp:code -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">&lt;label for="nav-menu"&gt;
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">&lt;label for="nav-menu"&gt;
   &lt;?php esc_html_e( 'Select Menu:', 'my-theme' ); ?&gt;
-&lt;/label&gt;</pre>
-<!-- /wp:syntaxhighlighter/code -->
+&lt;/label&gt;</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:heading -->
 <h2>Best Practices for writing strings</h2>

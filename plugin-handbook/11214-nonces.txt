@@ -44,8 +44,8 @@ https://developer.wordpress.org/plugins/security/nonces/
 <p>Complete example using capability checks, data validation, secure input, secure output and nonces:</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php","highlightLines":"32,34"} -->
-<pre class="wp-block-syntaxhighlighter-code">/**
+<!-- wp:code {"language":"php","highlightLines":"32,34"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">/**
  * Generate a Delete link based on the homepage url.
  *
  * @param string $content   Existing content.
@@ -119,5 +119,5 @@ function wporg_add_delete_post_ability() {
          */
         add_action( 'init', 'wporg_delete_post' );
     }
-}</pre>
-<!-- /wp:syntaxhighlighter/code -->
+}</code></pre>
+<!-- /wp:code -->

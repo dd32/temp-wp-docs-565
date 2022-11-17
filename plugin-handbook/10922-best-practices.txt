@@ -48,8 +48,8 @@ https://developer.wordpress.org/plugins/plugin-basics/best-practices/
 <h4>Example</h4>
 <!-- /wp:heading -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">// Create a function called "wporg_init" if it doesn't already exist
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">// Create a function called "wporg_init" if it doesn't already exist
 if ( ! function_exists( 'wporg_init' ) ) {
     function wporg_init() {
         register_setting( 'wporg_settings', 'wporg_option_foo' );
@@ -61,8 +61,8 @@ if ( ! function_exists( 'wporg_get_foo' ) ) {
     function wporg_get_foo() {
         return get_option( 'wporg_option_foo' );
     }
-}</pre>
-<!-- /wp:syntaxhighlighter/code -->
+}</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:heading {"level":3} -->
 <h3>Object Oriented Programming Method</h3>
@@ -80,8 +80,8 @@ if ( ! function_exists( 'wporg_get_foo' ) ) {
 <h4>Example</h4>
 <!-- /wp:heading -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">if ( ! class_exists( 'WPOrg_Plugin' ) ) {
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">if ( ! class_exists( 'WPOrg_Plugin' ) ) {
     class WPOrg_Plugin {
         public static function init() {
             register_setting( 'wporg_settings', 'wporg_option_foo' );
@@ -94,8 +94,8 @@ if ( ! function_exists( 'wporg_get_foo' ) ) {
 
     WPOrg_Plugin::init();
     WPOrg_Plugin::get_foo();
-}</pre>
-<!-- /wp:syntaxhighlighter/code -->
+}</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:heading -->
 <h2>File Organization</h2>
@@ -162,12 +162,12 @@ if ( ! function_exists( 'wporg_get_foo' ) ) {
 <p>For example:</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">if ( is_admin() ) {
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">if ( is_admin() ) {
     // we are in admin mode
     require_once __DIR__ . '/admin/plugin-name-admin.php';
-}</pre>
-<!-- /wp:syntaxhighlighter/code -->
+}</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:heading {"level":3} -->
 <h3>Architecture Patterns</h3>

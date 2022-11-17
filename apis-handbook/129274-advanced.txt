@@ -20,12 +20,12 @@ https://developer.wordpress.org/apis/handbook/making-http-requests/advanced/
 <p>To send a DELETE method, for example, you may have something similar to the following:</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code -->
-<pre class="wp-block-syntaxhighlighter-code">$args     = array(
+<!-- wp:code -->
+<pre class="wp-block-code"><code>$args     = array(
 	'method' =&gt; 'DELETE',
 );
-$response = wp_remote_request( 'http://some-api.com/object/to/delete', $args );</pre>
-<!-- /wp:syntaxhighlighter/code -->
+$response = wp_remote_request( 'http://some-api.com/object/to/delete', $args );</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:heading -->
 <h2>Options</h2>
@@ -63,16 +63,16 @@ $response = wp_remote_request( 'http://some-api.com/object/to/delete', $args );<
 <p>The following will check the HEAD value of my GitHub user account:</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">$response = wp_remote_head( 'https://api.github.com/users/wordpress' );</pre>
-<!-- /wp:syntaxhighlighter/code -->
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">$response = wp_remote_head( 'https://api.github.com/users/wordpress' );</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p><code>$response</code> should look similar to:</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">Array(
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">Array(
 	[headers] =&gt; Array
 		(
 		[server] =&gt; nginx
@@ -99,8 +99,8 @@ $response = wp_remote_request( 'http://some-api.com/object/to/delete', $args );<
     [cookies] =&gt; Array(
 	)
 	[filename] =&gt;
-)</pre>
-<!-- /wp:syntaxhighlighter/code -->
+)</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p><br>All of the same helper functions can be used on this function as with the previous two. The exception here being that HEAD never returns a body, so that element will always be empty.</p>

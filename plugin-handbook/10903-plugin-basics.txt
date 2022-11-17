@@ -20,13 +20,13 @@ https://developer.wordpress.org/plugins/plugin-basics/
 <p>Here's what the process looks like on the Unix command line:</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"bash"} -->
-<pre class="wp-block-syntaxhighlighter-code">wordpress $ cd wp-content
+<!-- wp:code {"language":"bash"} -->
+<pre class="wp-block-code"><code lang="bash" class="language-bash">wordpress $ cd wp-content
 wp-content $ cd plugins
 plugins $ mkdir plugin-name
 plugins $ cd plugin-name
-plugin-name $ vi plugin-name.php</pre>
-<!-- /wp:syntaxhighlighter/code -->
+plugin-name $ vi plugin-name.php</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p>In the example above, <code>vi</code> is the name of the text editor. Use whichever editor that is comfortable for you.</p>

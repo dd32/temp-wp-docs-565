@@ -22,9 +22,9 @@ The deactivation hook is sometimes confused with the <a href="https://developer.
 <p>To set up an activation hook, use the register_activation_hook() function:</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php","makeURLsClickable":false} -->
-<pre class="wp-block-syntaxhighlighter-code">register_activation_hook( __FILE__, 'pluginprefix_function_to_run' );</pre>
-<!-- /wp:syntaxhighlighter/code -->
+<!-- wp:code {"language":"php","makeURLsClickable":false} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">register_activation_hook( __FILE__, 'pluginprefix_function_to_run' );</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:heading -->
 <h2>Deactivation</h2>
@@ -34,9 +34,9 @@ The deactivation hook is sometimes confused with the <a href="https://developer.
 <p>To set up a deactivation hook, use the register_deactivation_hook() function:</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">register_deactivation_hook( __FILE__, 'pluginprefix_function_to_run' );</pre>
-<!-- /wp:syntaxhighlighter/code -->
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">register_deactivation_hook( __FILE__, 'pluginprefix_function_to_run' );</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p>The first parameter in each of these functions refers to your main plugin file, which is the file in which you have placed the <a href="https://developer.wordpress.org/plugins/the-basics/header-requirements/">plugin header comment</a>. Usually these two functions will be triggered from within the main plugin file; however, if the functions are placed in any other file, you must update the first parameter to correctly point to the main plugin file.</p>
@@ -54,8 +54,8 @@ The deactivation hook is sometimes confused with the <a href="https://developer.
 <p>Let's look at an example of how to do this:</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">/**
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">/**
  * Register the "book" custom post type
  */
 function pluginprefix_setup_post_type() {
@@ -73,8 +73,8 @@ function pluginprefix_activate() {
 	// Clear the permalinks after the post type has been registered.
 	flush_rewrite_rules(); 
 }
-register_activation_hook( __FILE__, 'pluginprefix_activate' );</pre>
-<!-- /wp:syntaxhighlighter/code -->
+register_activation_hook( __FILE__, 'pluginprefix_activate' );</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p>If you are unfamiliar with registering custom post types, don't worry - this will be covered later. This example is used simply because it's very common.</p>
@@ -84,8 +84,8 @@ register_activation_hook( __FILE__, 'pluginprefix_activate' );</pre>
 <p>Using the example from above, the following is how to reverse this process and deactivate a plugin:</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code -->
-<pre class="wp-block-syntaxhighlighter-code">/**
+<!-- wp:code -->
+<pre class="wp-block-code"><code>/**
  * Deactivation hook.
  */
 function pluginprefix_deactivate() {
@@ -94,8 +94,8 @@ function pluginprefix_deactivate() {
 	// Clear the permalinks to remove our post type's rules from the database.
 	flush_rewrite_rules();
 }
-register_deactivation_hook( __FILE__, 'pluginprefix_deactivate' );</pre>
-<!-- /wp:syntaxhighlighter/code -->
+register_deactivation_hook( __FILE__, 'pluginprefix_deactivate' );</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p>For further information regarding activation and deactivation hooks, here are some excellent resources:</p>

@@ -40,8 +40,8 @@ https://developer.wordpress.org/apis/handbook/options/
 <h2>Examples</h2>
 <!-- /wp:heading -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">// Create an option to the database
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">// Create an option to the database
 add_option( $option, $value = , $deprecated = , $autoload = 'yes' );
 
 // Removes option by name.
@@ -51,8 +51,8 @@ delete_option( $option );
 get_option( $option, $default = false );
 
 // Update the value of an option that was already added.
-update_option( $option, $newvalue );</pre>
-<!-- /wp:syntaxhighlighter/code -->
+update_option( $option, $newvalue );</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:heading -->
 <h2>Available options by category</h2>

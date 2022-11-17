@@ -8,11 +8,11 @@ https://developer.wordpress.org/plugins/shortcodes/shortcodes-with-parameters/
 <p>Shortcode <code>[$tag]</code> can accept parameters, known as attributes:</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"highlightLines":"1"} -->
-<pre class="wp-block-syntaxhighlighter-code">[wporg title="WordPress.org"]
+<!-- wp:code {"highlightLines":"1"} -->
+<pre class="wp-block-code"><code>[wporg title="WordPress.org"]
 Having fun with WordPress.org shortcodes.
-[/wporg]</pre>
-<!-- /wp:syntaxhighlighter/code -->
+[/wporg]</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p>Shortcode handler function can accept 3 parameters:</p>
@@ -22,9 +22,9 @@ Having fun with WordPress.org shortcodes.
 <ul><li><code>$atts</code> - array - [$tag] attributes</li><li><code>$content</code> - string - The content inside your shortcode. In the exampe above, it will be "Having fun with WordPress.org shortcodes."</li><li><code>$tag</code> - string - the name of the [$tag] (i.e. the name of the shortcode)</li></ul>
 <!-- /wp:list -->
 
-<!-- wp:syntaxhighlighter/code -->
-<pre class="wp-block-syntaxhighlighter-code">function wporg_shortcode( $atts = array(), $content = null, $tag = '' ) {}</pre>
-<!-- /wp:syntaxhighlighter/code -->
+<!-- wp:code -->
+<pre class="wp-block-code"><code>function wporg_shortcode( $atts = array(), $content = null, $tag = '' ) {}</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:heading -->
 <h2>Parsing Attributes</h2>
@@ -58,8 +58,8 @@ Having fun with WordPress.org shortcodes.
 <p>A <code>[wporg]</code> shortcode that will accept a title and will display a box that we can style with CSS.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">/**
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">/**
  * /**
  * The [wporg] shortcode.
  *
@@ -109,5 +109,5 @@ function wporg_shortcodes_init() {
 	add_shortcode( 'wporg', 'wporg_shortcode' );
 }
 
-add_action( 'init', 'wporg_shortcodes_init' );</pre>
-<!-- /wp:syntaxhighlighter/code -->
+add_action( 'init', 'wporg_shortcodes_init' );</code></pre>
+<!-- /wp:code -->

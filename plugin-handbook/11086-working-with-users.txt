@@ -34,8 +34,8 @@ It uses wp_slash() to escape the values. The PHP compact() function to create an
 <h4>Example Create</h4>
 <!-- /wp:heading -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">// check if the username is taken
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">// check if the username is taken
 $user_id = username_exists( $user_name );
 
 // check that the email address does not belong to a registered user
@@ -48,16 +48,16 @@ if ( ! $user_id &amp;&amp; email_exists( $user_email ) === false ) {
 		$random_password,
 		$user_email
 	);
-}</pre>
-<!-- /wp:syntaxhighlighter/code -->
+}</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:heading {"level":3} -->
 <h3>Insert User</h3>
 <!-- /wp:heading -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">wp_insert_user( $userdata );</pre>
-<!-- /wp:syntaxhighlighter/code -->
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">wp_insert_user( $userdata );</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:shortcode -->
 [info]
@@ -81,8 +81,8 @@ The function performs the action <code>profile_update</code> when updating the u
 <p>Below is an example showing how to insert a new user with the website profile field filled in.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">$username  = $_POST['username'];
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">$username  = $_POST['username'];
 $password  = $_POST['password'];
 $website   = $_POST['website'];
 $user_data = [
@@ -96,8 +96,8 @@ $user_id = wp_insert_user( $user_data );
 // success
 if ( ! is_wp_error( $user_id ) ) {
 	echo 'User created: ' . $user_id;
-}</pre>
-<!-- /wp:syntaxhighlighter/code -->
+}</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:heading -->
 <h2>Updating Users</h2>
@@ -129,8 +129,8 @@ If current user's password is being updated, then the cookies will be cleared!
 <p>Below is an example showing how to update a user's website profile field.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">$user_id = 1;
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">$user_id = 1;
 $website = 'https://wordpress.org';
 
 $user_id = wp_update_user(
@@ -144,8 +144,8 @@ if ( is_wp_error( $user_id ) ) {
 	// error
 } else {
 	// success
-}</pre>
-<!-- /wp:syntaxhighlighter/code -->
+}</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:heading -->
 <h2>Deleting Users</h2>

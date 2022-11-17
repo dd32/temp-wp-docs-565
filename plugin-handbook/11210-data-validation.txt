@@ -82,9 +82,9 @@ Validation can be performed by using JavaScript on the front end and by using PH
 <p>Let's say you have an U.S. zip code input field that a user submits.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"xml"} -->
-<pre class="wp-block-syntaxhighlighter-code">&lt;input id="wporg_zip_code" type="text" maxlength="10" name="wporg_zip_code"&gt;</pre>
-<!-- /wp:syntaxhighlighter/code -->
+<!-- wp:code {"language":"xml"} -->
+<pre class="wp-block-code"><code lang="xml" class="language-xml">&lt;input id="wporg_zip_code" type="text" maxlength="10" name="wporg_zip_code"&gt;</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p>The text field allows up to 10 characters of input with no limitations on the types of characters that can be used. Users could enter something valid like <code>1234567890</code> or something invalid (and evil) like <code>eval()</code>.</p>
@@ -102,8 +102,8 @@ Validation can be performed by using JavaScript on the front end and by using PH
 <p>First you need to write a function to validate a U.S. zip codes:</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">/**
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">/**
  * Validate a US zip code.
  *
  * @param string $zip_code   RAW zip code to check.
@@ -128,18 +128,18 @@ function wporg_is_valid_us_zip_code( $zip_code ) {
 
 	// Passed successfully.
 	return true;
-}</pre>
-<!-- /wp:syntaxhighlighter/code -->
+}</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p>When processing the form, your code should check the <code>wporg_zip_code</code> field and perform the action based on the result:</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">if ( isset( $_POST['wporg_zip_code'] ) &amp;&amp; wporg_is_valid_us_zip_code( $_POST['wporg_zip_code'] ) ) {
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">if ( isset( $_POST['wporg_zip_code'] ) &amp;&amp; wporg_is_valid_us_zip_code( $_POST['wporg_zip_code'] ) ) {
 	// your action
-}</pre>
-<!-- /wp:syntaxhighlighter/code -->
+}</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:heading -->
 <h2>Example 2</h2>
@@ -161,10 +161,10 @@ function wporg_is_valid_us_zip_code( $zip_code ) {
 <p>Passing “true” into the third parameter of&nbsp;<a href="//php.net/in_array"><code>in_array</code></a> enables strict type checking, which tells the function to not only compare values but value&nbsp;<em><a href="http://php.net/manual/en/language.types.php">types</a></em>&nbsp;as well. This allows the code to be certain that the incoming sort key is a string and not some other data type.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">$allowed_keys = [ 'author', 'post_author', 'date', 'post_date' ];
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">$allowed_keys = [ 'author', 'post_author', 'date', 'post_date' ];
 $orderby      = sanitize_key( $_POST['orderby'] );
 if ( in_array( $orderby, $allowed_keys, true ) ) {
 	// Modify the query to sort by the orderby key.
-}</pre>
-<!-- /wp:syntaxhighlighter/code -->
+}</code></pre>
+<!-- /wp:code -->

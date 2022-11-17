@@ -28,8 +28,8 @@ https://developer.wordpress.org/apis/wp-config-php/
 <p>Note: This is an example of a default <a href="https://core.trac.wordpress.org/browser/trunk/wp-config-sample.php">wp-config-sample.php</a>. The values here are examples to show you what to do.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">// ** MySQL settings - You can get this info from your web host ** //
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">// ** MySQL settings - You can get this info from your web host ** //
 /** The name of the database for WordPress */
 define( 'DB_NAME', 'database_name_here' );
 /** MySQL database username */
@@ -37,8 +37,8 @@ define( 'DB_USER', 'username_here' );
 /** MySQL database password */
 define( 'DB_PASSWORD', 'password_here' );
 /** MySQL hostname */
-define( 'DB_HOST', 'localhost' );</pre>
-<!-- /wp:syntaxhighlighter/code -->
+define( 'DB_HOST', 'localhost' );</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p><strong>Note:</strong> Text inside /* */ are <em><a href="http://www.php.net/manual/en/language.basic-syntax.comments.php">comments</a></em>, for information purposes only.
@@ -53,9 +53,9 @@ define( 'DB_HOST', 'localhost' );</pre>
 <p>Replace 'database_name_here', with the name of your database, e.g. <em>MyDatabaseName</em>.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">define( 'DB_NAME', 'MyDatabaseName' ); // Example MySQL database name</pre>
-<!-- /wp:syntaxhighlighter/code -->
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">define( 'DB_NAME', 'MyDatabaseName' ); // Example MySQL database name</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:heading {"level":4} -->
 <h4 id="set-database-user">Set Database User</h4>
@@ -65,9 +65,9 @@ define( 'DB_HOST', 'localhost' );</pre>
 <p>Replace 'username_here', with the name of your username e.g. <em>MyUserName</em>.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">define( 'DB_USER', 'MyUserName' ); // Example MySQL username</pre>
-<!-- /wp:syntaxhighlighter/code -->
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">define( 'DB_USER', 'MyUserName' ); // Example MySQL username</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:heading {"level":4} -->
 <h4 id="set-database-password">Set Database Password</h4>
@@ -77,9 +77,9 @@ define( 'DB_HOST', 'localhost' );</pre>
 <p>Replace 'password_here', with the your password, e.g. <em>MyPassWord</em>.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">define( 'DB_PASSWORD', 'MyPassWord' ); // Example MySQL password</pre>
-<!-- /wp:syntaxhighlighter/code -->
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">define( 'DB_PASSWORD', 'MyPassWord' ); // Example MySQL password</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:heading {"level":4} -->
 <h4 id="set-database-host">Set Database Host</h4>
@@ -89,9 +89,9 @@ define( 'DB_HOST', 'localhost' );</pre>
 <p>Replace 'localhost', with the name of your database host, e.g. <em>MyDatabaseHost</em>. A port number or Unix socket file path may be needed as well.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">define( 'DB_HOST', 'MyDatabaseHost' ); // Example MySQL Database host</pre>
-<!-- /wp:syntaxhighlighter/code -->
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">define( 'DB_HOST', 'MyDatabaseHost' ); // Example MySQL Database host</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p><strong>Note:</strong> There is a good chance you will <strong>NOT</strong> have to change it. If you are unsure, try installing with the default value of 'localhost' and see if it works. If the install fails, contact your web hosting provider. </p>
@@ -109,19 +109,19 @@ define( 'DB_HOST', 'localhost' );</pre>
 <p>For localhost:</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">define( 'DB_HOST', '127.0.0.1:&lt;strong&gt;3307' );
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">define( 'DB_HOST', '127.0.0.1:&lt;strong&gt;3307' );
 or
-define( 'DB_HOST', 'localhost:&lt;strong&gt;3307' );</pre>
-<!-- /wp:syntaxhighlighter/code -->
+define( 'DB_HOST', 'localhost:&lt;strong&gt;3307' );</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p>For specified server:</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">define( 'DB_HOST', 'mysql.example.com:&lt;strong&gt;3307' );</pre>
-<!-- /wp:syntaxhighlighter/code -->
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">define( 'DB_HOST', 'mysql.example.com:&lt;strong&gt;3307' );</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p id="block-1ede4a20-2a54-44de-b3c2-2be8eaaff61c">Replace <strong>3307</strong> with whatever port number your host gives you.</p>
@@ -135,12 +135,11 @@ define( 'DB_HOST', 'localhost:&lt;strong&gt;3307' );</pre>
 <p>If your host uses Unix sockets or pipes, adjust the <strong>DB_HOST</strong> value in the <code>wp-config.php</code> file accordingly.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">define( 'DB_HOST', '127.0.0.1:&lt;strong&gt;/var/run/mysqld/mysqld.sock' );
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">define( 'DB_HOST', '127.0.0.1:&lt;strong&gt;/var/run/mysqld/mysqld.sock' );
 // or define( 'DB_HOST', 'localhost:&lt;strong&gt;/var/run/mysqld/mysqld.sock' );
-// or define( 'DB_HOST', 'example.tld:&lt;strong&gt;/var/run/mysqld/mysqld.sock' );
-</pre>
-<!-- /wp:syntaxhighlighter/code -->
+// or define( 'DB_HOST', 'example.tld:&lt;strong&gt;/var/run/mysqld/mysqld.sock' );</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p>Replace<code> <em>/var/run/mysqld/mysqld.sock</em></code> with the socket or pipe information provided by your host.</p>
@@ -162,9 +161,9 @@ define( 'DB_HOST', 'localhost:&lt;strong&gt;3307' );</pre>
 <p>This example shows utf8 which is considered the WordPress default value:</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">define( 'DB_CHARSET', 'utf8' );</pre>
-<!-- /wp:syntaxhighlighter/code -->
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">define( 'DB_CHARSET', 'utf8' );</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p>There usually should be no reason to change the default value of DB_CHARSET. If your blog needs a different character set, please read <a href="http://dev.mysql.com/doc/refman/5.6/en/charset-charsets.html">Character Sets and Collations MySQL Supports</a> for valid DB_CHARSET values. <strong>WARNING:</strong> Those performing upgrades.</p>
@@ -186,25 +185,25 @@ define( 'DB_HOST', 'localhost:&lt;strong&gt;3307' );</pre>
 <p>The WordPress default DB_COLLATE value:</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">define( 'DB_COLLATE', '' );</pre>
-<!-- /wp:syntaxhighlighter/code -->
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">define( 'DB_COLLATE', '' );</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p>UTF-8 Unicode General collation</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">define( 'DB_COLLATE', 'utf8_general_ci' );</pre>
-<!-- /wp:syntaxhighlighter/code -->
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">define( 'DB_COLLATE', 'utf8_general_ci' );</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p>UTF-8 Unicode Turkish collation</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">define( 'DB_COLLATE', 'utf8_turkish_ci' );</pre>
-<!-- /wp:syntaxhighlighter/code -->
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">define( 'DB_COLLATE', 'utf8_turkish_ci' );</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p>There usually should be no reason to change the default value of DB_COLLATE. Leaving the value blank (null) will insure the collation is automatically assigned by MySQL when the database tables are created. <strong>WARNING:</strong> Those performing upgrades</p>
@@ -226,16 +225,16 @@ define( 'DB_HOST', 'localhost:&lt;strong&gt;3307' );</pre>
 <p>Example (don't use these!):</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">define( 'AUTH_KEY',         't`DK%X:&gt;xy|e-Z(BXb/f(Ur`8#~UzUQG-^_Cs_GHs5U-&amp;Wb?pgn^p8(2@}IcnCa|' );
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">define( 'AUTH_KEY',         't`DK%X:&gt;xy|e-Z(BXb/f(Ur`8#~UzUQG-^_Cs_GHs5U-&amp;Wb?pgn^p8(2@}IcnCa|' );
 define( 'SECURE_AUTH_KEY',  'D&amp;ovlU#|CvJ##uNq}bel+^MFtT&amp;.b9{UvR]g%ixsXhGlRJ7q!h}XWdEC[BOKXssj' );
 define( 'LOGGED_IN_KEY',    'MGKi8Br(&amp;{H*~&amp;0s;{k0&lt;S(O:+f#WM+q|npJ-+P;RDKT:~jrmgj#/-,[hOBk!ry^' );
 define( 'NONCE_KEY',        'FIsAsXJKL5ZlQo)iD-pt??eUbdc{_Cn&lt;4!d~yqz))&amp;B D?AwK%)+)F2aNwI|siOe' );
 define( 'AUTH_SALT',        '7T-!^i!0,w)L#JK@pc2{8XE[DenYI^BVf{L:jvF,hf}zBf883td6D;Vcy8,S)-&amp;G' );
 define( 'SECURE_AUTH_SALT', 'I6`V|mDZq21-J|ihb u^q0F }F_NUcy`l,=obGtq*p#Ybe4a31R,r=|n#=]@]c #' );
 define( 'LOGGED_IN_SALT',   'w&lt;$4c$Hmd%/*]`Oom&gt;(hdXW|0M=X={we6;Mpvtg+V.o&lt;$|#_}qG(GaVDEsn,~*4i' );
-define( 'NONCE_SALT',       'a|#h{c5|P &amp;xWs4IZ20c2&amp;%4!c(/uG}W:mAvy&lt;I44`jAbup]t=]V&lt;`}.py(wTP%%' );</pre>
-<!-- /wp:syntaxhighlighter/code -->
+define( 'NONCE_SALT',       'a|#h{c5|P &amp;xWs4IZ20c2&amp;%4!c(/uG}W:mAvy&lt;I44`jAbup]t=]V&lt;`}.py(wTP%%' );</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p>A <strong>secret key</strong> makes your site harder to successfully attack by adding random elements to the password.</p>
@@ -295,9 +294,9 @@ define( 'NONCE_SALT',       'a|#h{c5|P &amp;xWs4IZ20c2&amp;%4!c(/uG}W:mAvy&lt;I4
 <p>It is possible to have multiple installations in one database if you give each a unique prefix. Keep security in mind if you choose to do this.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">$table_prefix = 'r235_'; // Only numbers, letters, and underscores please!</pre>
-<!-- /wp:syntaxhighlighter/code -->
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">$table_prefix = 'r235_'; // Only numbers, letters, and underscores please!</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:heading {"level":3} -->
 <h3 id="wp-siteurl">WP_SITEURL</h3>
@@ -311,17 +310,17 @@ define( 'NONCE_SALT',       'a|#h{c5|P &amp;xWs4IZ20c2&amp;%4!c(/uG}W:mAvy&lt;I4
 <p>If WordPress is installed into a directory called "wordpress" for the <a href="http://en.wikipedia.org/wiki/Domain_name_system">domain</a> example.com, define WP_SITEURL like this:</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">define( 'WP_SITEURL', 'http://example.com/wordpress' );</pre>
-<!-- /wp:syntaxhighlighter/code -->
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">define( 'WP_SITEURL', 'http://example.com/wordpress' );</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p>Dynamically set WP_SITEURL based on $_SERVER['HTTP_HOST']</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">define( 'WP_SITEURL', 'http://' . $_SERVER['HTTP_HOST'] . '/path/to/wordpress' );</pre>
-<!-- /wp:syntaxhighlighter/code -->
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">define( 'WP_SITEURL', 'http://' . $_SERVER['HTTP_HOST'] . '/path/to/wordpress' );</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p><strong>Note:</strong> HTTP_HOST is created dynamically by PHP based on the value of the HTTP HOST Header in the request, thus possibly allowing for <a href="https://en.wikipedia.org/wiki/File_inclusion_vulnerability">file inclusion vulnerabilities</a>. SERVER_NAME may also be created dynamically. However, when Apache is configured as UseCanonicalName "on", SERVER_NAME is set by the server configuration, instead of dynamically. In that case, it is safer to user SERVER_NAME than HTTP_HOST. </p>
@@ -331,9 +330,9 @@ define( 'NONCE_SALT',       'a|#h{c5|P &amp;xWs4IZ20c2&amp;%4!c(/uG}W:mAvy&lt;I4
 <p>Dynamically set WP_SITEURL based on $_SERVER['SERVER_NAME']</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">define( 'WP_SITEURL', 'http://' . $_SERVER['SERVER_NAME'] . '/path/to/wordpress' );</pre>
-<!-- /wp:syntaxhighlighter/code -->
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">define( 'WP_SITEURL', 'http://' . $_SERVER['SERVER_NAME'] . '/path/to/wordpress' );</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:heading {"level":3} -->
 <h3 id="blog-address-url">Blog address (URL)</h3>
@@ -343,25 +342,25 @@ define( 'NONCE_SALT',       'a|#h{c5|P &amp;xWs4IZ20c2&amp;%4!c(/uG}W:mAvy&lt;I4
 <p>Similar to WP_SITEURL, WP_HOME <em>overrides the&nbsp;<a href="http://codex.wordpress.org/Database_Description#Table:_wp_options">wp_options table</a> value for </em>home<em> but does not change it in the database.</em> <strong>home</strong> is the address you want people to type in their browser to reach your WordPress blog. It should include the <code>http://</code> part and should not have a slash "<strong>/</strong>" at the end. Adding this in can reduce the number of database calls when loading your site.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">define( 'WP_HOME', 'http://example.com/wordpress' );</pre>
-<!-- /wp:syntaxhighlighter/code -->
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">define( 'WP_HOME', 'http://example.com/wordpress' );</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p>If you are using the technique described in <a href="/support/article/giving-wordpress-its-own-directory/">Giving WordPress Its Own Directory</a> then follow the example below. Remember, you will also be placing an <code>index.php</code> in your web-root directory if you use a setting like this.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">define( 'WP_HOME', 'http://example.com' );</pre>
-<!-- /wp:syntaxhighlighter/code -->
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">define( 'WP_HOME', 'http://example.com' );</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p>Dynamically set WP_HOME based on $_SERVER['HTTP_HOST']</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">define( 'WP_HOME', 'http://' . $_SERVER['HTTP_HOST'] . '/path/to/wordpress' );</pre>
-<!-- /wp:syntaxhighlighter/code -->
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">define( 'WP_HOME', 'http://' . $_SERVER['HTTP_HOST'] . '/path/to/wordpress' );</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:heading {"level":3} -->
 <h3 id="moving-wp-content-folder">Moving wp-content folder</h3>
@@ -375,17 +374,17 @@ define( 'NONCE_SALT',       'a|#h{c5|P &amp;xWs4IZ20c2&amp;%4!c(/uG}W:mAvy&lt;I4
 <p>Set WP_CONTENT_DIR to the full <strong>local path</strong> of this directory (no trailing slash), e.g.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">define( 'WP_CONTENT_DIR', dirname(__FILE__) . '/blog/wp-content' );</pre>
-<!-- /wp:syntaxhighlighter/code -->
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">define( 'WP_CONTENT_DIR', dirname(__FILE__) . '/blog/wp-content' );</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p>Set WP_CONTENT_URL to the full <strong>URL</strong> of this directory (no trailing slash), e.g.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">define( 'WP_CONTENT_URL', 'http://example/blog/wp-content' );</pre>
-<!-- /wp:syntaxhighlighter/code -->
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">define( 'WP_CONTENT_URL', 'http://example/blog/wp-content' );</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:heading {"level":3} -->
 <h3 id="moving-plugin-folder">Moving plugin folder</h3>
@@ -395,25 +394,25 @@ define( 'NONCE_SALT',       'a|#h{c5|P &amp;xWs4IZ20c2&amp;%4!c(/uG}W:mAvy&lt;I4
 <p>Set WP_PLUGIN_DIR to the full <strong>local path</strong> of this directory (no trailing slash), e.g.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">define( 'WP_PLUGIN_DIR', dirname(__FILE__) . '/blog/wp-content/plugins' );</pre>
-<!-- /wp:syntaxhighlighter/code -->
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">define( 'WP_PLUGIN_DIR', dirname(__FILE__) . '/blog/wp-content/plugins' );</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p>Set WP_PLUGIN_URL to the full <strong>URI</strong> of this directory (no trailing slash), e.g.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">define( 'WP_PLUGIN_URL', 'http://example/blog/wp-content/plugins' );</pre>
-<!-- /wp:syntaxhighlighter/code -->
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">define( 'WP_PLUGIN_URL', 'http://example/blog/wp-content/plugins' );</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p>If you have compability issues with plugins Set PLUGINDIR to the full <strong>local path</strong> of this directory (no trailing slash), e.g.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">define( 'PLUGINDIR', dirname(__FILE__) . '/blog/wp-content/plugins' );</pre>
-<!-- /wp:syntaxhighlighter/code -->
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">define( 'PLUGINDIR', dirname(__FILE__) . '/blog/wp-content/plugins' );</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:heading {"level":3} -->
 <h3 id="moving-themes-folder">Moving themes folder</h3>
@@ -443,9 +442,9 @@ define( 'NONCE_SALT',       'a|#h{c5|P &amp;xWs4IZ20c2&amp;%4!c(/uG}W:mAvy&lt;I4
 <p>Set UPLOADS to :</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">define( 'UPLOADS', 'blog/wp-content/uploads' );</pre>
-<!-- /wp:syntaxhighlighter/code -->
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">define( 'UPLOADS', 'blog/wp-content/uploads' );</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p>This path can not be absolute. It is always relative to ABSPATH, therefore does not require a leading slash.</p>
@@ -459,9 +458,9 @@ define( 'NONCE_SALT',       'a|#h{c5|P &amp;xWs4IZ20c2&amp;%4!c(/uG}W:mAvy&lt;I4
 <p>When editing a post, WordPress uses Ajax to auto-save revisions to the post as you edit. You may want to increase this setting for longer delays in between auto-saves, or decrease the setting to make sure you never lose changes. The default is 60 seconds.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code -->
-<pre class="wp-block-syntaxhighlighter-code">define( 'AUTOSAVE_INTERVAL', 160 ); // Seconds</pre>
-<!-- /wp:syntaxhighlighter/code -->
+<!-- wp:code -->
+<pre class="wp-block-code"><code>define( 'AUTOSAVE_INTERVAL', 160 ); // Seconds</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:heading {"level":3} -->
 <h3 id="post-revisions">Post Revisions</h3>
@@ -479,9 +478,9 @@ define( 'NONCE_SALT',       'a|#h{c5|P &amp;xWs4IZ20c2&amp;%4!c(/uG}W:mAvy&lt;I4
 <p>If you do <strong>not</strong> set this value, WordPress defaults WP_POST_REVISIONS to <em>true</em> (enable post revisions). If you want to disable the awesome revisions feature, use this setting:</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">define( 'WP_POST_REVISIONS', false );</pre>
-<!-- /wp:syntaxhighlighter/code -->
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">define( 'WP_POST_REVISIONS', false );</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p>Note: Some users could not get this to function until moving the command to the first line under the initial block comment in <code>wp-config.php</code>.</p>
@@ -495,9 +494,9 @@ define( 'NONCE_SALT',       'a|#h{c5|P &amp;xWs4IZ20c2&amp;%4!c(/uG}W:mAvy&lt;I4
 <p>If you want to specify a maximum number of revisions that WordPress stores, change <em>false</em> to an integer/number (<em>e.g.</em>, 3 or 12).</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">define( 'WP_POST_REVISIONS', 3 );</pre>
-<!-- /wp:syntaxhighlighter/code -->
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">define( 'WP_POST_REVISIONS', 3 );</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p>Note: Some users could not get this to function until moving the command to the first line under the initial block comment in <code>wp-config.php</code>.</p>
@@ -511,9 +510,9 @@ define( 'NONCE_SALT',       'a|#h{c5|P &amp;xWs4IZ20c2&amp;%4!c(/uG}W:mAvy&lt;I4
 <p>The domain set in the cookies for WordPress can be specified for those with unusual domain setups. For example, if subdomains are used to serve static content, you can set the cookie domain to only your non-static domain to prevent WordPress cookies from being sent with each request to static content on your subdomain .</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">define( 'COOKIE_DOMAIN', 'www.example.com' );</pre>
-<!-- /wp:syntaxhighlighter/code -->
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">define( 'COOKIE_DOMAIN', 'www.example.com' );</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:heading {"level":3} -->
 <h3 id="enable-multisite-network-ability">Enable Multisite / Network Ability</h3>
@@ -523,9 +522,9 @@ define( 'NONCE_SALT',       'a|#h{c5|P &amp;xWs4IZ20c2&amp;%4!c(/uG}W:mAvy&lt;I4
 <p>WP_ALLOW_MULTISITE is a feature enable multisite functionality. If this setting is absent from <code>wp-config.php</code> it defaults to false.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">define( 'WP_ALLOW_MULTISITE', true );</pre>
-<!-- /wp:syntaxhighlighter/code -->
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">define( 'WP_ALLOW_MULTISITE', true );</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:heading {"level":3} -->
 <h3 id="redirect-nonexistent-blogs">Redirect Nonexistent Blogs</h3>
@@ -535,9 +534,9 @@ define( 'NONCE_SALT',       'a|#h{c5|P &amp;xWs4IZ20c2&amp;%4!c(/uG}W:mAvy&lt;I4
 <p>NOBLOGREDIRECT can be used to redirect the browser if the visitor tries to access a nonexistent subdomain or a subfolder.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">define( 'NOBLOGREDIRECT', 'http://example.com' );</pre>
-<!-- /wp:syntaxhighlighter/code -->
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">define( 'NOBLOGREDIRECT', 'http://example.com' );</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:heading {"level":3} -->
 <h3 id="wp-disable-fatal-error-handler">Fatal Error Handler</h3>
@@ -555,10 +554,10 @@ define( 'NONCE_SALT',       'a|#h{c5|P &amp;xWs4IZ20c2&amp;%4!c(/uG}W:mAvy&lt;I4
 <p>White screens and PHP error messages are not displayed to users any more. But in a development environment, if you want to enable WP_DEBUG_DISPLAY, you have to disable recovery mode by set true to WP_DISABLE_FATAL_ERROR_HANDLER.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">define( 'WP_DISABLE_FATAL_ERROR_HANDLER', true );   // 5.2 and later define( 'WP_DEBUG', true );
-define( 'WP_DEBUG_DISPLAY', true ); </pre>
-<!-- /wp:syntaxhighlighter/code -->
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">define( 'WP_DISABLE_FATAL_ERROR_HANDLER', true );   // 5.2 and later define( 'WP_DEBUG', true );
+define( 'WP_DEBUG_DISPLAY', true );</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:heading {"level":3} -->
 <h3 id="wp-debug">WP_DEBUG</h3>
@@ -568,10 +567,10 @@ define( 'WP_DEBUG_DISPLAY', true ); </pre>
 <p>The <a href="https://codex.wordpress.org/Debugging_in_WordPress">WP_DEBUG</a> option&nbsp;controls the reporting of some errors and warnings and enables use of the WP_DEBUG_DISPLAY and WP_DEBUG_LOG settings. The default boolean value is false.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">define( 'WP_DISABLE_FATAL_ERROR_HANDLER', true );   // 5.2 and later
-define( 'WP_DEBUG', true );</pre>
-<!-- /wp:syntaxhighlighter/code -->
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">define( 'WP_DISABLE_FATAL_ERROR_HANDLER', true );   // 5.2 and later
+define( 'WP_DEBUG', true );</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p><a href="http://trac.wordpress.org/ticket/5473">Database errors are printed only if WP_DEBUG is set to true</a>. Database errors are handled by the wpdb class and are not affected by <a href="http://www.php.net/errorfunc">PHP's error settings</a>.</p>
@@ -601,9 +600,9 @@ define( 'WP_DEBUG', true );</pre>
 <p>The simplest way to set the value is probably through defining the constant:</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">define( 'WP_ENVIRONMENT_TYPE', 'staging' );</pre>
-<!-- /wp:syntaxhighlighter/code -->
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">define( 'WP_ENVIRONMENT_TYPE', 'staging' );</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p>Note: When <code>development</code> is returned by <a href="https://developer.wordpress.org/reference/functions/wp_get_environment_type/">wp_get_environment_type()</a>, WP_DEBUG will be set to <code>true</code> if it is not defined in the <code>wp-config.php</code> file of the site.</p>
@@ -617,9 +616,9 @@ define( 'WP_DEBUG', true );</pre>
 <p><a href="/support/article/debugging-in-wordpress/">SCRIPT_DEBUG</a> is a related constant that will force WordPress to use the "dev" versions of scripts and stylesheets in <code>wp-includes/js</code>, <code>wp-includes/css</code>, <code>wp-admin/js</code>, and <code>wp-admin/css</code> will be loaded instead of the <code>.min.css</code> and <code>.min.js</code> versions..  If you are planning on modifying some of WordPress' built-in JavaScript or Cascading Style Sheets, you should add the following code to your config file:</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">define( 'SCRIPT_DEBUG', true );</pre>
-<!-- /wp:syntaxhighlighter/code -->
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">define( 'SCRIPT_DEBUG', true );</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:heading {"level":3} -->
 <h3 id="disable-javascript-concatenation">Disable Javascript Concatenation</h3>
@@ -629,9 +628,9 @@ define( 'WP_DEBUG', true );</pre>
 <p>To result in faster administration screens, all JavaScript files are <a href="http://en.wikipedia.org/wiki/Concatenation">concatenated</a> into one URL. If JavaScript is failing to work in an administration screen, you can try disabling this feature:</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">define( 'CONCATENATE_SCRIPTS', false );</pre>
-<!-- /wp:syntaxhighlighter/code -->
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">define( 'CONCATENATE_SCRIPTS', false );</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:heading {"level":3} -->
 <h3 id="configure-error-logging">Configure Error Logging</h3>
@@ -641,8 +640,8 @@ define( 'WP_DEBUG', true );</pre>
 <p>Configuring error logging can be a bit tricky. First of all, default PHP error log and display settings are set in the php.ini file, which you may or may not have access to. If you do, they should be set to the desired settings for live PHP pages served to the public. It's strongly recommended that no error messages are displayed to the public and instead routed to an error log. Further more, error logs should not be located in the publicly accessible portion of your server. Sample recommended php.ini error settings:</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">error_reporting = 4339
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">error_reporting = 4339
 display_errors = Off
 display_startup_errors = Off
 log_errors = On
@@ -650,8 +649,8 @@ error_log = /home/example.com/logs/php_error.log
 log_errors_max_len = 1024
 ignore_repeated_errors = On
 ignore_repeated_source = Off
-html_errors = Off</pre>
-<!-- /wp:syntaxhighlighter/code -->
+html_errors = Off</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p><strong>About Error Reporting 4339</strong>
@@ -666,14 +665,14 @@ This is a custom value that only logs issues that affect the functioning of your
 <p>Obviously, you will want different settings for your development environment. If your staging copy is on the same server, or you don't have access to <code>php.ini</code>, you will need to override the default settings at run time. It's a matter of personal preference whether you prefer errors to go to a log file, or you prefer to be notified immediately of any error, or perhaps both. Here's an example that reports all errors immediately that you could insert into your <code>wp-config.php</code> file:</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">@ini_set( 'log_errors', 'Off' );
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">@ini_set( 'log_errors', 'Off' );
 @ini_set( 'display_errors', 'On' );
 define( 'WP_DISABLE_FATAL_ERROR_HANDLER', true );   // 5.2 and later
 define( 'WP_DEBUG', true );
 define( 'WP_DEBUG_LOG', false );
-define( 'WP_DEBUG_DISPLAY', true );</pre>
-<!-- /wp:syntaxhighlighter/code -->
+define( 'WP_DEBUG_DISPLAY', true );</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p>Because <code>wp-config.php</code> is loaded for every page view not loaded from a cache file, it is an excellent location to set <code>php.ini</code> settings that control your PHP installation. This is useful if you don't have access to a <code>php.ini</code> file, or if you just want to change some settings on the fly. One exception is 'error_reporting'. When WP_DEBUG is defined as true, 'error_reporting' will be set to E_ALL by WordPress regardless of anything you try to set in wp-config.php. If you really have a need to set 'error_reporting' to something else, it must be done after <code>wp-settings.php</code> is loaded, such as in a plugin file.</p>
@@ -687,19 +686,19 @@ define( 'WP_DEBUG_DISPLAY', true );</pre>
 <p>Here is an example that turns PHP error_logging on and logs them to a specific file. If WP_DEBUG is defined to true, the errors will also be saved to this file. Just place this above any <em>require_once</em> or <em>include</em> commands.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">@ini_set( 'log_errors', 'On' );
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">@ini_set( 'log_errors', 'On' );
 @ini_set( 'display_errors', 'Off' );
 @ini_set( 'error_log', '/home/example.com/logs/php_error.log' );
-/* That's all, stop editing! Happy blogging. */</pre>
-<!-- /wp:syntaxhighlighter/code -->
+/* That's all, stop editing! Happy blogging. */</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p>Another example of logging errors, as suggested by Mike Little on the <a href="http://lists.automattic.com/pipermail/wp-hackers/2010-September/034830.html">wp-hackers email list</a>:</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">/**
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">/**
  * This will log all errors notices and warnings to a file called debug.log in
  * wp-content (if Apache does not have write permission, you may need to create
  * the file first and set the appropriate permissions (i.e. use 666) )
@@ -707,15 +706,15 @@ define( 'WP_DEBUG_DISPLAY', true );</pre>
 define( 'WP_DEBUG', true );
 define( 'WP_DEBUG_LOG', true );
 define( 'WP_DEBUG_DISPLAY', false );
-@ini_set( 'display_errors', 0 );</pre>
-<!-- /wp:syntaxhighlighter/code -->
+@ini_set( 'display_errors', 0 );</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p>A refined version from Mike Little on the <a href="http://groups.google.com/group/manchester-wordpress-user-group/msg/dcab0836cabc7f76">Manchester WordPress User Group</a>:</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">/**
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">/**
  * This will log all errors notices and warnings to a file called debug.log in
  * wp-content only when WP_DEBUG is true. if Apache does not have write permission,
  * you may need to create the file first and set the appropriate permissions (i.e. use 666).
@@ -725,8 +724,8 @@ if ( WP_DEBUG ) {
     define( 'WP_DEBUG_LOG', true );
     define( 'WP_DEBUG_DISPLAY', false );
     @ini_set( 'display_errors', 0 );
-}</pre>
-<!-- /wp:syntaxhighlighter/code -->
+}</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p>Confusing the issue is that WordPress has three (3) constants that look like they could do the same thing. First off, remember that if WP_DEBUG is false, it and the other two WordPress DEBUG constants do not do anything. The PHP directives, whatever they are, will prevail. Except for 'error_reporting', WordPress will set this to 4983 if WP_DEBUG is defined as false. Second, even if WP_DEBUG is true, the other constants only do something if they too are set to true. If they are set to false, the PHP directives remain unchanged. For example, if your <code>php.ini</code> file has the directive ('display_errors' = 'On'); but you have the statement define( 'WP_DEBUG_DISPLAY', false ); in your <code>wp-config.php</code> file, errors will still be displayed on screen even though you tried to prevent it by setting WP_DEBUG_DISPLAY to false because that is the PHP configured behavior. This is why it's very important to set the PHP directives to what you need in case any of the related WP constants are set to false. To be safe, explicitly set/define both types. More detailed descriptions of the WP constants is available at <a href="http://codex.wordpress.org/Debugging_in_WordPress">Debugging in WordPress</a>.</p>
@@ -736,25 +735,25 @@ if ( WP_DEBUG ) {
 <p>For your public, production WordPress installation, you might consider placing the following in your <code>wp-config.php</code> file, even though it may be partly redundant:</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">@ini_set( 'log_errors', 'On' );
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">@ini_set( 'log_errors', 'On' );
 @ini_set( 'display_errors', 'Off' );
 define( 'WP_DISABLE_FATAL_ERROR_HANDLER', false );   // 5.2 and later
 define( 'WP_DEBUG', false );
 define( 'WP_DEBUG_LOG', false );
-define( 'WP_DEBUG_DISPLAY', false );</pre>
-<!-- /wp:syntaxhighlighter/code -->
+define( 'WP_DEBUG_DISPLAY', false );</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p>The default debug log file is<code> /wp-content/debug.log</code>. Placing error logs in publicly accessible locations is a security risk. Ideally, your log files should be placed above you site's public root directory. If you can't do this, at the very least, set the log file permissions to 600 and add this entry to the <code>.htaccess</code> file in the root directory of your WordPress installation:</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">&lt;Files debug.log&gt;
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">&lt;Files debug.log&gt;
     Order allow,deny
     Deny from all
-&lt;/Files&gt;</pre>
-<!-- /wp:syntaxhighlighter/code -->
+&lt;/Files&gt;</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p>This prevents anyone from accessing the file via HTTP. You can always view the log file by retrieving it from your server via FTP.</p>
@@ -792,25 +791,25 @@ define( 'WP_DEBUG_DISPLAY', false );</pre>
 <p>Increase PHP Memory to 64MB</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">define( 'WP_MEMORY_LIMIT', '64M' );</pre>
-<!-- /wp:syntaxhighlighter/code -->
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">define( 'WP_MEMORY_LIMIT', '64M' );</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p>Increase PHP Memory to 96MB</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code -->
-<pre class="wp-block-syntaxhighlighter-code">define( 'WP_MEMORY_LIMIT', '96M' );</pre>
-<!-- /wp:syntaxhighlighter/code -->
+<!-- wp:code -->
+<pre class="wp-block-code"><code>define( 'WP_MEMORY_LIMIT', '96M' );</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p>Administration tasks require may require memory than usual operation. When in the administration area, the memory can be increased or decreased from the WP_MEMORY_LIMIT by defining WP_MAX_MEMORY_LIMIT.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">define( 'WP_MAX_MEMORY_LIMIT', '128M' );</pre>
-<!-- /wp:syntaxhighlighter/code -->
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">define( 'WP_MAX_MEMORY_LIMIT', '128M' );</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p>Note: this has to be put before wp-settings.php inclusion.</p>
@@ -824,9 +823,9 @@ define( 'WP_DEBUG_DISPLAY', false );</pre>
 <p>The <strong>WP_CACHE</strong> setting, if true, includes the <code>wp-content/advanced-cache.php</code> script, when executing <code>wp-settings.php</code>.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">define( 'WP_CACHE', true );</pre>
-<!-- /wp:syntaxhighlighter/code -->
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">define( 'WP_CACHE', true );</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:heading {"level":3} -->
 <h3 id="custom-user-and-usermeta-tables">Custom User and Usermeta Tables</h3>
@@ -836,10 +835,10 @@ define( 'WP_DEBUG_DISPLAY', false );</pre>
 <p><strong>CUSTOM_USER_TABLE</strong> and <strong>CUSTOM_USER_META_TABLE</strong> are used to designate that the user and usermeta tables normally utilized by WordPress are not used, instead these values/tables are used to store your user information.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">define( 'CUSTOM_USER_TABLE', $table_prefix.'my_users' );
-define( 'CUSTOM_USER_META_TABLE', $table_prefix.'my_usermeta' );</pre>
-<!-- /wp:syntaxhighlighter/code -->
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">define( 'CUSTOM_USER_TABLE', $table_prefix.'my_users' );
+define( 'CUSTOM_USER_META_TABLE', $table_prefix.'my_usermeta' );</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p>Note: Even if 'CUSTOM_USER_META_TABLE' is manually set, a usermeta table is still created for each database with the corresponding permissions for each instance. By default, the WordPress installer will add permissions for the first user (ID #1). You also need to manage permissions to each of the site via a plugin or custom function. If this isn't setup you will experience permission errors and log-in issues.</p>
@@ -865,10 +864,10 @@ define( 'CUSTOM_USER_META_TABLE', $table_prefix.'my_usermeta' );</pre>
 <p><strong>WPLANG</strong> defines the name of the language translation (.mo) file. <strong>WP_LANG_DIR</strong> defines what directory the WPLANG .mo file resides. If WP_LANG_DIR is not defined WordPress looks first to wp-content/languages and then <code>wp-includes/languages</code> for the .mo defined by WPLANG file.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">define( 'WPLANG', 'de_DE' );
-define( 'WP_LANG_DIR', dirname(__FILE__) . 'wordpress/languages' );</pre>
-<!-- /wp:syntaxhighlighter/code -->
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">define( 'WPLANG', 'de_DE' );
+define( 'WP_LANG_DIR', dirname(__FILE__) . 'wordpress/languages' );</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p>To find out the WPLANG language code, please <a href="https://make.wordpress.org/polyglots/teams/">refer here</a>. The code in WP Local column is what you need.</p>
@@ -886,24 +885,23 @@ define( 'WP_LANG_DIR', dirname(__FILE__) . 'wordpress/languages' );</pre>
 <p>First, add this to the <code>wp-config.php</code> file:</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">define( 'SAVEQUERIES', true );</pre>
-<!-- /wp:syntaxhighlighter/code -->
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">define( 'SAVEQUERIES', true );</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p>Then in the footer of your theme put this:</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">if ( current_user_can( 'administrator' ) ) {
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">if ( current_user_can( 'administrator' ) ) {
     global $wpdb;
     echo "&lt;pre&gt;";
     print_r( $wpdb-&gt;queries );
     echo "&lt;/pre&gt;";
 }
-?&gt;
-</pre>
-<!-- /wp:syntaxhighlighter/code -->
+?&gt;</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p>Alternatively, consider using <a href="https://wordpress.org/plugins/query-monitor/">Query Monitor</a></p>
@@ -917,18 +915,18 @@ define( 'WP_LANG_DIR', dirname(__FILE__) . 'wordpress/languages' );</pre>
 <p>The <strong>FS_CHMOD_DIR</strong> and <strong>FS_CHMOD_FILE</strong> define statements allow override of default file permissions. These two variables were developed in response to the problem of the core update function failing with hosts running under <a href="https://en.wikipedia.org/wiki/SuEXEC">suexec</a>. If a host uses restrictive file permissions (e.g. 400) for all user files, and refuses to access files which have group or world permissions set, these definitions could solve the problem.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">define( 'FS_CHMOD_DIR', ( 0755 &amp; ~ umask() ) );
-define( 'FS_CHMOD_FILE', ( 0644 &amp; ~ umask() ) );</pre>
-<!-- /wp:syntaxhighlighter/code -->
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">define( 'FS_CHMOD_DIR', ( 0755 &amp; ~ umask() ) );
+define( 'FS_CHMOD_FILE', ( 0644 &amp; ~ umask() ) );</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p>Example to provide setgid:</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">define( 'FS_CHMOD_DIR', ( 02755 &amp; ~umask() ) );</pre>
-<!-- /wp:syntaxhighlighter/code -->
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">define( 'FS_CHMOD_DIR', ( 02755 &amp; ~umask() ) );</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p>Note: '<strong>0755'</strong> and '<strong>02755</strong>' are octal values. Octal values must be prefixed with a 0 and are not delineated with single quotes ('). See Also: <a href="http://codex.wordpress.org/Changing_File_Permissions">Changing File Permissions</a></p>
@@ -1016,8 +1014,8 @@ define( 'FS_CHMOD_FILE', ( 0644 &amp; ~ umask() ) );</pre>
 <!-- /wp:list-item --></ul>
 <!-- /wp:list -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">define( 'FS_METHOD', 'ftpext' );
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">define( 'FS_METHOD', 'ftpext' );
 define( 'FTP_BASE', '/path/to/wordpress/' );
 define( 'FTP_CONTENT_DIR', '/path/to/wordpress/wp-content/' );
 define( 'FTP_PLUGIN_DIR ', '/path/to/wordpress/wp-content/plugins/' );
@@ -1026,8 +1024,8 @@ define( 'FTP_PRIKEY', '/home/username/.ssh/id_rsa' );
 define( 'FTP_USER', 'username' );
 define( 'FTP_PASS', 'password' );
 define( 'FTP_HOST', 'ftp.example.org' );
-define( 'FTP_SSL', false );</pre>
-<!-- /wp:syntaxhighlighter/code -->
+define( 'FTP_SSL', false );</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p>Some configurations should set FTP_HOST to localhost to avoid 503 problems when trying to update plugins or WP itself.</p>
@@ -1049,9 +1047,9 @@ define( 'FTP_SSL', false );</pre>
 <p>To install the pecl SSH2 extension you will need to issue a command similar to the following or talk to your web hosting provider to get this installed:</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">pecl install ssh2</pre>
-<!-- /wp:syntaxhighlighter/code -->
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">pecl install ssh2</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p>After installing the pecl ssh2 extension you will need to modify your PHP configuration to automatically load this extension.</p>
@@ -1061,17 +1059,17 @@ define( 'FTP_SSL', false );</pre>
 <p>pecl is provided by the pear package in most linux distributions. To install pecl in Redhat/Fedora/CentOS:</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">yum -y install php-pear</pre>
-<!-- /wp:syntaxhighlighter/code -->
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">yum -y install php-pear</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p>To install pecl in Debian/Ubuntu:</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">apt-get install php-pear</pre>
-<!-- /wp:syntaxhighlighter/code -->
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">apt-get install php-pear</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p>It is recommended to use a private key that is not pass-phrase protected. There have been numerous reports that pass phrase protected private keys do not work properly. If you decide to try a pass phrase protected private key you will need to enter the pass phrase for the private key as FTP_PASS, or entering it in the "Password" field in the presented credential field when installing updates.</p>
@@ -1085,9 +1083,9 @@ define( 'FTP_SSL', false );</pre>
 <p>There might be reason to use an alternative Cron with WP.  Most commonly this is done if scheduled posts are not getting published as predicted. This alternative method uses a redirection approach. The users' browser get a redirect when the cron needs to run, so that they come back to the site immediately while cron continues to run in the connection they just dropped. This method has certain risks, since it depends on a non-native WordPress service.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">define( 'ALTERNATE_WP_CRON', true );</pre>
-<!-- /wp:syntaxhighlighter/code -->
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">define( 'ALTERNATE_WP_CRON', true );</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:heading {"level":3} -->
 <h3 id="disable-cron-and-cron-timeout">Disable Cron and Cron Timeout</h3>
@@ -1097,17 +1095,17 @@ define( 'FTP_SSL', false );</pre>
 <p>Disable cron entirely by setting DISABLE_WP_CRON to true.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">define( 'DISABLE_WP_CRON', true );</pre>
-<!-- /wp:syntaxhighlighter/code -->
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">define( 'DISABLE_WP_CRON', true );</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p>Make sure a cron process cannot run more than once every WP_CRON_LOCK_TIMEOUT seconds.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">define( 'WP_CRON_LOCK_TIMEOUT', 60 );</pre>
-<!-- /wp:syntaxhighlighter/code -->
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">define( 'WP_CRON_LOCK_TIMEOUT', 60 );</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:heading {"level":3} -->
 <h3 id="additional-defined-constants">Additional Defined Constants</h3>
@@ -1117,14 +1115,14 @@ define( 'FTP_SSL', false );</pre>
 <p>Here are additional constants that can be defined. These probably shouldn't be set unless other methodologies have been attempted first. The Cookie definitions can be particularly useful if you have an unusual domain setup.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">define( 'COOKIEPATH', preg_replace( '|https?://[^/]+|i', '', get_option( 'home' ) . '/' ) );
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">define( 'COOKIEPATH', preg_replace( '|https?://[^/]+|i', '', get_option( 'home' ) . '/' ) );
 define( 'SITECOOKIEPATH', preg_replace( '|https?://[^/]+|i', '', get_option( 'siteurl' ) . '/' ) );
 define( 'ADMIN_COOKIE_PATH', SITECOOKIEPATH . 'wp-admin' );
 define( 'PLUGINS_COOKIE_PATH', preg_replace( '|https?://[^/]+|i', '', WP_PLUGIN_URL ) );
 define( 'TEMPLATEPATH', get_template_directory() );
-define( 'STYLESHEETPATH', get_stylesheet_directory() );</pre>
-<!-- /wp:syntaxhighlighter/code -->
+define( 'STYLESHEETPATH', get_stylesheet_directory() );</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:heading {"level":3} -->
 <h3 id="empty-trash">Empty Trash</h3>
@@ -1134,17 +1132,17 @@ define( 'STYLESHEETPATH', get_stylesheet_directory() );</pre>
 <p>This constant controls the number of days before WordPress permanently deletes posts, pages, attachments, and comments, from the trash bin. The default is 30 days:</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">define( 'EMPTY_TRASH_DAYS', 30 ); // 30 days</pre>
-<!-- /wp:syntaxhighlighter/code -->
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">define( 'EMPTY_TRASH_DAYS', 30 ); // 30 days</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p>To disable trash set the number of days to zero.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">define( 'EMPTY_TRASH_DAYS', 0 ); // Zero days</pre>
-<!-- /wp:syntaxhighlighter/code -->
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">define( 'EMPTY_TRASH_DAYS', 0 ); // Zero days</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p><strong>Note:</strong> WordPress will not ask for confirmation when someone clicks on "Delete Permanently" using this setting.</p>
@@ -1162,9 +1160,9 @@ define( 'STYLESHEETPATH', get_stylesheet_directory() );</pre>
 <p>Note: This should only be enabled if needed and disabled once the issue is solved. When enabled, a user does not need to be logged in to access the functionality, since its main intent is to repair a corrupted database and users can often not login when the database is corrupt.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code"> define( 'WP_ALLOW_REPAIR', true );</pre>
-<!-- /wp:syntaxhighlighter/code -->
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">define( 'WP_ALLOW_REPAIR', true );</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p>The script can be found at <code>{$your_site}/wp-admin/maint/repair.php</code>.</p>
@@ -1182,9 +1180,9 @@ define( 'STYLESHEETPATH', get_stylesheet_directory() );</pre>
 <p>Sites that have large global tables (particularly users and usermeta), as well as sites that share user tables with bbPress and other WordPress installs, can prevent the upgrade from changing those tables during upgrade by defining <strong>DO_NOT_UPGRADE_GLOBAL_TABLES </strong>to true. Since an ALTER, or an unbounded DELETE or UPDATE, can take a long time to complete, large sites usually want to avoid these being run as part of the upgrade so they can handle it themselves. Further, if installations are sharing user tables between multiple bbPress and WordPress installs you may to want one site to be the upgrade master.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">define( 'DO_NOT_UPGRADE_GLOBAL_TABLES', true );</pre>
-<!-- /wp:syntaxhighlighter/code -->
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">define( 'DO_NOT_UPGRADE_GLOBAL_TABLES', true );</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:heading {"level":3} -->
 <h3 id="view-all-defined-constants">View All Defined Constants</h3>
@@ -1194,9 +1192,9 @@ define( 'STYLESHEETPATH', get_stylesheet_directory() );</pre>
 <p>PHP has a function that returns an array of all the currently defined constants with their values.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code"> print_r( @get_defined_constants() );</pre>
-<!-- /wp:syntaxhighlighter/code -->
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">print_r( @get_defined_constants() );</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:heading {"level":3} -->
 <h3 id="disable-the-plugin-and-theme-file-editor">Disable the Plugin and Theme File Editor</h3>
@@ -1206,9 +1204,9 @@ define( 'STYLESHEETPATH', get_stylesheet_directory() );</pre>
 <p>Occasionally you may wish to disable the plugin or theme file editor to prevent overzealous users from being able to edit sensitive files and potentially crash the site. Disabling these also provides an additional layer of security if a hacker gains access to a well-privileged user account.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">define( 'DISALLOW_FILE_EDIT', true );</pre>
-<!-- /wp:syntaxhighlighter/code -->
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">define( 'DISALLOW_FILE_EDIT', true );</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p><strong>Note</strong>: The functionality of some plugins may be affected by the use of <code>current_user_can('edit_plugins')</code> in their code. Plugin authors should avoid checking for this capability, or at least check if this constant is set and display an appropriate error message. Be aware that if a plugin is not working this may be the cause.</p>
@@ -1222,9 +1220,9 @@ define( 'STYLESHEETPATH', get_stylesheet_directory() );</pre>
 <p>This will block users being able to use the plugin and theme installation/update functionality from the WordPress admin area. Setting this constant also disables the Plugin and Theme File editor (i.e. you don't need to set DISALLOW_FILE_MODS and DISALLOW_FILE_EDIT, as on its own DISALLOW_FILE_MODS will have the same effect).</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">define( 'DISALLOW_FILE_MODS', true );</pre>
-<!-- /wp:syntaxhighlighter/code -->
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">define( 'DISALLOW_FILE_MODS', true );</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:heading {"level":3} -->
 <h3 id="require-ssl-for-admin-and-logins">Require SSL for Admin and Logins</h3>
@@ -1238,9 +1236,9 @@ define( 'STYLESHEETPATH', get_stylesheet_directory() );</pre>
 <p>FORCE_SSL_ADMIN is for when you want to secure logins and the admin area so that both passwords and cookies are never sent in the clear. See also <a href="/support/article/administration-over-ssl/">Administration_Over_SSL</a> for more details.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">define( 'FORCE_SSL_ADMIN', true );</pre>
-<!-- /wp:syntaxhighlighter/code -->
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">define( 'FORCE_SSL_ADMIN', true );</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:heading {"level":3} -->
 <h3 id="block-external-url-requests">Block External URL Requests</h3>
@@ -1250,10 +1248,10 @@ define( 'STYLESHEETPATH', get_stylesheet_directory() );</pre>
 <p>Block external URL requests by defining WP_HTTP_BLOCK_EXTERNAL as true and this will only allow localhost and your blog to make requests. The constant WP_ACCESSIBLE_HOSTS will allow additional hosts to go through for requests. The format of the WP_ACCESSIBLE_HOSTS constant is a comma separated list of hostnames to allow, wildcard domains are supported, eg *.wordpress.org will allow for all subdomains of wordpress.org to be contacted.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code">define( 'WP_HTTP_BLOCK_EXTERNAL', true );
-define( 'WP_ACCESSIBLE_HOSTS', 'api.wordpress.org,*.github.com' );</pre>
-<!-- /wp:syntaxhighlighter/code -->
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">define( 'WP_HTTP_BLOCK_EXTERNAL', true );
+define( 'WP_ACCESSIBLE_HOSTS', 'api.wordpress.org,*.github.com' );</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:heading {"level":3} -->
 <h3 id="disable-wordpress-auto-updates">Disable WordPress Auto Updates</h3>
@@ -1263,9 +1261,9 @@ define( 'WP_ACCESSIBLE_HOSTS', 'api.wordpress.org,*.github.com' );</pre>
 <p>There might be reason for a site to not auto-update, such as customizations or host supplied updates.  It can also be done before a major release to allow time for testing on a development or staging environment before allowing the update on a production site.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code"> define( 'AUTOMATIC_UPDATER_DISABLED', true );</pre>
-<!-- /wp:syntaxhighlighter/code -->
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">define( 'AUTOMATIC_UPDATER_DISABLED', true );</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:heading {"level":3} -->
 <h3 id="disable-wordpress-core-updates">Disable WordPress Core Updates</h3>
@@ -1275,14 +1273,14 @@ define( 'WP_ACCESSIBLE_HOSTS', 'api.wordpress.org,*.github.com' );</pre>
 <p>The easiest way to manipulate core updates is with the WP_AUTO_UPDATE_CORE constant:</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code"> # Disable all core updates:
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php"># Disable all core updates:
  define( 'WP_AUTO_UPDATE_CORE', false );
  # Enable all core updates, including minor and major:
  define( 'WP_AUTO_UPDATE_CORE', true );
  # Enable core updates for minor releases (default):
- define( 'WP_AUTO_UPDATE_CORE', 'minor' );</pre>
-<!-- /wp:syntaxhighlighter/code -->
+ define( 'WP_AUTO_UPDATE_CORE', 'minor' );</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p>Reference: <a href="http://make.wordpress.org/core/2013/10/25/the-definitive-guide-to-disabling-auto-updates-in-wordpress-3-7/">Disabling Auto Updates in WordPress 3.7</a></p>
@@ -1296,9 +1294,9 @@ define( 'WP_ACCESSIBLE_HOSTS', 'api.wordpress.org,*.github.com' );</pre>
 <p>By default, WordPress creates a new set of images every time you edit an image and when you restore the original, it leaves all the edits on the server. Defining IMAGE_EDIT_OVERWRITE as true changes this behaviour. Only one set of image edits are ever created and when you restore the original, the edits are removed from the server.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"php"} -->
-<pre class="wp-block-syntaxhighlighter-code"> define( 'IMAGE_EDIT_OVERWRITE', true );</pre>
-<!-- /wp:syntaxhighlighter/code -->
+<!-- wp:code {"language":"php"} -->
+<pre class="wp-block-code"><code lang="php" class="language-php">define( 'IMAGE_EDIT_OVERWRITE', true );</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:heading -->
 <h2 id="double-check-before-saving">Double Check Before Saving</h2>

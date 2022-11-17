@@ -20,8 +20,8 @@ https://developer.wordpress.org/plugins/javascript/jquery/
 <p>All the following code examples are based on this HTML page content. Assume it appears on your plugin's admin settings screen, defined by the file <code>myplugin_settings.php</code>. It is a simple table with radio buttons next to each title.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:syntaxhighlighter/code {"language":"xml"} -->
-<pre class="wp-block-syntaxhighlighter-code">&lt;form id="radioform"&gt;
+<!-- wp:code {"language":"xml"} -->
+<pre class="wp-block-code"><code lang="xml" class="language-xml">&lt;form id="radioform"&gt;
 	&lt;table&gt;
 		&lt;tbody&gt;
 		&lt;tr&gt;
@@ -34,8 +34,8 @@ https://developer.wordpress.org/plugins/javascript/jquery/
 		&lt;/tr&gt;
 		&lt;/tbody&gt;
 	&lt;/table&gt;
-&lt;/form&gt;</pre>
-<!-- /wp:syntaxhighlighter/code -->
+&lt;/form&gt;</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p>The output could look something like this on your settings page.</p>
